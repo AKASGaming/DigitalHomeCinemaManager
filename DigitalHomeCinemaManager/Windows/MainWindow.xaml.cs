@@ -110,6 +110,8 @@ namespace DigitalHomeCinemaManager.Windows
                 } else if (device is ProcessorDevice) {
                     this.ProcessorInfo.Child = device.UIElement;
                     device.Controller.PropertyChanged += ProcessorControllerPropertyChanged;
+                } else if (device is SwitchDevice) {
+                    this.InputSwitcher.Child = device.UIElement;
                 }
 
             } // foreach
