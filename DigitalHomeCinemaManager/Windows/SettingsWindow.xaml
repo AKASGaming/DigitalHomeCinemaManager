@@ -292,16 +292,16 @@
                     <TextBox x:Name="txtTrailer" HorizontalAlignment="Left" Margin="87,85,0,0" VerticalAlignment="Top" Width="294" Grid.ColumnSpan="2"/>
                     <Label Content="MPC Path:" HorizontalAlignment="Left" Margin="11,117,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                     <TextBox x:Name="txtMpc" HorizontalAlignment="Left" Margin="87,120,0,0" VerticalAlignment="Top" Width="294" Grid.ColumnSpan="2"/>
-                    <Button x:Name="btnMedia" HorizontalAlignment="Left" Margin="383,15,0,0" VerticalAlignment="Top" Width="24" Height="18" Click="btnMedia_Click" Grid.Column="1">
+                    <Button x:Name="btnMedia" HorizontalAlignment="Left" Margin="383,15,0,0" VerticalAlignment="Top" Width="24" Height="18" Grid.Column="1">
                         <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                     </Button>
-                    <Button x:Name="btnPreroll" HorizontalAlignment="Left" Margin="383,50,0,0" VerticalAlignment="Top" Width="24" Height="18" Click="btnPreroll_Click" Grid.Column="1">
+                    <Button x:Name="btnPreroll" HorizontalAlignment="Left" Margin="383,50,0,0" VerticalAlignment="Top" Width="24" Height="18" Grid.Column="1">
                         <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                     </Button>
-                    <Button x:Name="brnTrailer" HorizontalAlignment="Left" Margin="383,85,0,0" VerticalAlignment="Top" Width="24" Height="18" Click="brnTrailer_Click" Grid.Column="1">
+                    <Button x:Name="brnTrailer" HorizontalAlignment="Left" Margin="383,85,0,0" VerticalAlignment="Top" Width="24" Height="18" Grid.Column="1">
                         <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                     </Button>
-                    <Button x:Name="btnMpc" HorizontalAlignment="Left" Margin="383,120,0,0" VerticalAlignment="Top" Width="24" Height="18" Click="btnMpc_Click" Grid.Column="1">
+                    <Button x:Name="btnMpc" HorizontalAlignment="Left" Margin="383,120,0,0" VerticalAlignment="Top" Width="24" Height="18" Grid.Column="1">
                         <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                     </Button>
                     <Separator HorizontalAlignment="Left" Height="31" Margin="11,138,0,0" VerticalAlignment="Top" Width="412" Grid.ColumnSpan="2"/>
@@ -311,9 +311,9 @@
                     <Label Content="Projector IP Address:" HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E" Grid.ColumnSpan="2"/>
                     <TextBox x:Name="txtPjIp" HorizontalAlignment="Left" Height="20" Margin="130,205,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="100" Grid.Column="1"/>
                     <Label Content="Port:" HorizontalAlignment="Left" Margin="235,201,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E" Grid.Column="1"/>
-                    <TextBox x:Name="txtPjPort" HorizontalAlignment="Left" Height="20" Margin="270,205,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="41" TextChanged="txtPjPort_TextChanged"/>
+                    <TextBox x:Name="txtPjPort" HorizontalAlignment="Left" Height="20" Margin="270,205,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="41" />
                     <Label Content="Delay:" HorizontalAlignment="Left" Margin="320,201,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E" />
-                    <TextBox x:Name="txtPjDelay" HorizontalAlignment="Left" Margin="363,205,0,0" TextWrapping="Wrap"  Text="" VerticalAlignment="Top" Width="41" LostKeyboardFocus="txtPjDelay_LostKeyboardFocus"/>
+                    <TextBox x:Name="txtPjDelay" HorizontalAlignment="Left" Margin="363,205,0,0" TextWrapping="Wrap"  Text="" VerticalAlignment="Top" Width="41" />
                     <Separator HorizontalAlignment="Left" Height="31" Margin="11,230,0,0" VerticalAlignment="Top" Width="412" Grid.ColumnSpan="2"/>
                     <Label Content="Serial Port:" HorizontalAlignment="Left" Margin="10,256,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                     <ComboBox x:Name="cmbSerial" HorizontalAlignment="Left" Margin="98,260,0,0" VerticalAlignment="Top" Width="120" Grid.ColumnSpan="2"/>
@@ -322,8 +322,8 @@
             </TabItem>
             
         </TabControl>
-        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="256,332,0,0" VerticalAlignment="Top" Width="75" Click="btnSave_Click"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="348,332,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"/>
+        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Left" Margin="256,332,0,0" VerticalAlignment="Top" Width="75" />
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="348,332,0,0" VerticalAlignment="Top" Width="75" />
         <Image HorizontalAlignment="Left" Height="35" Margin="9,318,0,0" VerticalAlignment="Top" Width="100" Source="/DigitalHomeCinemaManager;component/Resources/Images/Dolby.png"/>
         <Label x:Name="lblVersion" Content="Version: " HorizontalAlignment="Left" Margin="7,346,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E" Height="24" Width="208" FontSize="10"/>
     </Grid>
