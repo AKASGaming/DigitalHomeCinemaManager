@@ -21,6 +21,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Threading.Tasks;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl.Controllers;
+    using DigitalHomeCinemaControl.Controls;
     using DigitalHomeCinemaControl.Devices;
 
     public class DeviceManager : IDisposable
@@ -52,66 +53,31 @@ namespace DigitalHomeCinemaManager.Components
             this.Controllers.Clear();
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SerialDevice)) {
-                this.SerialDevice = SerialDevice.Items[Properties.Settings.Default.SerialDevice];
-                this.SerialDevice.Controller.Dispatcher = this.dispatcher;
-                this.SerialDevice.Controller.Error += OnControllerError;
-                LoadDeviceSettings(this.SerialDevice);
-                this.Controllers.Add(this.SerialDevice.Controller);
-                this.Devices.Add(this.SerialDevice);
+                this.SerialDevice = InitializeDevice<SerialDevice>(SerialDevice.Items[Properties.Settings.Default.SerialDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SourceDevice)) {
-                this.SourceDevice = SourceDevice.Items[Properties.Settings.Default.SourceDevice];
-                this.SourceDevice.Controller.Dispatcher = this.dispatcher;
-                this.SourceDevice.Controller.Error += OnControllerError;
-                LoadDeviceSettings(this.SourceDevice);
-                if (this.SourceDevice.UIElement != null) {
-                    this.SourceDevice.UIElement.DataSource = this.SourceDevice.Controller.DataSource;
-                }
-                this.Controllers.Add(this.SourceDevice.Controller);
-                this.Devices.Add(this.SourceDevice);
+                this.SourceDevice = InitializeDevice<SourceDevice>(SourceDevice.Items[Properties.Settings.Default.SourceDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.DisplayDevice)) {
-                this.DisplayDevice = DisplayDevice.Items[Properties.Settings.Default.DisplayDevice];
-                this.DisplayDevice.Controller.Dispatcher = this.dispatcher;
-                this.DisplayDevice.Controller.Error += OnControllerError;
-                LoadDeviceSettings(this.DisplayDevice);
-                if (this.DisplayDevice.UIElement != null) {
-                    this.DisplayDevice.UIElement.DataSource = this.DisplayDevice.Controller.DataSource;
-                }
-                this.Controllers.Add(this.DisplayDevice.Controller);
-                this.Devices.Add(this.DisplayDevice);
+                this.DisplayDevice = InitializeDevice<DisplayDevice>(DisplayDevice.Items[Properties.Settings.Default.DisplayDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.MediaInfoDevice)) {
-                this.MediaInfoDevice = MediaInfoDevice.Items[Properties.Settings.Default.MediaInfoDevice];
-                this.MediaInfoDevice.Controller.Dispatcher = this.dispatcher;
-                this.MediaInfoDevice.Controller.Error += OnControllerError;
-                LoadDeviceSettings(this.MediaInfoDevice);
-                if (this.MediaInfoDevice.UIElement != null) {
-                    this.MediaInfoDevice.UIElement.DataSource = this.MediaInfoDevice.Controller.DataSource;
-                }
-                this.Controllers.Add(this.MediaInfoDevice.Controller);
-                this.Devices.Add(this.MediaInfoDevice);
+                this.MediaInfoDevice = InitializeDevice<MediaInfoDevice>(MediaInfoDevice.Items[Properties.Settings.Default.MediaInfoDevice]);
                 // we have to call connect here to ensure that the controller is initialized
                 // for the initial playlist load
                 this.MediaInfoDevice.Controller.Connect();
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.ProcessorDevice)) {
-                this.ProcessorDevice = ProcessorDevice.Items[Properties.Settings.Default.ProcessorDevice];
-                this.ProcessorDevice.Controller.Dispatcher = this.dispatcher;
-                this.ProcessorDevice.Controller.Error += OnControllerError;
-                LoadDeviceSettings(this.ProcessorDevice);
-                if (this.ProcessorDevice.UIElement != null) {
-                    this.ProcessorDevice.UIElement.DataSource = this.ProcessorDevice.Controller.DataSource;
-                }
-                this.Controllers.Add(this.ProcessorDevice.Controller);
-                this.Devices.Add(this.ProcessorDevice);
+                this.ProcessorDevice = InitializeDevice<ProcessorDevice>(ProcessorDevice.Items[Properties.Settings.Default.ProcessorDevice]);
             }
 
-            // TODO: Initialize other controllers!
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.InputSwitchDevice)) {
+                this.SwitchDevice = InitializeDevice<SwitchDevice>(SwitchDevice.Items[Properties.Settings.Default.InputSwitchDevice]);
+            }
 
         }
 
@@ -169,6 +135,28 @@ namespace DigitalHomeCinemaManager.Components
             Properties.DeviceSettings.Default.Save();
         }
 
+        private T InitializeDevice<T>(T device)
+            where T : IDevice
+        {
+            Debug.Assert(device != null);
+
+            
+            device.Controller.Dispatcher = this.dispatcher;
+            device.Controller.Error += OnControllerError;
+            LoadDeviceSettings(device);
+            if (device.UIElement != null) {
+                device.UIElement.DataSource = device.Controller.DataSource;
+                if (device.UIElement is IRequireController ircDevice) {
+                    ircDevice.Controller = device.Controller;
+                }
+            }
+
+            this.Controllers.Add(device.Controller);
+            this.Devices.Add(device);
+
+            return device;
+        }
+
         private string GetDeviceType(IDevice device)
         {
             Debug.Assert(device != null);
@@ -183,6 +171,8 @@ namespace DigitalHomeCinemaManager.Components
                 return "MediaInfo";
             } else if (device is ProcessorDevice) {
                 return "Processor";
+            } else if (device is SwitchDevice) {
+                return "InputSwitch";
             } else {
                 return string.Empty;
             }
@@ -236,6 +226,8 @@ namespace DigitalHomeCinemaManager.Components
         public MediaInfoDevice MediaInfoDevice { get; private set; }
 
         public ProcessorDevice ProcessorDevice { get; private set; }
+
+        public SwitchDevice SwitchDevice { get; private set; }
 
         public List<IDevice> Devices { get; private set; }
 
