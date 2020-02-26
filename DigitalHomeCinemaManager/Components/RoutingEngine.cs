@@ -165,6 +165,7 @@ namespace DigitalHomeCinemaManager.Components
         public void QueueData(object sender, RoutingItem e)
         {
             Debug.Assert(e != null);
+            if (!this.running) { return; }
 
             this.queue.Enqueue(e);
             this.notifier.Set();
