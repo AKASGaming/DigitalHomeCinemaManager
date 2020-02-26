@@ -140,7 +140,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                 if (this.networkStream != null) {
                     this.networkStream.Close();
                 }
-                this.client.Close();
                 this.Closed = true;
                 Dispose(true);
             }
