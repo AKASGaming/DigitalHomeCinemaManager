@@ -235,5 +235,40 @@ namespace DigitalHomeCinemaManager.Properties {
                 this["Processor_HideUnusedOutputs"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10.6.66.120")]
+        public string InputSwitch_Host {
+            get {
+                return ((string)(this["InputSwitch_Host"]));
+            }
+            set {
+                this["InputSwitch_Host"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2210")]
+        public int InputSwitch_Port {
+            get {
+                return ((int)(this["InputSwitch_Port"]));
+            }
+            set {
+                this["InputSwitch_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.NameValueCollection InputSwitch_CustomInputs {
+            get {
+                return ((global::System.Collections.Specialized.NameValueCollection)(this["InputSwitch_CustomInputs"]));
+            }
+            set {
+                this["InputSwitch_CustomInputs"] = value;
+            }
+        }
     }
 }
