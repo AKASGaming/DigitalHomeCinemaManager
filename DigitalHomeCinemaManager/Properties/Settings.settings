@@ -1,0 +1,30 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DigitalHomeCinemaManager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SourceDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MPC Home Cinema</Value>
+    </Setting>
+    <Setting Name="SerialDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Generic</Value>
+    </Setting>
+    <Setting Name="DisplayDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sony Projector</Value>
+    </Setting>
+    <Setting Name="MediaInfoDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TMDB</Value>
+    </Setting>
+    <Setting Name="PrerollPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Users\bill\Videos\Preroll</Value>
+    </Setting>
+    <Setting Name="MediaPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">F:\</Value>
+    </Setting>
+    <Setting Name="TrailerPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Users\bill\Videos\Trailers</Value>
+    </Setting>
+    <Setting Name="ProcessorDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Denon AVR</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

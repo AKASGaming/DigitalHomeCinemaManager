@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="DigitalHomeCinemaControl.Controls.Common.SpeakerOutputControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DigitalHomeCinemaControl.Controls.Common"
+             mc:Ignorable="d" Width="242" Height="192">
+    <Grid>
+        <Rectangle Fill="#FF212125"/>
+        <TextBlock Text="OUTPUT" HorizontalAlignment="Left" TextAlignment="Center" Width="227" Margin="0,0,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="#FF818181" FontSize="18"/>
+        <Border x:Name="TFL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="5,39,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TFL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3,0.5"/>
+        </Border>
+        <Border x:Name="SW" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="50,39,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="SW" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="FWL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="5,75,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="FWL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="FL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="50,75,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="FL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="SL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="50,110,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="SL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="SBL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="50,146,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="SBL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="TML" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="5,110,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TML" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="TBL" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="5,146,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TBL" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="C" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="95,75,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="C" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="VOG" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="95,110,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="VOG" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="FR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="140,75,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="FR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="FWR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="185,75,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="FWR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="SR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="140,110,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="SR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="SBR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="140,146,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="SBR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="TMR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="185,110,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TMR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="TBR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="185,146,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TBR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Border x:Name="TFR" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Height="29" Margin="185,39,0,0" VerticalAlignment="Top" Background="#FF494949" HorizontalAlignment="Left" Width="37">
+            <Label Content="TFR" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </Grid>
+</UserControl>

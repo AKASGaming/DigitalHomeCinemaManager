@@ -1,0 +1,31 @@
+﻿<Controls:DeviceControl x:Class="DigitalHomeCinemaControl.Controls.Denon.AvrInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Common="clr-namespace:DigitalHomeCinemaControl.Controls.Common"
+             xmlns:Controls="clr-namespace:DigitalHomeCinemaControl.Controls"
+             xmlns:Denon="clr-namespace:DigitalHomeCinemaControl.Controls.Denon"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="560">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="20,5,20,0">
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                <Common:SpeakerOutputControl x:Name="SpeakerOutput" HorizontalAlignment="Left" Height="190" Width="250" />
+                <Rectangle Width="1" Height="145" Margin="10,20,0,0" VerticalAlignment="Center" Stroke="#FF818181" StrokeThickness="0.3" />
+                <Denon:AudysseyControl x:Name="Audyssey" HorizontalAlignment="Left" Height="195" Margin="15,0,0,0" VerticalAlignment="Top" Width="250"/>
+            </StackPanel>
+            <Rectangle Width="550" Height="1" Margin="0,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Grid>
+                    <Rectangle Fill="#FF2B2B30" HorizontalAlignment="Left" Height="51" Margin="0" VerticalAlignment="Top" Width="281" />
+                    <TextBlock x:Name="SurroundMode" Text="" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#7FFFFFFF" Width="281" Height="26" TextAlignment="Center" FontWeight="SemiBold" FontSize="16" Opacity="0.8"/>
+                </Grid>
+                <Rectangle Width="1" Height="50" Margin="0,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
+                <TextBlock x:Name="Source" Text="" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Foreground="#7FFFFFFF" Height="26" TextAlignment="Center" FontWeight="SemiBold" FontSize="16" Opacity="0.8" />
+            </StackPanel>
+            <Rectangle Width="550" Height="1" Margin="0,10,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
+            <Common:SmallListControl x:Name="StatusList" />
+        </StackPanel>
+    </Grid>
+</Controls:DeviceControl>

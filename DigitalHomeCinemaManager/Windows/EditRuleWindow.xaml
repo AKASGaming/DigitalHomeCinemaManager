@@ -1,0 +1,55 @@
+﻿<Window x:Class="DigitalHomeCinemaManager.Windows.EditRuleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DigitalHomeCinemaManager.Windows"
+        mc:Ignorable="d"
+        Title="Edit Rule" Height="210" Width="568" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.Background>
+        <SolidColorBrush Color="#FF2B2B30" />
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0,3,0,0" Content="Source" Width="80" Foreground="#FF7E7E7E" FontSize="16"/>
+                <ComboBox Name="cmbSource" SelectionChanged="SourceSelectionChanged" SelectedValuePath="Key" DisplayMemberPath="Key" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="160"/>
+            </StackPanel>
+            <StackPanel  Orientation="Horizontal">
+                <Label Margin="0,3,0,0" Content="Match" Width="80" Foreground="#FF7E7E7E" FontSize="16" />
+                <Border x:Name="matchBorder" Margin="0,10,0,0" Width="160" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <TextBox Name="txtMatch" Height="22"/>
+                </Border>
+            </StackPanel>
+            <CheckBox Name="CheckEnabled" Checked="CheckBoxChecked" Unchecked="CheckBoxChecked" Margin="10" Content="Enabled" Foreground="#FF7E7E7E" FontSize="16"/>
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Row="0" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0,3,0,0" Content="Destination" Width="110" Foreground="#FF7E7E7E" FontSize="16"/>
+                <ComboBox Name="cmbDest" SelectedValuePath="Key" DisplayMemberPath="Key" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="160" SelectionChanged="DestinationSelectionChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0,3,0,0" Content="Action" Width="110" Foreground="#FF7E7E7E" FontSize="16"/>
+                <ComboBox Name="cmbAction" SelectionChanged="ActionSelectionChanged" SelectedValuePath="Key" DisplayMemberPath="Key" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="160"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="0,3,0,0" Content="Args" Width="110" Foreground="#FF7E7E7E" FontSize="16"/>
+                <Border x:Name="argsBorder" Margin="0,10,0,0" Width="160" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <TextBox Name="txtArgs" Height="22" />
+                </Border>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Margin="0,0,20,10" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1">
+            <Button Name="Ok" Click="OkClick" Content="OK" Width="60" Margin="0,0,10,0"/>
+            <Button Name="Cancel" Click="CancelClick" Content="Cancel" Width="60"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,161 @@
+﻿<Window x:Class="DigitalHomeCinemaManager.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DigitalHomeCinemaManager.Windows"
+        xmlns:Controls="clr-namespace:DigitalHomeCinemaManager.Controls"
+        mc:Ignorable="d"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="Digital Home Cinema Manager" Height="1080" Width="1920" MinHeight="757" MinWidth="1229" MaxHeight="1100" MaxWidth="1940" WindowStartupLocation="CenterOwner" Icon="/DigitalHomeCinemaManager;component/Resources/Images/favicon.ico" Topmost="False">
+    <Window.Background>
+        <ImageBrush ImageSource="/DigitalHomeCinemaManager;component/Resources/Images/gradient.jpg"/>
+    </Window.Background>
+    <!--#region Window Setup -->
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="None" ProgressValue="0"></TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+    <!--#endregion-->
+    <Grid x:Name="gridMain" Margin="0,0,2,0" ShowGridLines="False">
+        <!--#region Grid Setup -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="85"/>
+            <RowDefinition Height="115"/>
+            <RowDefinition Height="465"/>
+            <RowDefinition Height="320*"/>
+            <RowDefinition Height="54"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="610"/>
+            <ColumnDefinition Width="701*"/>
+        </Grid.ColumnDefinitions>
+        <!--#endregion-->
+        <!--#region Header -->
+        <Border Height="85" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image HorizontalAlignment="Left" Margin="2,6,0,0" VerticalAlignment="Top" Width="220" Source="/DigitalHomeCinemaManager;component/Resources/Images/Dolby.png" Grid.Column="0" />
+                <StackPanel Orientation="Vertical" Height="85" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Column="0" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="txtDate" Text="" Margin="0,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" TextAlignment="Center" Foreground="DarkSlateGray" FontFamily="Century Gothic" FontSize="16" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-10,0,0" >
+                        <Label x:Name="lblTimeHour" Content="" Margin="0,0,0,0" VerticalAlignment="Top" Foreground="DimGray" FontSize="48" FontFamily="Century Gothic" HorizontalAlignment="Left" />
+                        <Label x:Name="lblTimeMinute" Content="" FontFamily="Century Gothic" FontSize="48" Foreground="DimGray" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                    <TextBlock x:Name="MasterVolume" Text="--dB" HorizontalAlignment="Right" Margin="0,0,60,0" TextWrapping="Wrap" Foreground="Aqua" TextAlignment="Right" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="60" Height="90" Width="250" Grid.Column="2" Grid.ColumnSpan="3" />
+                    <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="5" />
+                            </Style>
+                        </Button.Resources>
+                        <StackPanel>
+                            <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/settings.png" Height="20" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+        <Image Margin="0,0,-8,47" Source="/DigitalHomeCinemaManager;component/Resources/Images/gradient2.jpg" Grid.ColumnSpan="3" Stretch="Fill" Grid.Row="1" Grid.RowSpan="4"/>
+        <!--#region Connection Info -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="20,10,0,0" >
+            <Border BorderBrush="Black" CornerRadius="10" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="0,0,0,0" VerticalAlignment="Top" Width="382" Background="#FF212125" Grid.Row="1" Grid.Column="0" >
+                <Controls:ControllerStatusControl x:Name="StatusControl" />
+            </Border>
+            <Border BorderBrush="Black" CornerRadius="10" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="20,0,0,0" VerticalAlignment="Top" Width="779" Background="#FF212125">
+                <StackPanel Orientation="Horizontal" Margin="20" Width="750">
+                    <StackPanel Orientation="Vertical" Margin="0" Width="190">
+                        <Button Content="Preroll" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center" Width="75" Click="ButtonPrerollClick" Height="25" FontSize="14">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <CheckBox x:Name="PrerollEnabled" Content="Enabled" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Center" Foreground="White" Checked="PrerollEnabledChecked" Unchecked="PrerollEnabledChecked" Height="19" FontSize="14" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0" Width="190">
+                        <Button Content="Trailers" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" Click="ButtonTrailersClick" Height="25" FontSize="14">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <CheckBox x:Name="TrailersEnabled" Content="Enabled" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Center" Foreground="White" Checked="TrailersEnabledChecked" Unchecked="TrailersEnabledChecked" Height="22" FontSize="14"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0" Width="190">
+                        <Button Content="Commercial" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="86" Click="ButtonCommercialClick" Height="25" FontSize="14" >
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <CheckBox x:Name="CommercialEnabled" Content="Enabled" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Foreground="White" Checked="CommercialEnabledChecked" Unchecked="CommercialEnabledChecked" Height="21" FontSize="14" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="0" Width="190">
+                        <Button Content="Feature" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" Click="ButtonFeatureClick" Height="25" FontSize="14">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+        <!--#endregion-->
+        <!--#region AVR Info-->
+        <Border x:Name="ProcessorInfo" BorderBrush="Black" Margin="20,20,0,0" CornerRadius="10" Background="#FF212125" BorderThickness="1" HorizontalAlignment="Left" Height="442" VerticalAlignment="Top" Width="563" Grid.Row="2" Grid.Column="0" >
+        </Border>
+        <!--#endregion-->
+        <!--#region Display Info-->
+        <Border x:Name="DisplayInfo" BorderBrush="Black" CornerRadius="10" Background="#FF212125" BorderThickness="1" HorizontalAlignment="Left" Height="235" Margin="20,20,0,0" VerticalAlignment="Top" Width="563" Grid.Row="3">
+        </Border>
+        <!--#endregion-->
+        <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            <!--#region Show Playlist -->
+            <Border x:Name="ShowPlaylist" BorderBrush="Black" CornerRadius="10" Background="#FF212125" BorderThickness="1" HorizontalAlignment="Left" Height="352" Margin="0,20,0,0" VerticalAlignment="Top" Width="600" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            </Border>
+            <!--#endregion-->
+            <!--#region Input Switcher-->
+            <Border x:Name="InputSwitcher" BorderBrush="Black" CornerRadius="10" Height="70" Background="#FF212125" BorderThickness="1" HorizontalAlignment="Left" Margin="0,20,0,0" VerticalAlignment="Top" Width="600" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            </Border>
+            <!--#endregion-->
+        </StackPanel>
+        <!--#region Routing Info-->
+        <Border x:Name="RoutingInfo" BorderBrush="Black" CornerRadius="10" Background="#FF212125" BorderThickness="1" HorizontalAlignment="Left" Height="235" Margin="0,20,0,0" VerticalAlignment="Top" Width="600" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+        </Border>
+        <!--#endregion-->
+        <!-- #region Feature Info -->
+        <Border x:Name="FeatureInfo" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,20,0" Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" >
+        </Border>
+        <!-- #endregion-->
+        <!--#region Status Bar-->
+        <Border Background="Black" Height="47" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel x:Name="StatusBar" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <Rectangle Width="1" Height="35" Margin="10,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
+                    <TextBlock x:Name="txtLog" Text="" Margin="10,0,0,0" Width="500" Height="40" TextWrapping="Wrap" Foreground="GhostWhite" TextAlignment="Left"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
+                    <Image x:Name="imgAudio"  Width="100" Height="30" Margin="0,0,10,0" />
+                    <Image x:Name="imgResolution" Width="50" Height="40" Margin="0,0,5,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+    </Grid>
+</Window>
