@@ -112,10 +112,14 @@
     <Compile Include="Controls\Common\SourceInfoControl.xaml.cs">
       <DependentUpon>SourceInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\HDFury\InputControl.xaml.cs">
+      <DependentUpon>InputControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IDeviceControl.cs" />
     <Compile Include="Controls\Common\ProjectorInfoPanelControl.xaml.cs">
       <DependentUpon>ProjectorInfoPanelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IRequireController.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\DisplayDevice.cs" />
     <Compile Include="Devices\IDevice.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Devices\ProcessorDevice.cs" />
     <Compile Include="Devices\SerialDevice.cs" />
     <Compile Include="Devices\SourceDevice.cs" />
+    <Compile Include="Devices\SwitchDevice.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -132,7 +137,16 @@
     <None Include="DigitalHomeCinemaControl.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\outline_filter_1_black_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_1_white_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_2_black_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_2_white_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_3_black_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_3_white_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_4_black_24dp.png" />
+    <Resource Include="Resources\Icons\outline_filter_4_white_24dp.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\Common\MediaInfoControl.xaml">
       <SubType>Designer</SubType>
@@ -159,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Denon\AvrInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\HDFury\InputControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
