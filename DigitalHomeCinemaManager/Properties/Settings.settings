@@ -26,5 +26,8 @@
     <Setting Name="ProcessorDevice" Type="System.String" Scope="User">
       <Value Profile="(Default)">Denon AVR</Value>
     </Setting>
+    <Setting Name="InputSwitchDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">HDFury Diva</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

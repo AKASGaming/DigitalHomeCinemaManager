@@ -56,5 +56,14 @@
     <Setting Name="Processor_HideUnusedOutputs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="InputSwitch_Host" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10.6.66.120</Value>
+    </Setting>
+    <Setting Name="InputSwitch_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2210</Value>
+    </Setting>
+    <Setting Name="InputSwitch_CustomInputs" Type="System.Collections.Specialized.NameValueCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

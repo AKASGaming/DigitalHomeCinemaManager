@@ -118,5 +118,17 @@ namespace DigitalHomeCinemaManager.Properties {
                 this["ProcessorDevice"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("HDFury Diva")]
+        public string InputSwitchDevice {
+            get {
+                return ((string)(this["InputSwitchDevice"]));
+            }
+            set {
+                this["InputSwitchDevice"] = value;
+            }
+        }
     }
 }
