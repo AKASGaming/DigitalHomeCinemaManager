@@ -334,7 +334,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             GetItemAndUpdate<ColorSpace>("Color Space", CommandItem.ColorSpace, this.CustomColorSpace);
             GetItemAndUpdate<AspectRatio>("Aspect Ratio", CommandItem.AspectRatio);
             GetItemAndUpdate<GammaCorrection>("Gamma", CommandItem.GammaCorrection, this.CustomGamma);
-            GetItemAndUpdate<MotionFlow>("Motion FLow", CommandItem.MotionFlow);
+            GetItemAndUpdate<MotionFlow>("Motion Flow", CommandItem.MotionFlow);
 
             var rc = GetItem<RealityCreation>(CommandItem.RealityCreation);
             if (rc == RealityCreation.On) {
