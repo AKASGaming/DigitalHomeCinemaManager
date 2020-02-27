@@ -156,7 +156,7 @@ namespace DigitalHomeCinemaManager.Components
             Properties.DeviceSettings.Default.Save();
         }
 
-        public IEnumerable<string> GetProviders(DeviceType deviceType)
+        public static IEnumerable<string> GetProviders(DeviceType deviceType)
         {
             List<string> result = null;
 

@@ -65,6 +65,27 @@
     <Compile Include="Controls\ControllerStatusControl.xaml.cs">
       <DependentUpon>ControllerStatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\DisplaySettings.xaml.cs">
+      <DependentUpon>DisplaySettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\GeneralSettings.xaml.cs">
+      <DependentUpon>GeneralSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\InputSwitchSettings.xaml.cs">
+      <DependentUpon>InputSwitchSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\MediaInfoSettings.xaml.cs">
+      <DependentUpon>MediaInfoSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\ProcessorSettings.xaml.cs">
+      <DependentUpon>ProcessorSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\SerialSettings.xaml.cs">
+      <DependentUpon>SerialSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\SourceSettings.xaml.cs">
+      <DependentUpon>SourceSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Windows\PlaylistSelectionWindow.xaml.cs">
       <DependentUpon>PlaylistSelectionWindow.xaml</DependentUpon>
@@ -85,6 +106,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\RoutingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\DisplaySettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\GeneralSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\InputSwitchSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\MediaInfoSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\ProcessorSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\SerialSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\SourceSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

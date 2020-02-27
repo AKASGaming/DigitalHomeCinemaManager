@@ -179,14 +179,14 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowOpenSettings(object sender, EventArgs e)
         {
-            /*SettingsWindow window = new SettingsWindow(this.serialController) {
-                Owner = this
+            SettingsWindow window = new SettingsWindow(this.deviceManager) {
+                Owner = this.mainWindow
             };
             if (window.ShowDialog() == true) {
-                this.initThread = new Thread(this.Initialize);
-                this.initThread.Start();
+                //this.initThread = new Thread(this.Initialize);
+                //this.initThread.Start();
             }
-            this.lstRules.Items.Refresh();*/
+            //this.lstRules.Items.Refresh();*/
         }
 
         #endregion
