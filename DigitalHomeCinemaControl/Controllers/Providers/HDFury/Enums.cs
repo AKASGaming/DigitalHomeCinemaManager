@@ -18,13 +18,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
     public enum Rx
     {
-        [Description("Rx 0")]
+        [Description("Rx0")]
         Input1 = 0,
-        [Description("Rx 1")]
+        [Description("Rx1")]
         Input2 = 1,
-        [Description("Rx 2")]
+        [Description("Rx2")]
         Input3 = 2,
-        [Description("Rx 3")]
+        [Description("Rx3")]
         Input4 = 3,
         [Description("Follow Tx0")]
         Follow = 4,

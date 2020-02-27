@@ -44,10 +44,11 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
         {
             var changedItem = this.DataSource[e.NewIndex];
             switch (changedItem.Name) {
-                case "Tx 0": this.TX0.Text = changedItem.Value.ToString(); break;
-                case "Tx 1": this.TX1.Text = changedItem.Value.ToString(); break;
+                case "Tx0 Sink": this.TX0.Text = changedItem.Value.ToString(); break;
+                case "Tx0 Output": this.OutputTx0.Text = changedItem.Value.ToString(); break;
                 case "Input":
                     var input = (Rx)changedItem.Value;
+                    this.Source.Text = input.GetDescription() + ":";
                     SetCurrentInput(input);
                     break;
             }

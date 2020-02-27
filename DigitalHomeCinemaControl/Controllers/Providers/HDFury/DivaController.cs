@@ -19,7 +19,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using System.Collections.Specialized;
     using System.IO;
     using System.Net.Sockets;
-    using System.Threading;
+    using System.Timers;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
@@ -30,16 +30,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         #region Members
 
         private const int DEFAULT_PORT = 2210;
-        private const int UPDATE_INTERVAL = 2000;
-        private const string INTERNAL_THREAD_NAME = "HDFURY_TCPREAD";
+        private const int UPDATE_INTERVAL = 1000;
 
         private IDictionary<string, Type> actions;
         private TcpClient client;
         private NetworkStream networkStream;
         private StreamReader reader;
         private StreamWriter writer;
-        private Thread readThread;
-        private System.Timers.Timer timer;
+        private Timer timer;
 
         #endregion
 
@@ -53,8 +51,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             this.CustomInputs = new NameValueCollection();
 
-            this.DataSource.Add(new BindingItem<string>("Tx 0"));
-            this.DataSource.Add(new BindingItem<string>("Tx 1"));
+            this.DataSource.Add(new BindingItem<string>("Tx0 Sink"));
+            this.DataSource.Add(new BindingItem<string>("Tx0 Output"));
             this.DataSource.Add(new BindingItem<Rx>("Input"));
 
             this.actions = new Dictionary<string, Type> {
@@ -81,7 +79,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                 this.client.Connect(this.Host, this.Port);
                 this.networkStream = this.client.GetStream();
                 this.reader = new StreamReader(this.networkStream);
-                this.writer = new StreamWriter(this.networkStream);
+                this.writer = new StreamWriter(this.networkStream) {
+                    AutoFlush = true,
+                };
             } catch {
                 this.IsConnected = false;
                 this.ControllerStatus = ControllerStatus.Error;
@@ -89,19 +89,15 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                 return;
             }
 
-            this.readThread = new Thread(this.ClientThread) {
-                Name = INTERNAL_THREAD_NAME,
-            };
-            this.readThread.Start();
+            this.IsConnected = true;
 
             this.timer = new System.Timers.Timer() {
                 Interval = UPDATE_INTERVAL,
-                AutoReset = true,
+                AutoReset = false,
             };
             this.timer.Elapsed += TimerElapsed;
             this.timer.Start();
 
-            this.IsConnected = true;
             OnConnected();
         }
 
@@ -115,21 +111,29 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             try {
                 this.client.Close();
-                this.readThread.Abort();
-                this.readThread.Join();
             } catch {
             } finally {
                 if (this.reader != null) {
-                    this.reader.Close();
+                    this.reader.Dispose();
                 }
                 if (this.writer != null) {
-                    this.writer.Close();
+                    this.writer.Dispose();
                 }
                 if (this.networkStream != null) {
-                    this.networkStream.Close();
+                    this.networkStream.Dispose();
+                }
+                if (this.timer != null) {
+                    this.timer.Dispose();
                 }
             }
 
+            this.client = null;
+            this.reader = null;
+            this.writer = null;
+            this.networkStream = null;
+            this.timer = null;
+
+            OnError("Disconnected from HD Fury");
             OnDisconnected();
         }
 
@@ -168,7 +172,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         {
             if (!this.IsConnected) { return false; }
 
-            string command = string.Format("set insel {0} 4", input);
+            string command = string.Format("set insel {0} 4", (int)input);
 
             if (this.writer != null) {
                 try {
@@ -182,62 +186,59 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             return true;
         }
 
-        private void ClientThread()
-        {
-            string buffer = string.Empty;
-
-            UpdateState();
-
-            while (this.IsConnected) {
-                if (!this.networkStream.CanRead || !this.networkStream.CanWrite) {
-                    Disconnect();
-                    return;
-                }
-
-                try {
-                    buffer = this.reader.ReadLine();
-                } catch {
-                    if (!this.IsConnected) { return; }
-                }
-
-                OnDataReceived(buffer);
-            }
-        }
-
         private void OnDataReceived(string data)
         {
             if (string.IsNullOrEmpty(data)) { return; }
+            if (!data.Contains(" ")) { return; }
 
-            // TODO: Parse data
+            string[] dataParts = data.Split(null, 2);
+
+            switch (dataParts[0].ToUpper()) {
+                case "TX0:":
+                    UpdateDataSource<string>("Tx0 Output", dataParts[1].Trim());
+                    break;
+                case "TX0SINK:": 
+                    UpdateDataSource<string>("Tx0 Sink", dataParts[1].Trim());
+                    break;
+                case "INSELTX0": 
+                    if (int.TryParse(dataParts[1], out int i)) {
+                        UpdateDataSource<Rx>("Input", (Rx)i);
+                    }
+                    break;
+            }
+
         }
-
-        /*        
-        *      # diva get status x
-        *      where x is [rx0, rx1, tx0, tx1, tx0sink, tx1sink, aud0, aud1, audout, spd0, spd1]
-        *      rx0 and rx1 indicate the input stream received.Use rx0 in splitter mode and rx0 and rx1 along with 'insel' in matrix mode
-        *      tx0 and tx1 indicate the outgoing stream
-        *      tx0sink and tx1sink indicate EDID capabilities of the connected sink
-        *      aud0 and aud1 and audout indicate the audio stream type going to the sink from the correspoding port
-        *      spd0 and spd1 indicate the source name. Use spd0 for splitter mode and spd0 and spd1 along with 'insel' in matrix mode
-        *      Ex. #diva get status rx0
-        *      Gets the current incoming video format
-        */
 
         private void UpdateState()
         {
-            if (this.writer != null) {
-                this.writer.WriteLine("get status tx0");
-                this.writer.WriteLine("get status tx1");
-                this.writer.WriteLine("get inseltx0");
-                this.writer.Flush();
-            }
+            string data;
+            
+            this.writer.WriteLine("get status tx0sink");
+            data = this.reader.ReadLine();
+            OnDataReceived(data);
+            this.writer.WriteLine("get status tx0");
+            data = this.reader.ReadLine();
+            OnDataReceived(data);
+            this.writer.WriteLine("get inseltx0");
+            data = this.reader.ReadLine();
+            OnDataReceived(data);
+
+            this.timer.Start();
         }
 
         private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (this.IsConnected) {
-                UpdateState();
+            if ((this.client == null) || !this.client.Connected) {
+                Disconnect();    
+                return; 
             }
+
+            if (!this.networkStream.CanRead || !this.networkStream.CanWrite) {
+                Disconnect();
+                return;
+            }
+
+            UpdateState();
         }
 
         #endregion

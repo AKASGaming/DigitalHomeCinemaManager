@@ -14,15 +14,15 @@
             <StackPanel Orientation="Vertical" Width="350">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Tx0:" Foreground="#FF818181" FontSize="16" Height="22" />
-                    <TextBlock x:Name="TX0" Text="4K24 422 BT2020 12b DV 594MHz 2.2" Margin="10,0,0,0" Foreground="#FF818181" FontSize="16" Height="22" />
+                    <TextBlock x:Name="TX0" Text="" Margin="10,0,0,0" Foreground="#FF818181" FontSize="16" Height="22" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Tx1:" Foreground="#FF818181" FontSize="16" Height="22" />
-                    <TextBlock x:Name="TX1" Text="1080p24 422 BT709 12b 295MHz 2.2" Margin="10,0,0,0" Foreground="#FF818181" FontSize="16" Height="22" />
+                    <TextBlock x:Name="Source" Text="" Foreground="#FF818181" FontSize="16" Height="22" />
+                    <TextBlock x:Name="OutputTx0" Text="" Margin="10,0,0,0" Foreground="#FF818181" FontSize="16" Height="22" />
                 </StackPanel>
             </StackPanel>
             <Rectangle Width="1" Height="50" Margin="0,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
-            <StackPanel Orientation="Vertical" Width="230" Margin="10,5,0,0">
+            <StackPanel Orientation="Vertical" Width="230" Margin="20,5,0,0">
                 <StackPanel Orientation="Horizontal">
                     <Button Background="{x:Null}" BorderThickness="0" Width="40" Click="ButtonSourceSelectClick" >
                         <Button.Tag>
