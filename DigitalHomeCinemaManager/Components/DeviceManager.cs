@@ -20,6 +20,8 @@ namespace DigitalHomeCinemaManager.Components
     using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Windows.Threading;
+    using DigitalHomeCinemaControl;
+    using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controls;
     using DigitalHomeCinemaControl.Devices;
@@ -53,7 +55,7 @@ namespace DigitalHomeCinemaManager.Components
             this.Controllers.Clear();
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SerialDevice)) {
-                this.SerialDevice = InitializeDevice<SerialDevice>(SerialDevice.Items[Properties.Settings.Default.SerialDevice]);
+                InitializeDevice<SerialDevice>(SerialDevice.Items[Properties.Settings.Default.SerialDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SourceDevice)) {
@@ -61,7 +63,7 @@ namespace DigitalHomeCinemaManager.Components
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.DisplayDevice)) {
-                this.DisplayDevice = InitializeDevice<DisplayDevice>(DisplayDevice.Items[Properties.Settings.Default.DisplayDevice]);
+                InitializeDevice<DisplayDevice>(DisplayDevice.Items[Properties.Settings.Default.DisplayDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.MediaInfoDevice)) {
@@ -72,11 +74,11 @@ namespace DigitalHomeCinemaManager.Components
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.ProcessorDevice)) {
-                this.ProcessorDevice = InitializeDevice<ProcessorDevice>(ProcessorDevice.Items[Properties.Settings.Default.ProcessorDevice]);
+                InitializeDevice<ProcessorDevice>(ProcessorDevice.Items[Properties.Settings.Default.ProcessorDevice]);
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.InputSwitchDevice)) {
-                this.SwitchDevice = InitializeDevice<SwitchDevice>(SwitchDevice.Items[Properties.Settings.Default.InputSwitchDevice]);
+                InitializeDevice<SwitchDevice>(SwitchDevice.Items[Properties.Settings.Default.InputSwitchDevice]);
             }
 
         }
@@ -115,6 +117,25 @@ namespace DigitalHomeCinemaManager.Components
             } // foreach 
         }
 
+        public Dictionary<string, SettingItem<object>> GetDeviceSettings(DeviceType deviceType)
+        {
+            var result = new Dictionary<string, SettingItem<object>>();
+            string sDeviceType = deviceType.ToString();
+
+            Debug.Assert(!string.IsNullOrEmpty(sDeviceType));
+
+            foreach (SettingsProperty setting in Properties.DeviceSettings.Default.Properties) {
+                if (setting.Name.StartsWith(sDeviceType)) {
+                    string[] settingName = setting.Name.Split('_');
+                    if (settingName.Length == 2) {
+                        result.Add(settingName[1], new SettingItem<object>(setting.PropertyType, setting.DefaultValue));
+                    }
+                }
+            } // foreach
+
+            return result;
+        }
+
         public void SaveDeviceSettings(IDevice device)
         {
             Debug.Assert(device != null);
@@ -133,6 +154,34 @@ namespace DigitalHomeCinemaManager.Components
             } // foreach
 
             Properties.DeviceSettings.Default.Save();
+        }
+
+        public IEnumerable<string> GetProviders(DeviceType deviceType)
+        {
+            List<string> result = null;
+
+            switch (deviceType) {
+                case DeviceType.Source:
+                    result = new List<string>(SourceDevice.Items.Keys);
+                    break;
+                case DeviceType.Serial:
+                    result = new List<string>(SerialDevice.Items.Keys);
+                    break;
+                case DeviceType.Display:
+                    result = new List<string>(DisplayDevice.Items.Keys);
+                    break;
+                case DeviceType.MediaInfo:
+                    result = new List<string>(MediaInfoDevice.Items.Keys);
+                    break;
+                case DeviceType.Processor:
+                    result = new List<string>(ProcessorDevice.Items.Keys);
+                    break;
+                case DeviceType.InputSwitch:
+                    result = new List<string>(SwitchDevice.Items.Keys);
+                    break;
+            }
+
+            return result;
         }
 
         private T InitializeDevice<T>(T device)
@@ -161,21 +210,7 @@ namespace DigitalHomeCinemaManager.Components
         {
             Debug.Assert(device != null);
 
-            if (device is SourceDevice) {
-                return "Source";
-            } else if (device is SerialDevice) {
-                return "Serial";
-            } else if (device is DisplayDevice) {
-                return "Display";
-            } else if (device is MediaInfoDevice) {
-                return "MediaInfo";
-            } else if (device is ProcessorDevice) {
-                return "Processor";
-            } else if (device is SwitchDevice) {
-                return "InputSwitch";
-            } else {
-                return string.Empty;
-            }
+            return device.DeviceType.ToString();
         }
 
         private void OnControllerError(object sender, string message)
@@ -217,17 +252,9 @@ namespace DigitalHomeCinemaManager.Components
 
         #region Properties
 
-        public SerialDevice SerialDevice { get; private set; }
-
         public SourceDevice SourceDevice { get; private set; }
 
-        public DisplayDevice DisplayDevice { get; private set; }
-
         public MediaInfoDevice MediaInfoDevice { get; private set; }
-
-        public ProcessorDevice ProcessorDevice { get; private set; }
-
-        public SwitchDevice SwitchDevice { get; private set; }
 
         public List<IDevice> Devices { get; private set; }
 
