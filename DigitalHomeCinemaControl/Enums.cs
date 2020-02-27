@@ -16,6 +16,16 @@ namespace DigitalHomeCinemaControl
 {
     using System.ComponentModel;
 
+    public enum DeviceType
+    {
+        Source,
+        Serial,
+        Display,
+        MediaInfo,
+        Processor,
+        InputSwitch,
+    }
+
     /// <summary>
     /// Enumerates values used to specify a controllers status.
     /// </summary>

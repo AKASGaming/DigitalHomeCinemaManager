@@ -28,6 +28,8 @@ namespace DigitalHomeCinemaControl.Devices
         /// </summary>
         string Name { get; }
 
+        DeviceType DeviceType { get; }
+
         /// <summary>
         /// Gets the device controller as T.
         /// </summary>

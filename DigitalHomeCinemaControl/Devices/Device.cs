@@ -39,11 +39,13 @@ namespace DigitalHomeCinemaControl.Devices
         /// Creates a new instance of the Device class.
         /// </summary>
         /// <param name="name">Name of the device.</param>
+        /// <param name="deviceType">The DeviceType for this device.</param>
         /// <param name="controllerType">The Type of the device controller.</param>
         /// <param name="uiElementType">The Type of the UI element for this device.</param>
-        internal Device(string name, Type controllerType, Type uiElementType)
+        internal Device(string name, DeviceType deviceType, Type controllerType, Type uiElementType)
         {
             this.Name = name;
+            this.DeviceType = deviceType;
             this.controllerType = controllerType;
             this.uiElementType = uiElementType;
         }
@@ -70,6 +72,8 @@ namespace DigitalHomeCinemaControl.Devices
         /// Gets the Name of the Device.
         /// </summary>
         public string Name { get; protected set; }
+
+        public DeviceType DeviceType { get; protected set; }
 
         /// <summary>
         /// Gets an instance of the device controller.

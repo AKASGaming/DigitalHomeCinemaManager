@@ -47,7 +47,7 @@ namespace DigitalHomeCinemaControl.Devices
         #region Constructor
 
         private ProcessorDevice(string name, Type controllerType, Type uiElementType)
-            : base(name, controllerType, uiElementType)
+            : base(name, DeviceType.Processor, controllerType, uiElementType)
         { }
 
         #endregion

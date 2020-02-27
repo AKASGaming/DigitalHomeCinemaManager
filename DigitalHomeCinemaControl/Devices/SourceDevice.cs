@@ -48,12 +48,10 @@ namespace DigitalHomeCinemaControl.Devices
         #region Constructor
 
         private SourceDevice(string name, Type controllerType, Type uiElementType)
-            : base(name, controllerType, uiElementType)
+            : base(name, DeviceType.Source, controllerType, uiElementType)
         { }
 
         #endregion
-
-                
 
     }
 

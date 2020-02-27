@@ -45,7 +45,7 @@ namespace DigitalHomeCinemaControl.Devices
         #region Constructor
 
         private MediaInfoDevice(string name, Type controllerType, Type uiElementType)
-            : base(name, controllerType, uiElementType)
+            : base(name, DeviceType.MediaInfo, controllerType, uiElementType)
         { }
 
         #endregion

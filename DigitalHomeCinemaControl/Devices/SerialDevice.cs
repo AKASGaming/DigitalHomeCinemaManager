@@ -48,7 +48,7 @@ namespace DigitalHomeCinemaControl.Devices
         #region Constructor
 
         private SerialDevice(string name, Type controllerType)
-            : base(name, controllerType, null)
+            : base(name, DeviceType.Serial, controllerType, null)
         { }
 
         #endregion
