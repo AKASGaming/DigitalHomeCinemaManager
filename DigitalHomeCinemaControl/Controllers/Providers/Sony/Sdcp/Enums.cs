@@ -139,7 +139,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         D65 = 0x0002,
         Custom1 = 0x0003,
         Custom2 = 0x0004,
-        [Description("DCI-P3")]
         Custom3 = 0x0005,
         Custom4 = 0x0006,
         Custom5 = 0x0008,
@@ -192,13 +191,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         Gamma2_4 = 0x0005,
         [Description("2.6")]
         Gamma2_6 = 0x0006,
-        [Description("Custom 7")]
         Gamma7 = 0x0007,
-        [Description("ST2084 Low")]
         Gamma8 = 0x0008,
-        [Description("ST2084 Med")]
         Gamma9 = 0x0009,
-        [Description("ST2084 High")]
         Gamma10 = 0x000A,
         [Description("---")]
         Unknown,
