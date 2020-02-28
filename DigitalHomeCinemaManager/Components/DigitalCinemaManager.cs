@@ -94,6 +94,8 @@ namespace DigitalHomeCinemaManager.Components
                 ItemsSource = this.router.Rules,
             };
             routingControl.ListDoubleClick += RoutingControlListDoubleClick;
+            routingControl.ListAddClick += RoutingControlListAddClick;
+            routingControl.ListRemoveClick += RoutingControlListRemoveClick;
             this.mainWindow.InsertControl(routingControl);
 
             // show the window
@@ -165,11 +167,46 @@ namespace DigitalHomeCinemaManager.Components
                 };
                 if (window.ShowDialog() == true) {
                     this.router.SaveRules();
-                }
-                if (sender is ListBox list) {
-                    list.Items.Refresh();
-                }
-            } 
+                } 
+            }
+            if (sender is ListBox list) {
+                list.Items.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Handler for RoutingControl Remove ContextMenu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RoutingControlListRemoveClick(object sender, object e)
+        {
+            if (e is MatchAction rule) {
+                this.router.Rules.Remove(rule);
+                this.router.SaveRules();
+            }
+            if (sender is ListBox list) {
+                list.Items.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Handler for RoutingControl Add ContextMenu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RoutingControlListAddClick(object sender, object e)
+        {
+            var window = new EditRuleWindow(this.router, null) {
+                Owner = this.mainWindow,
+            };
+            if (window.ShowDialog() == true) {
+                this.router.Rules.Add(window.Rule);
+                this.router.SaveRules();
+            }
+            if (sender is ListBox list) {
+                list.Items.Refresh();
+            }
         }
 
         /// <summary>

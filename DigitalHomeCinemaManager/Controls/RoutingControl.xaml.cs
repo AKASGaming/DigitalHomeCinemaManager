@@ -36,15 +36,22 @@ namespace DigitalHomeCinemaManager.Controls
 
         #region Methods
 
-        protected override void OnLostMouseCapture(MouseEventArgs e)
-        {
-            this.lstRules.SelectedValue = null;
-            base.OnLostMouseCapture(e);
-        }
-
         private void ListMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ListDoubleClick?.Invoke(sender, this.lstRules.SelectedItem);
+        }
+
+        private void RulesAddClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ListAddClick?.Invoke(sender, null);
+        }
+
+        private void RulesDeleteClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            
+            if (this.lstRules.SelectedIndex < 0) { return; }
+
+            ListRemoveClick?.Invoke(sender, this.lstRules.SelectedItem);
         }
 
         #endregion
@@ -52,6 +59,10 @@ namespace DigitalHomeCinemaManager.Controls
         #region Events
 
         public event EventHandler<object> ListDoubleClick;
+
+        public event EventHandler<object> ListAddClick;
+
+        public event EventHandler<object> ListRemoveClick;
 
         #endregion
 
