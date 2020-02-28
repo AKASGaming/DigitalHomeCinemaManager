@@ -23,22 +23,90 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     /// <summary>
     /// Interaction logic for SourceSettings.xaml
     /// </summary>
-    public partial class SourceSettings : UserControl
+    public partial class SourceSettings : SettingsControl
     {
+
+        #region Constructor
+
         public SourceSettings()
         {
             InitializeComponent();
 
             this.Provider.ItemsSource = DeviceManager.GetProviders(DeviceType.Source);
-            this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice;
+            if (string.IsNullOrEmpty(Properties.Settings.Default.SourceDevice)) {
+                this.Enabled.IsChecked = false;
+            } else {
+                this.Enabled.IsChecked = true;
+                this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice;
+            }
+
+            this.Path.Text = Properties.DeviceSettings.Default.Source_Path;
+            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString();
         }
 
-        protected void OnItemChanged()
+        #endregion
+
+        #region Methods
+
+        public override void SaveChanges()
         {
-            ItemChanged?.Invoke(this, new EventArgs());
+            if (this.Enabled.IsChecked == true) {
+                Properties.Settings.Default.SourceDevice = this.Provider.SelectedValue.ToString();
+            } else {
+                Properties.Settings.Default.SourceDevice = string.Empty;
+            }
+
+            Properties.DeviceSettings.Default.Source_Path = this.Path.Text;
+            if (int.TryParse(this.Display.Text, out int i)) {
+                Properties.DeviceSettings.Default.Source_FullscreenDisplay = i;
+            }
         }
 
-        public event EventHandler ItemChanged;
+        private void ProviderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (this.Enabled.IsChecked == true) {
+                this.Provider.IsEnabled = true;
+                this.Path.IsEnabled = true;
+                this.Display.IsEnabled = true;
+            } else {
+                this.Provider.IsEnabled = false;
+                this.Path.IsEnabled = false;
+                this.Display.IsEnabled = false;
+            }
+        }
+
+        private void PathTextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void ButtonPathClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+            //if (Directory.Exists(this.PrerollPath.Text)) {
+            //    fbd.SelectedPath = this.PrerollPath.Text;
+            //} else {
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            //}
+
+            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
+                this.Path.Text = fbd.SelectedPath;
+                OnItemChanged();
+            }
+        }
+
+        private void DisplayTextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        #endregion
 
     }
 

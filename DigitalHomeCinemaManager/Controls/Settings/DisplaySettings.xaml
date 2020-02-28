@@ -11,7 +11,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock Text="Provider:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <ComboBox Name="Provider" Width="150" SelectionChanged="ProviderSelectionChanged"/>
-                <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="CheckBoxChecked" Unchecked="CheckBoxChecked" />
+                <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="EnabledChecked" Unchecked="EnabledChecked" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="IP Address:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
@@ -46,7 +46,22 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Gamma:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <ListBox x:Name="Gamma" Width="150" Height="55"></ListBox>
+                <ListBox x:Name="Gamma" Width="150" Height="55" MouseDoubleClick="GammaMouseDoubleClick">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Click="GammaAddClick" />
+                            <MenuItem Header="Delete" Click="GammaDeleteClick" />
+                    </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Key}" Width="70"/>
+                                <TextBlock Margin="10,0,0,0" Width="50" Text="{Binding Value}" Background="SlateGray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </StackPanel>
     </Grid>

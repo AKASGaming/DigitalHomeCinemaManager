@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DigitalHomeCinemaManager.Controls.Settings"
         mc:Ignorable="d"
-        Title="KeyValueEditor" Height="135.508" Width="187.681" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" HorizontalAlignment="Left" VerticalAlignment="Center">
+        Title="KeyValueEditor" Height="150" Width="188" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" HorizontalAlignment="Left" VerticalAlignment="Center">
     <Window.Background>
         <SolidColorBrush Color="#FF2B2B30" />
     </Window.Background>

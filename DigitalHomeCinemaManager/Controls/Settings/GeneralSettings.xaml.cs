@@ -23,6 +23,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     /// </summary>
     public partial class GeneralSettings : SettingsControl
     {
+
+        #region Constructor
+
         public GeneralSettings()
         {
             InitializeComponent();
@@ -30,8 +33,11 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.MediaPath.Text = Properties.Settings.Default.MediaPath;
             this.PrerollPath.Text = Properties.Settings.Default.PrerollPath;
             this.TrailerPath.Text = Properties.Settings.Default.TrailerPath;
-
         }
+
+        #endregion
+
+        #region Methods
 
         public override void SaveChanges()
         {
@@ -88,20 +94,22 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
         }
 
-        private void MediaPathLostFocus(object sender, RoutedEventArgs e)
+        private void MediaPathTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             OnItemChanged();
         }
 
-        private void PrerollPathLostFocus(object sender, RoutedEventArgs e)
+        private void PrerollPathTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             OnItemChanged();
         }
 
-        private void TrailerPathLostFocus(object sender, RoutedEventArgs e)
+        private void TrailerPathTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             OnItemChanged();
         }
+
+        #endregion
 
     }
 

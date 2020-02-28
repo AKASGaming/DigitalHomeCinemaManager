@@ -27,16 +27,27 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class DisplaySettings : SettingsControl
     {
 
+        #region Members
+
         private ObservableCollection<KeyValuePair<string, string>> customColorSpace;
         private ObservableCollection<KeyValuePair<string, string>> customGamma;
         private ObservableCollection<KeyValuePair<string, string>> customColorTemp;
+
+        #endregion
+
+        #region Constructor
 
         public DisplaySettings()
         {
             InitializeComponent();
 
             this.Provider.ItemsSource = DeviceManager.GetProviders(DeviceType.Display);
-            this.Provider.SelectedValue = Properties.Settings.Default.DisplayDevice;
+            if (string.IsNullOrEmpty(Properties.Settings.Default.DisplayDevice)) {
+                this.Enabled.IsChecked = false;
+            } else {
+                this.Enabled.IsChecked = true;
+                this.Provider.SelectedValue = Properties.Settings.Default.DisplayDevice;
+            }
 
             this.Host.Text = Properties.DeviceSettings.Default.Display_Host;
             this.Port.Text = Properties.DeviceSettings.Default.Display_Port.ToString();
@@ -65,6 +76,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         }
 
+        #endregion
+
+        #region Methods
+
         public override void SaveChanges()
         {
             if (this.Enabled.IsChecked == true) {
@@ -86,29 +101,43 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             Properties.DeviceSettings.Default.Display_CustomColorTemp = this.customColorTemp.ToStringCollection();
         }
 
-        private void CheckBoxChecked(object sender, System.Windows.RoutedEventArgs e)
+        private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if (this.Enabled.IsChecked == true) {
+                this.Provider.IsEnabled = true;
+                this.Host.IsEnabled = true;
+                this.Port.IsEnabled = true;
+                this.CommandDelay.IsEnabled = true;
+                this.ColorSpace.IsEnabled = true;
+                this.Gamma.IsEnabled = true;
+            } else {
+                this.Provider.IsEnabled = false;
+                this.Host.IsEnabled = false;
+                this.Port.IsEnabled = false;
+                this.CommandDelay.IsEnabled = false;
+                this.ColorSpace.IsEnabled = false;
+                this.Gamma.IsEnabled = false;
+            }
         }
 
         private void ProviderSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            OnItemChanged();
         }
 
         private void HostTextChanged(object sender, TextChangedEventArgs e)
         {
-
+            OnItemChanged();
         }
 
         private void PortTextChanged(object sender, TextChangedEventArgs e)
         {
-
+            OnItemChanged();
         }
 
         private void CommandDelayTextChanged(object sender, TextChangedEventArgs e)
         {
-
+            OnItemChanged();
         }
 
         private void ColorSpaceMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -118,6 +147,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             var kvp = (KeyValuePair<string, string>)this.ColorSpace.SelectedValue;
             KeyValueEditor editor = new KeyValueEditor(kvp.Key, kvp.Value) {
                 Owner = Window.GetWindow(this),
+                Title = "Edit Custom ColorSpace"
             };
 
             if (editor.ShowDialog() == true) {
@@ -131,13 +161,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             KeyValueEditor editor = new KeyValueEditor(null, null) {
                 Owner = Window.GetWindow(this),
+                Title = "New Custom ColorSpace"
             };
 
             if (editor.ShowDialog() == true) {
                 this.customColorSpace.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
                 OnItemChanged();
             }
-
         }
 
         private void ColorSpaceDeleteClick(object sender, System.Windows.RoutedEventArgs e)
@@ -148,6 +178,48 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.customColorSpace.RemoveAt(selected);
             OnItemChanged();
         }
+
+        private void GammaMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (this.Gamma.SelectedValue == null) { return; }
+
+            var kvp = (KeyValuePair<string, string>)this.Gamma.SelectedValue;
+            KeyValueEditor editor = new KeyValueEditor(kvp.Key, kvp.Value) {
+                Owner = Window.GetWindow(this),
+                Title = "Edit Custom Gamma"
+            };
+
+            if (editor.ShowDialog() == true) {
+                this.customGamma.RemoveAt(this.Gamma.SelectedIndex);
+                this.customGamma.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
+                OnItemChanged();
+            }
+        }
+
+        private void GammaAddClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            KeyValueEditor editor = new KeyValueEditor(null, null) {
+                Owner = Window.GetWindow(this),
+                Title = "New Custom Gamma"
+            };
+
+            if (editor.ShowDialog() == true) {
+                this.customGamma.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
+                OnItemChanged();
+            }
+
+        }
+
+        private void GammaDeleteClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var selected = this.Gamma.SelectedIndex;
+            if (selected < 0) { return; }
+
+            this.customGamma.RemoveAt(selected);
+            OnItemChanged();
+        }
+
+        #endregion
 
     }
 

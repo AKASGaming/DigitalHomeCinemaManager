@@ -14,7 +14,9 @@
 
 namespace DigitalHomeCinemaManager.Controls.Settings
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Windows;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
@@ -22,22 +24,127 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     /// <summary>
     /// Interaction logic for InputSwitchSettings.xaml
     /// </summary>
-    public partial class InputSwitchSettings : UserControl
+    public partial class InputSwitchSettings : SettingsControl
     {
+
+        #region Members
+
+        private ObservableCollection<KeyValuePair<string, string>> customInputs;
+
+        #endregion
+
+        #region Constructor
+
         public InputSwitchSettings()
         {
             InitializeComponent();
 
             this.Provider.ItemsSource = DeviceManager.GetProviders(DeviceType.InputSwitch);
-            this.Provider.SelectedValue = Properties.Settings.Default.InputSwitchDevice;
+            if (string.IsNullOrEmpty(Properties.Settings.Default.InputSwitchDevice)) {
+                this.Enabled.IsChecked = false;
+            } else {
+                this.Enabled.IsChecked = true;
+                this.Provider.SelectedValue = Properties.Settings.Default.InputSwitchDevice;
+            }
+            this.Host.Text = Properties.DeviceSettings.Default.InputSwitch_Host;
+            this.Port.Text = Properties.DeviceSettings.Default.InputSwitch_Port.ToString();
+
+            if (Properties.DeviceSettings.Default.InputSwitch_CustomInputs != null) {
+                this.customInputs = Properties.DeviceSettings.Default.InputSwitch_CustomInputs.ToObservableCollection();
+            } else {
+                this.customInputs = new ObservableCollection<KeyValuePair<string, string>>();
+            }
+            this.Inputs.ItemsSource = this.customInputs;
         }
 
-        protected void OnItemChanged()
+        #endregion
+
+        #region Methods
+
+        public override void SaveChanges()
         {
-            ItemChanged?.Invoke(this, new EventArgs());
+            if (this.Enabled.IsChecked == true) {
+                Properties.Settings.Default.InputSwitchDevice = this.Provider.SelectedValue.ToString();
+            } else {
+                Properties.Settings.Default.InputSwitchDevice = string.Empty;
+            }
+            Properties.DeviceSettings.Default.InputSwitch_Host = this.Host.Text;
+            if (int.TryParse(this.Port.Text, out int i)) {
+                Properties.DeviceSettings.Default.InputSwitch_Port = i;
+            }
+            Properties.DeviceSettings.Default.InputSwitch_CustomInputs = this.customInputs.ToStringCollection();
         }
 
-        public event EventHandler ItemChanged;
+        private void ProviderSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (this.Enabled.IsChecked == true) {
+                this.Provider.IsEnabled = true;
+                this.Host.IsEnabled = true;
+                this.Port.IsEnabled = true;
+                this.Inputs.IsEnabled = true;
+            } else {
+                this.Provider.IsEnabled = false;
+                this.Host.IsEnabled = false;
+                this.Port.IsEnabled = false;
+                this.Inputs.IsEnabled = false;
+            }
+        }
+
+        private void HostTextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void PortTextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void InputsMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (this.Inputs.SelectedValue == null) { return; }
+
+            var kvp = (KeyValuePair<string, string>)this.Inputs.SelectedValue;
+            KeyValueEditor editor = new KeyValueEditor(kvp.Key, kvp.Value) {
+                Owner = Window.GetWindow(this),
+                Title = "Edit Custom Input"
+            };
+
+            if (editor.ShowDialog() == true) {
+                this.customInputs.RemoveAt(this.Inputs.SelectedIndex);
+                this.customInputs.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
+                OnItemChanged();
+            }
+        }
+
+        private void InputsAddClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            KeyValueEditor editor = new KeyValueEditor(null, null) {
+                Owner = Window.GetWindow(this),
+                Title = "New Custom Input"
+            };
+
+            if (editor.ShowDialog() == true) {
+                this.customInputs.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
+                OnItemChanged();
+            }
+        }
+
+        private void InputsDeleteClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var selected = this.Inputs.SelectedIndex;
+            if (selected < 0) { return; }
+
+            this.customInputs.RemoveAt(selected);
+            OnItemChanged();
+        }
+
+        #endregion
 
     }
 

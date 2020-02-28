@@ -29,6 +29,8 @@ namespace DigitalHomeCinemaManager.Windows
     public partial class SettingsWindow : Window
     {
 
+        #region Members
+
         class CategoryItem
         {
             public string Category { get; set; }
@@ -38,6 +40,10 @@ namespace DigitalHomeCinemaManager.Windows
         }
 
         private List<CategoryItem> categories;
+
+        #endregion
+
+        #region Constructor
 
         public SettingsWindow()
         {
@@ -63,6 +69,10 @@ namespace DigitalHomeCinemaManager.Windows
             this.ButtonSave.IsEnabled = false;
         }
 
+        #endregion
+
+        #region Methods
+
         private List<CategoryItem> CreateCategories()
         {
             var categories = new List<CategoryItem>();
@@ -79,27 +89,27 @@ namespace DigitalHomeCinemaManager.Windows
                     case "InputSwitch":
                         var iui = new InputSwitchSettings();
                         iui.ItemChanged += SettingsItemChanged;
-                        //category.UIElement = iui;
+                        category.UIElement = iui;
                         break;
                     case "MediaInfo":
                         var mui = new MediaInfoSettings();
                         mui.ItemChanged += SettingsItemChanged;
-                        //category.UIElement = mui;
+                        category.UIElement = mui;
                         break;
                     case "Processor":
                         var pui = new ProcessorSettings();
                         pui.ItemChanged += SettingsItemChanged;
-                        //category.UIElement = pui;
+                        category.UIElement = pui;
                         break;
                     case "Serial":
                         var sui = new SerialSettings();
                         sui.ItemChanged += SettingsItemChanged;
-                        //category.UIElement = sui;
+                        category.UIElement = sui;
                         break;
                     case "Source":
                         var srui = new SourceSettings();
                         srui.ItemChanged += SettingsItemChanged;
-                        //category.UIElement = srui;
+                        category.UIElement = srui;
                         break;
                 }
                 categories.Add(category);
@@ -140,6 +150,8 @@ namespace DigitalHomeCinemaManager.Windows
             this.DialogResult = false;
             this.Close();
         }
+
+        #endregion
 
     }
 

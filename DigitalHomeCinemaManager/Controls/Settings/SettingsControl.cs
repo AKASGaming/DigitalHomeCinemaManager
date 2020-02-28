@@ -20,6 +20,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public abstract class SettingsControl : UserControl
     {
 
+        #region Methods
+
         public abstract void SaveChanges();
 
         protected void OnItemChanged()
@@ -27,7 +29,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             ItemChanged?.Invoke(this, new EventArgs());
         }
 
+        #endregion
+
+        #region Events
+
         public event EventHandler ItemChanged;
+
+        #endregion
 
     }
 
