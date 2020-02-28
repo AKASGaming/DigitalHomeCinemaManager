@@ -54,6 +54,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
             if (string.IsNullOrEmpty(title)) {
                 UpdateDataSource<string>("PosterPath", string.Empty);
                 UpdateDataSource<string>("Description", string.Empty);
+                return;
             }
 
             try {
