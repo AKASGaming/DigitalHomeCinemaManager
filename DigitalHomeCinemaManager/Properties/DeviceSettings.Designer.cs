@@ -169,9 +169,11 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.NameValueCollection Display_CustomGamma {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection Display_CustomGamma {
             get {
-                return ((global::System.Collections.Specialized.NameValueCollection)(this["Display_CustomGamma"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Display_CustomGamma"]));
             }
             set {
                 this["Display_CustomGamma"] = value;
@@ -180,9 +182,11 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.NameValueCollection Display_CustomColorSpace {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection Display_CustomColorSpace {
             get {
-                return ((global::System.Collections.Specialized.NameValueCollection)(this["Display_CustomColorSpace"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Display_CustomColorSpace"]));
             }
             set {
                 this["Display_CustomColorSpace"] = value;
@@ -191,9 +195,11 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.NameValueCollection Display_CustomColorTemp {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection Display_CustomColorTemp {
             get {
-                return ((global::System.Collections.Specialized.NameValueCollection)(this["Display_CustomColorTemp"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Display_CustomColorTemp"]));
             }
             set {
                 this["Display_CustomColorTemp"] = value;
@@ -262,9 +268,11 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.NameValueCollection InputSwitch_CustomInputs {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection InputSwitch_CustomInputs {
             get {
-                return ((global::System.Collections.Specialized.NameValueCollection)(this["InputSwitch_CustomInputs"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["InputSwitch_CustomInputs"]));
             }
             set {
                 this["InputSwitch_CustomInputs"] = value;

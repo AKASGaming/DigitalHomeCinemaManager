@@ -74,6 +74,9 @@
     <Compile Include="Controls\Settings\InputSwitchSettings.xaml.cs">
       <DependentUpon>InputSwitchSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\KeyValueEditor.xaml.cs">
+      <DependentUpon>KeyValueEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\MediaInfoSettings.xaml.cs">
       <DependentUpon>MediaInfoSettings.xaml</DependentUpon>
     </Compile>
@@ -83,9 +86,11 @@
     <Compile Include="Controls\Settings\SerialSettings.xaml.cs">
       <DependentUpon>SerialSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\SettingsControl.cs" />
     <Compile Include="Controls\Settings\SourceSettings.xaml.cs">
       <DependentUpon>SourceSettings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Windows\PlaylistSelectionWindow.xaml.cs">
       <DependentUpon>PlaylistSelectionWindow.xaml</DependentUpon>
@@ -118,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\InputSwitchSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\KeyValueEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

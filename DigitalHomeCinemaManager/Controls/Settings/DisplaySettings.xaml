@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DigitalHomeCinemaManager.Controls.Settings.DisplaySettings"
+﻿<local:SettingsControl x:Class="DigitalHomeCinemaManager.Controls.Settings.DisplaySettings"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,20 +9,45 @@
     <Grid>
         <StackPanel Orientation="Vertical" Margin="10">
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <TextBlock Text="Provider:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBlock Text="Provider:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <ComboBox Name="Provider" Width="150" SelectionChanged="ProviderSelectionChanged"/>
-                <CheckBox Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="CheckBoxChecked" Unchecked="CheckBoxChecked" />
+                <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="CheckBoxChecked" Unchecked="CheckBoxChecked" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="IP Address:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBlock Text="IP Address:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <TextBox x:Name="Host" Width="150" Height="22" TextChanged="HostTextChanged" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="Port:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBlock Text="Port:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <TextBox x:Name="Port" Width="150" Height="22" TextChanged="PortTextChanged"/>
             </StackPanel>
-            
-            
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Delay:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBox x:Name="CommandDelay" Width="150" Height="22" TextChanged="CommandDelayTextChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Color Space:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <ListBox x:Name="ColorSpace" Width="150" Height="55" MouseDoubleClick="ColorSpaceMouseDoubleClick">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Click="ColorSpaceAddClick" />
+                            <MenuItem Header="Delete" Click="ColorSpaceDeleteClick" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Key}" Width="70"/>
+                                <TextBlock Margin="10,0,0,0" Width="50" Text="{Binding Value}" Background="SlateGray"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Gamma:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <ListBox x:Name="Gamma" Width="150" Height="55"></ListBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
-</UserControl>
+</local:SettingsControl>

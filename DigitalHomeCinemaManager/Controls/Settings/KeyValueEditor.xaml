@@ -1,0 +1,22 @@
+﻿<Window x:Class="DigitalHomeCinemaManager.Controls.Settings.KeyValueEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DigitalHomeCinemaManager.Controls.Settings"
+        mc:Ignorable="d"
+        Title="KeyValueEditor" Height="135.508" Width="187.681" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" HorizontalAlignment="Left" VerticalAlignment="Center">
+    <Window.Background>
+        <SolidColorBrush Color="#FF2B2B30" />
+    </Window.Background>
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10">
+            <TextBox x:Name="key" Width="100"/>
+            <TextBox x:Name="value" Width="100" Margin="0,10,0,0"/>
+            <StackPanel Margin="0,20,0,0" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Button Content="Ok" Width="50" Click="ButtonOkClick"/>
+                <Button Margin="10,0,0,0" Content="Cancel" Width="50" Click="ButtonCancelClick"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

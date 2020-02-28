@@ -21,7 +21,6 @@ namespace DigitalHomeCinemaManager.Windows
     using System.Windows.Controls;
     using System.Windows.Data;
     using DigitalHomeCinemaControl;
-    using DigitalHomeCinemaManager.Components;
     using DigitalHomeCinemaManager.Controls.Settings;
 
     /// <summary>
@@ -34,27 +33,39 @@ namespace DigitalHomeCinemaManager.Windows
         {
             public string Category { get; set; }
             public string Name { get; set; }
-            public UIElement UIElement { get; set; }
+            public SettingsControl UIElement { get; set; }
 
         }
 
-        private bool hasChanges = false;
+        private List<CategoryItem> categories;
 
-        public SettingsWindow(DeviceManager deviceManager)
+        public SettingsWindow()
         {
             InitializeComponent();
 
+            this.categories = CreateCategories();
+
             var genSettings = new GeneralSettings();
             genSettings.ItemChanged += SettingsItemChanged;
-            
+
             var general = new CategoryItem() {
                 Name = "General",
                 UIElement = genSettings,
             };
 
-            var categories = new List<CategoryItem>() {
-                general,
-            };
+            this.categories.Insert(0, general);
+            
+            ICollectionView view = CollectionViewSource.GetDefaultView(this.categories);
+            view.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+            this.Category.ItemsSource = view;
+
+            this.Category.SelectedItem = general;
+            this.ButtonSave.IsEnabled = false;
+        }
+
+        private List<CategoryItem> CreateCategories()
+        {
+            var categories = new List<CategoryItem>();
 
             foreach (var t in Enum.GetValues(typeof(DeviceType))) {
                 var name = t.ToString();
@@ -68,44 +79,38 @@ namespace DigitalHomeCinemaManager.Windows
                     case "InputSwitch":
                         var iui = new InputSwitchSettings();
                         iui.ItemChanged += SettingsItemChanged;
-                        category.UIElement = iui;
+                        //category.UIElement = iui;
                         break;
                     case "MediaInfo":
                         var mui = new MediaInfoSettings();
                         mui.ItemChanged += SettingsItemChanged;
-                        category.UIElement = mui;
+                        //category.UIElement = mui;
                         break;
                     case "Processor":
                         var pui = new ProcessorSettings();
                         pui.ItemChanged += SettingsItemChanged;
-                        category.UIElement = pui;
+                        //category.UIElement = pui;
                         break;
                     case "Serial":
                         var sui = new SerialSettings();
                         sui.ItemChanged += SettingsItemChanged;
-                        category.UIElement = sui;
+                        //category.UIElement = sui;
                         break;
                     case "Source":
                         var srui = new SourceSettings();
                         srui.ItemChanged += SettingsItemChanged;
-                        category.UIElement = srui;
+                        //category.UIElement = srui;
                         break;
                 }
                 categories.Add(category);
             }
-            
-            ICollectionView view = CollectionViewSource.GetDefaultView(categories);
-            view.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
-            this.Category.ItemsSource = view;
 
-            this.Category.SelectedItem = general;
-            this.ButtonSave.IsEnabled = false;
+            return categories;
         }
 
         private void SettingsItemChanged(object sender, EventArgs e)
         {
             this.ButtonSave.IsEnabled = true;
-            this.hasChanges = true;
         }
 
         private void CategorySelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -121,6 +126,11 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonSaveClick(object sender, RoutedEventArgs e)
         {
+            foreach (var category in this.categories) {
+                if (category.UIElement == null) { continue; }
+                category.UIElement.SaveChanges();
+            }
+
             this.DialogResult = true;
             this.Close();
         }
@@ -131,7 +141,6 @@ namespace DigitalHomeCinemaManager.Windows
             this.Close();
         }
 
-        
     }
 
 }

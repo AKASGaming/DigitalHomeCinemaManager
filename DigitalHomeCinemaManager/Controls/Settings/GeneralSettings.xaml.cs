@@ -17,12 +17,11 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System;
     using System.IO;
     using System.Windows;
-    using System.Windows.Controls;
 
     /// <summary>
     /// Interaction logic for GeneralSettings.xaml
     /// </summary>
-    public partial class GeneralSettings : UserControl
+    public partial class GeneralSettings : SettingsControl
     {
         public GeneralSettings()
         {
@@ -32,6 +31,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.PrerollPath.Text = Properties.Settings.Default.PrerollPath;
             this.TrailerPath.Text = Properties.Settings.Default.TrailerPath;
 
+        }
+
+        public override void SaveChanges()
+        {
+             Properties.Settings.Default.MediaPath = this.MediaPath.Text;
+             Properties.Settings.Default.PrerollPath = this.PrerollPath.Text;
+             Properties.Settings.Default.TrailerPath = this.TrailerPath.Text;
         }
 
         private void ButtonMediaClick(object sender, RoutedEventArgs e)
@@ -97,14 +103,6 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             OnItemChanged();
         }
 
-        protected void OnItemChanged()
-        {
-            ItemChanged?.Invoke(this, new EventArgs());
-        }
-
-        public event EventHandler ItemChanged;
-
-        
     }
 
 }

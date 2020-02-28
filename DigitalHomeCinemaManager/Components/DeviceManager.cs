@@ -25,6 +25,10 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controls;
     using DigitalHomeCinemaControl.Devices;
+    using System.Linq;
+    using System.Collections.Specialized;
+    using System.Xml.Serialization;
+    using System.IO;
 
     public class DeviceManager : IDisposable
     {
@@ -108,6 +112,13 @@ namespace DigitalHomeCinemaManager.Components
                         if (setting.PropertyType.IsEnum) {
                             var value = Enum.Parse(setting.PropertyType, setting.DefaultValue.ToString());
                             device.Controller.Setting(value, settingName[1]);
+                        } else if (setting.PropertyType == typeof(StringCollection)) {
+                            XmlSerializer serializer = new XmlSerializer(typeof(StringCollection));
+                            using (TextReader reader = new StringReader(setting.DefaultValue.ToString())) {
+                                var value = (StringCollection)serializer.Deserialize(reader);
+                                NameValueCollection collection = value.ToNameValueCollection();
+                                device.Controller.Setting(collection, settingName[1]);
+                            }
                         } else {
                             var value = Convert.ChangeType(setting.DefaultValue, setting.PropertyType);
                             device.Controller.Setting(value, settingName[1]);
@@ -115,45 +126,6 @@ namespace DigitalHomeCinemaManager.Components
                     }
                 }
             } // foreach 
-        }
-
-        public Dictionary<string, SettingItem<object>> GetDeviceSettings(DeviceType deviceType)
-        {
-            var result = new Dictionary<string, SettingItem<object>>();
-            string sDeviceType = deviceType.ToString();
-
-            Debug.Assert(!string.IsNullOrEmpty(sDeviceType));
-
-            foreach (SettingsProperty setting in Properties.DeviceSettings.Default.Properties) {
-                if (setting.Name.StartsWith(sDeviceType)) {
-                    string[] settingName = setting.Name.Split('_');
-                    if (settingName.Length == 2) {
-                        result.Add(settingName[1], new SettingItem<object>(setting.PropertyType, setting.DefaultValue));
-                    }
-                }
-            } // foreach
-
-            return result;
-        }
-
-        public void SaveDeviceSettings(IDevice device)
-        {
-            Debug.Assert(device != null);
-
-            string deviceType = GetDeviceType(device);
-
-            Debug.Assert(!string.IsNullOrEmpty(deviceType));
-
-            foreach (var setting in device.Controller.Settings) {
-                string settingName = deviceType + "_" + setting.Key;
-
-                var settingsProperty = Properties.DeviceSettings.Default.Properties[settingName];
-                if (settingsProperty == null) { continue; }
-
-                settingsProperty.DefaultValue = setting.Value;
-            } // foreach
-
-            Properties.DeviceSettings.Default.Save();
         }
 
         public static IEnumerable<string> GetProviders(DeviceType deviceType)
