@@ -16,19 +16,15 @@ namespace DigitalHomeCinemaManager.Components
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Configuration;
     using System.Diagnostics;
     using System.Threading.Tasks;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl;
-    using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controls;
     using DigitalHomeCinemaControl.Devices;
-    using System.Linq;
-    using System.Collections.Specialized;
-    using System.Xml.Serialization;
-    using System.IO;
 
     public class DeviceManager : IDisposable
     {

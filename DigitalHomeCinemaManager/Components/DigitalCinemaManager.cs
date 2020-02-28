@@ -152,6 +152,8 @@ namespace DigitalHomeCinemaManager.Components
             this.router.Stop();
             this.router.Dispose();
             this.deviceManager.Dispose();
+
+            Environment.Exit(0);
         }
 
         /// <summary>
