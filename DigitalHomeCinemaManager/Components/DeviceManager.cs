@@ -106,24 +106,21 @@ namespace DigitalHomeCinemaManager.Components
             Debug.Assert(!string.IsNullOrEmpty(deviceType));
 
             foreach (SettingsProperty setting in Properties.DeviceSettings.Default.Properties) {
-                if (setting.Name.StartsWith(deviceType)) {
-                    string[] settingName = setting.Name.Split('_');
-                    if (settingName.Length == 2) {
-                        if (setting.PropertyType.IsEnum) {
-                            var value = Enum.Parse(setting.PropertyType, setting.DefaultValue.ToString());
-                            device.Controller.Setting(value, settingName[1]);
-                        } else if (setting.PropertyType == typeof(StringCollection)) {
-                            XmlSerializer serializer = new XmlSerializer(typeof(StringCollection));
-                            using (TextReader reader = new StringReader(setting.DefaultValue.ToString())) {
-                                var value = (StringCollection)serializer.Deserialize(reader);
-                                NameValueCollection collection = value.ToNameValueCollection();
-                                device.Controller.Setting(collection, settingName[1]);
-                            }
-                        } else {
-                            var value = Convert.ChangeType(setting.DefaultValue, setting.PropertyType);
-                            device.Controller.Setting(value, settingName[1]);
-                        }
-                    }
+                if (!setting.Name.StartsWith(deviceType)) { continue; }
+
+                string[] settingName = setting.Name.Split('_');
+                if (settingName.Length != 2) { continue; }
+
+                object valueObject = Properties.DeviceSettings.Default[setting.Name];
+                if (setting.PropertyType.IsEnum) {
+                    var value = Enum.Parse(setting.PropertyType, valueObject.ToString());
+                    device.Controller.Setting(value, settingName[1]);
+                } else if (setting.PropertyType == typeof(StringCollection)) {
+                    var value = (StringCollection)valueObject;
+                    device.Controller.Setting(value.ToNameValueCollection(), settingName[1]);
+                } else {
+                    var value = Convert.ChangeType(valueObject, setting.PropertyType);
+                    device.Controller.Setting(value, settingName[1]);
                 }
             } // foreach 
         }
