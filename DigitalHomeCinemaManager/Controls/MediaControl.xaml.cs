@@ -85,10 +85,10 @@ namespace DigitalHomeCinemaManager.Controls
             this.Controller.Mute();
             if (this.muted) {
                 this.muted = false;
-                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Icons/baseline_volume_up_white_36dp.png"));
+                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_up_white_36dp.png"));
             } else {
                 this.muted = true;
-                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Icons/baseline_volume_off_white_36dp.png"));
+                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_off_white_36dp.png"));
             }
         }
 
