@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Runtime.CompilerServices;
+    using System.Text;
 
     #region PlaylistType
 
@@ -196,59 +197,101 @@ namespace DigitalHomeCinemaManager.Components
             this.FeatureTitle = string.Empty;
             this.FeatureYear = string.Empty;
             this.FeatureExtendedInfo = string.Empty;
+
+            if (string.IsNullOrEmpty(this.Feature)) { return; }
+
+            bool isYearPart = false;
+            bool isExInfoPart = false;
+            int len = this.Feature.LastIndexOf("_");
+            int start = this.Feature.LastIndexOf("\\") + 1;
+            int lastSpace = 0;
+            var title = new StringBuilder(len - start);
+            var year = new StringBuilder(4);
+            var exInfo = new StringBuilder(20);
+            
+            for (int i = start; i < len; i++) {
+                char c = this.Feature[i];
+
+                if (isYearPart) {
+                    if (c == ')') {
+                        isYearPart = false;
+                    } else {
+                        year.Append(c);
+                    }
+                } else if (isExInfoPart) {
+                    if (c == ']') {
+                        isExInfoPart = false;
+                    } else {
+                        if ((c == '_') || (c == '-')) {
+                            exInfo.Append(' ');
+                        } else {
+                            exInfo.Append(c);
+                        }
+                    }
+                } else {
+                    switch (c) {
+                        case '(': isYearPart = true; break;
+                        case '[': isExInfoPart = true; break;
+                        case '-':
+                        case '_': title.Append(' '); lastSpace = title.Length; break;
+                        default:
+                            title.Append(c);
+                            break;
+                    }
+                }
+            }
+
+            if (title.Length == lastSpace) {
+                title.Remove(lastSpace - 1, 1);
+            }
+            
+            this.FeatureTitle = title.ToString();
+            this.FeatureYear = year.ToString();
+            this.FeatureExtendedInfo = exInfo.ToString();
+        }
+
+        private void ParseFormat()
+        {
             this.FeatureVideoFormat = VideoFormat.Unknown;
             this.FeatureAudioFormat = AudioFormat.Unknown;
 
-            if (string.IsNullOrEmpty(this.Feature)) {
-                return;
-            }
+            if (string.IsNullOrEmpty(this.Feature)) { return; }
 
-            string title = this.Feature.Substring(this.Feature.LastIndexOf("\\") + 1);
-            string year = string.Empty;
-            string exInfo = string.Empty;
+            int start = this.Feature.LastIndexOf("_") + 1;
+            int len = this.Feature.LastIndexOf(".");
+            bool isAudioFormat = false;
 
-            if (title.Contains(".")) { // strip file extension
-                title = title.Substring(0, title.IndexOf(".")).Trim();
-            }
-            if (title.Contains("[")) { // strip brackets
-                // consider any text in brackets to be purely informational and not part of title
-                // ex: The_Martian_[Extended_Edition]_UHD-Atmos.mkv
-                exInfo = title.Substring(title.IndexOf("[") + 1);
-                exInfo = exInfo.Substring(0, exInfo.IndexOf("]")).Trim();
-                title = title.Substring(0, title.IndexOf("[")).Trim();
-            }
-            if (title.Contains("_")) { // replace underscores with spaces
-                title = title.Substring(0, title.LastIndexOf("_")).Replace("_", " ").Trim();
-            }
-            if (title.Contains("(") && title.Contains(")")) { // process year filter
-                // consider any text in parenthesis to be year of release to aid searching
-                // ex: Ghost_in_the_Shell_(2017)_UHD-Atmos.mkv
-                year = title.Substring(title.IndexOf("(") + 1);
-                year = year.Substring(0, year.IndexOf(")")).Trim();
-                title = title.Substring(0, title.IndexOf("(")).Trim();
-            }
+            var videoFormat = new StringBuilder(3);
+            var audioFormat = new StringBuilder(5);
 
-            this.FeatureTitle = title;
-            this.FeatureYear = year;
-            this.FeatureExtendedInfo = exInfo;
-
-            string[] format = this.Feature.Substring(this.Feature.LastIndexOf("_") + 1).Split('-');
-            if (format != null && format.Length > 0) {
-                switch (format[0].ToUpper()) {
-                    case "SD": this.FeatureVideoFormat = VideoFormat.SD; break;
-                    case "HD": this.FeatureVideoFormat = VideoFormat.HD; break;
-                    case "UHD": this.FeatureVideoFormat = VideoFormat.UHD; break;
-                    default: this.FeatureVideoFormat = VideoFormat.Unknown; break;
+            for (int i = start; i < len; i++) {
+                if (isAudioFormat) {
+                    if (this.Feature[i] == '.') {
+                        isAudioFormat = false;
+                    } else {
+                        audioFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i]));
+                    }
+                } else {
+                    switch (this.Feature[i]) {
+                        case '-': isAudioFormat = true; break;
+                        default:
+                            videoFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i]));
+                            break;
+                    }
                 }
             }
 
-            if (format != null && format.Length == 2) {
-                string s = format[1].Substring(0, format[1].IndexOf("."));
-                switch (s.ToUpper()) {
-                    case "ATMOS": this.FeatureAudioFormat = AudioFormat.Atmos; break;
-                    case "DTS": this.FeatureAudioFormat = AudioFormat.DTS; break;
-                    default: this.FeatureAudioFormat = AudioFormat.Dolby; break;
-                }
+            switch (videoFormat.ToString()) {
+                case "SD": this.FeatureVideoFormat = VideoFormat.SD; break;
+                case "HD": this.FeatureVideoFormat = VideoFormat.HD; break;
+                case "UHD": this.FeatureVideoFormat = VideoFormat.UHD; break;
+                default: this.FeatureVideoFormat = VideoFormat.Unknown; break;
+            }
+
+            switch (audioFormat.ToString()) {
+                case "ATMOS": this.FeatureAudioFormat = AudioFormat.Atmos; break;
+                case "DTS": this.FeatureAudioFormat = AudioFormat.DTS; break;
+                default: this.FeatureAudioFormat = AudioFormat.Dolby; break;
             }
         }
 
@@ -280,6 +323,7 @@ namespace DigitalHomeCinemaManager.Components
             set {
                 this.feature = value;
                 ParseFeature();
+                ParseFormat();
             }
         }
 
