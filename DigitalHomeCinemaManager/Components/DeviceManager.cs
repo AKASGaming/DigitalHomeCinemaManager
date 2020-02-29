@@ -42,8 +42,8 @@ namespace DigitalHomeCinemaManager.Components
         internal DeviceManager(Dispatcher dispatcher)
         {
             this.dispatcher = dispatcher;
-            this.Devices = new List<IDevice>();
-            this.Controllers = new List<IController>();
+            this.Devices = new List<IDevice>(10);
+            this.Controllers = new List<IController>(10);
         }
 
         #endregion
@@ -155,8 +155,7 @@ namespace DigitalHomeCinemaManager.Components
             where T : IDevice
         {
             Debug.Assert(device != null);
-
-            
+  
             device.Controller.Dispatcher = this.dispatcher;
             device.Controller.Error += OnControllerError;
             LoadDeviceSettings(device);

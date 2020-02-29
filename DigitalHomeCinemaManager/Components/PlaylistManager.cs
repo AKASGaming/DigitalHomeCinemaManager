@@ -93,8 +93,8 @@ namespace DigitalHomeCinemaManager.Components
 
         internal PlaylistManager()
         {
-            this.PrerollPlaylist = new List<string>();
-            this.TrailerPlaylist = new List<string>();
+            this.PrerollPlaylist = new List<string>(10);
+            this.TrailerPlaylist = new List<string>(5);
         }
 
         #endregion

@@ -45,7 +45,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
                 return (relativeVolume - scale);
             }
 
-            StringBuilder sb = new StringBuilder(relativeVolume.ToString());
+            var sb = new StringBuilder(relativeVolume.ToString());
             if (sb.Length == 3) {
                 sb.Insert(3, ".");
             }
@@ -59,7 +59,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         protected int AbsoluteToRelativeVolume(int scale, decimal absoluteVolume)
         {
             decimal d = absoluteVolume + scale;
-            StringBuilder sb = new StringBuilder(d.ToString());
+            var sb = new StringBuilder(d.ToString());
             sb.Replace(".", "");
 
             if (int.TryParse(sb.ToString(), out int i)) {

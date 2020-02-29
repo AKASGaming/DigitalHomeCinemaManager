@@ -24,6 +24,7 @@ namespace DigitalHomeCinemaManager
         internal static ObservableCollection<KeyValuePair<string, string>> ToObservableCollection(this StringCollection collection)
         {
             var result = new ObservableCollection<KeyValuePair<string, string>>();
+            if (collection.Count == 0) { return result; }
 
             foreach (string s in collection) {
                 if (!s.Contains(":")) { continue; }
@@ -42,6 +43,7 @@ namespace DigitalHomeCinemaManager
         internal static StringCollection ToStringCollection(this ObservableCollection<KeyValuePair<string, string>> collection)
         {
             var result = new StringCollection();
+            if (collection.Count == 0) { return result; }
 
             foreach (var kvp in collection) {
                 result.Add(kvp.Key + ":" + kvp.Value);
@@ -52,7 +54,8 @@ namespace DigitalHomeCinemaManager
 
         internal static NameValueCollection ToNameValueCollection(this StringCollection collection)
         {
-            var result = new NameValueCollection();
+            var result = new NameValueCollection(collection.Count);
+            if (collection.Count == 0) { return result; }
 
             foreach (string s in collection) {
                 if (!s.Contains(":")) { continue; }

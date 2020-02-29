@@ -327,7 +327,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             var lamp = GetItem<LampControl>(CommandItem.LampControl);
             this.LampStatus = lamp.ToLampStatus();
 
-            var lampTimer = GetItem(CommandItem.LampTimer);
+            int lampTimer = GetItem(CommandItem.LampTimer);
             if (lampTimer >= 0) {
                 this.LampTimer = lampTimer;
             }

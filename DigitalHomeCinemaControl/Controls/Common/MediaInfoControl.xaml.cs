@@ -16,12 +16,8 @@ namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.IO;
     using System.Net;
-    using System.Text;
-    using System.Threading;
-    using System.Windows;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Collections;
 

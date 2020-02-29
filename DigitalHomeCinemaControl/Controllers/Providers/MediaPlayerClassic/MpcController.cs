@@ -57,7 +57,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             : base()
         {
             this.statsTimer = new System.Timers.Timer {
-                Interval = MpcController.STATUS_INTERVAL
+                Interval = STATUS_INTERVAL
             };
             this.statsTimer.Elapsed += StatsTimerElapsed;
             this.statsTimer.AutoReset = true;
@@ -70,7 +70,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         private void StatsTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            string url = DEFAULT_HOST + ":" + DEFAULT_PORT + MpcController.VARIABLES;
+            string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
 
             WebRequest request = WebRequest.Create(url);
             HttpWebResponse response;
@@ -78,7 +78,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             try {
                 response = (HttpWebResponse)request.GetResponse();
             } catch (WebException ex) {
-                OnError("Failed to connect to MPC: " + ex.Status.ToString());
+                OnError(string.Format("Failed to connect to MPC: {0}", ex.Status.ToString()));
                 this.errorCount++;
                 if (this.errorCount > MAX_ERROR_COUNT) {
                     OnError("MPC: Max errors exceeded. Exiting.");
@@ -89,7 +89,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
             string responseString;
 
-            using (StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8)) {
+            using (var reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8)) {
                 responseString = reader.ReadToEnd();
             }
             response.Close();
@@ -101,7 +101,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         {
             if (string.IsNullOrEmpty(responseString)) { return; }
 
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(responseString);
 
             string currentFile = doc.GetElementbyId("file").InnerText;

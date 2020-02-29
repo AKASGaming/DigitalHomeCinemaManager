@@ -37,8 +37,10 @@ namespace DigitalHomeCinemaControl
         {
             if (string.IsNullOrEmpty(asciiString)) { return new byte[0]; }
 
-            byte[] data = new byte[asciiString.Length];
-            for (int i = asciiString.Length - 1; i >= 0; i--) {
+            int len = asciiString.Length;
+            byte[] data = new byte[len];
+
+            for (int i = len - 1; i >= 0; i--) {
                 data[i] = Convert.ToByte((int)asciiString[i]);
             }
 
@@ -55,7 +57,7 @@ namespace DigitalHomeCinemaControl
             if (string.IsNullOrEmpty(asciiString)) { return string.Empty; }
 
             byte[] bytes = asciiString.ToByteArray();
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder(bytes.Length);
             for (int i = 0; i < bytes.Length; i++) {
                 if (i > 0) {
                     result.Append(":");

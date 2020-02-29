@@ -135,11 +135,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     UpdateDataSource<string>("Surround Mode", this.avr.Surround.GetDescription());
                     break;
                 case "ToneControl":
-                    var toneControl = (this.avr.ToneControl == null) ? "---" : ((bool)this.avr.ToneControl == true) ? "On" : "Off";
+                    string toneControl = (this.avr.ToneControl == null) ? "---" : ((bool)this.avr.ToneControl == true) ? "On" : "Off";
                     UpdateDataSource<string>("Tone Control", toneControl);
                     break;
                 case "LoudnessManagement":
-                    var loudness = (this.avr.LoudnessManagement == null) ? "---" : ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
+                    string loudness = (this.avr.LoudnessManagement == null) ? "---" : ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
                     UpdateDataSource<string>("Loudness Management", loudness);
                     break;
                 case "InputMode":
@@ -158,7 +158,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     UpdateDataSource<string>("MultEQ", this.avr.MultEq.GetDescription());
                     break;
                 case "DynEq":
-                    var dyneq = (this.avr.DynEq == null) ? "---" : ((bool)this.avr.DynEq == true) ? "On" : "Off";
+                    string dyneq = (this.avr.DynEq == null) ? "---" : ((bool)this.avr.DynEq == true) ? "On" : "Off";
                     UpdateDataSource<string>("Dyn EQ", dyneq);
                     break;
                 case "DynamicVolume":
@@ -304,8 +304,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             // flexibility needed to support them in the future.
             Channel[] keys = new Channel[this.avr.ChannelStatus.Keys.Count];
             this.avr.ChannelStatus.Keys.CopyTo(keys, 0);
+            int len = keys.Length;
 
-            for (int i = keys.Length - 1; i >= 0; i--) {
+            for (int i = len - 1; i >= 0; i--) {
                 var key = keys[i].ToAudioChannel();
                 if (channels.ContainsKey(key)) {
                     channels[key] = this.avr.ChannelStatus[keys[i]];

@@ -89,8 +89,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         #region Protected Methods
 
-        protected virtual void OnSettingChanged(string name)
-        { }
+        protected virtual void OnSettingChanged(string name) { }
 
         /// <summary>
         /// Gets a controller setting.

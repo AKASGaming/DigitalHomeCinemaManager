@@ -22,7 +22,8 @@ namespace DigitalHomeCinemaControl.Collections
 
         #region Members
 
-        private readonly AudioChannel[] channels = (AudioChannel[])Enum.GetValues(typeof(AudioChannel));
+        private static AudioChannel[] CHANNELS = (AudioChannel[])Enum.GetValues(typeof(AudioChannel));
+        private static int CHANNEL_COUNT = CHANNELS.Length;
 
         #endregion
 
@@ -33,13 +34,16 @@ namespace DigitalHomeCinemaControl.Collections
         /// </summary>
         public ChannelStatus()
         {
-            this.AvailableChannels = new Dictionary<AudioChannel, bool>();
-            this.ActiveChannels = new Dictionary<AudioChannel, bool>();
+            int len = this.channels.Length;
 
-            foreach (AudioChannel channel in Enum.GetValues(typeof(AudioChannel))) {
-                this.AvailableChannels.Add(channel, false);
-                this.ActiveChannels.Add(channel, false);
+            this.AvailableChannels = new Dictionary<AudioChannel, bool>(len);
+            this.ActiveChannels = new Dictionary<AudioChannel, bool>(len);
+
+            for (int i = len - 1; i >= 0; i--) {
+                this.AvailableChannels.Add(this.channels[i], false);
+                this.ActiveChannels.Add(this.channels[i], false);
             }
+            
         }
 
         #endregion
@@ -52,8 +56,10 @@ namespace DigitalHomeCinemaControl.Collections
         /// <param name="value">Optional. Value to set, default is false.</param>
         public void ResetAvailableChannels(bool value = false)
         {
-            for (int i = this.channels.Length - 1; i >= 0; i--) {
-                this.AvailableChannels[this.channels[i]] = value;
+            if (CHANNEL_COUNT == 0) { return; }
+
+            for (int i = CHANNEL_COUNT - 1; i >= 0; i--) {
+                this.AvailableChannels[CHANNELS[i]] = value;
             }
         }
 
@@ -63,8 +69,10 @@ namespace DigitalHomeCinemaControl.Collections
         /// <param name="value">Optional. Value to set, default is false.</param>
         public void ResetActiveChannels(bool value = false)
         {
-            for (int i = this.channels.Length - 1; i >=0; i--) {
-                this.ActiveChannels[this.channels[i]] = value;
+            if (CHANNEL_COUNT == 0) { return; }
+
+            for (int i = CHANNEL_COUNT - 1; i >=0; i--) {
+                this.ActiveChannels[CHANNELS[i]] = value;
             }
         }
 

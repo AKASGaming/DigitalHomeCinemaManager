@@ -82,9 +82,9 @@ namespace DigitalHomeCinemaManager.Components
 
         public void BindControllers(IEnumerable<IController> controllers)
         {
-            this.routes = new Dictionary<string, IRoutingDestination>();
-            this.Sources = new Dictionary<string, Type>();
-            this.Destinations = new Dictionary<string, IDictionary<string, Type>>();
+            this.routes = new Dictionary<string, IRoutingDestination>(10);
+            this.Sources = new Dictionary<string, Type>(10);
+            this.Destinations = new Dictionary<string, IDictionary<string, Type>>(10);
 
             Debug.Assert(controllers != null);
 
@@ -185,7 +185,10 @@ namespace DigitalHomeCinemaManager.Components
 
         private void ProcessItem(RoutingItem item)
         {
-            for (int i = this.rules.Count - 1; i >= 0; i--) {
+            int count = this.rules.Count;
+            if (count == 0) { return; }
+
+            for (int i = count - 1; i >= 0; i--) {
                 var rule = this.rules[i];
 
                 if (!rule.Enabled) { continue; }
