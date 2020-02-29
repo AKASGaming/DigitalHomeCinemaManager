@@ -55,6 +55,7 @@ namespace DigitalHomeCinemaControl.Collections
         /// Raises the INotifyPropertyChanged.PropertyChanged event.
         /// </summary>
         /// <param name="name"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnPropertyChanged([CallerMemberName] string name = null)
         {
             if (this.Dispatcher == null) {

@@ -20,6 +20,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Timers;
     using DigitalHomeCinemaControl.Collections;
@@ -149,7 +150,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 if (response.Result == SdcpResult.OK) {
                     return "SDCP OK.";
                 } else {
-                    return "SDCP ERROR: " + response.Error.ToString("G");
+                    return string.Format("SDCP ERROR: {0}", response.Error.ToString("G"));
                 }
             } else {
                 return "SDCP ERROR: Invalid Action!";
@@ -176,6 +177,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private SdcpResponse TrySendRequest(SdcpRequest request)
         {
             try {
@@ -185,6 +187,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private SdcpResponse SendRequest(SdcpRequest request)
         {
             // calling thread should have already aquired the lock
@@ -342,7 +345,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 if (rcd == RealityCreationDatabase.Unknown) {
                     UpdateDataSource("Reality Creation", rc.GetDescription());
                 } else {
-                    UpdateDataSource("Reality Creation", rc.GetDescription() + " - " + rcd.GetDescription());
+                    UpdateDataSource("Reality Creation", string.Format("{0} - {1}", rc.GetDescription(), rcd.GetDescription()));
                 }
             } else {
                 UpdateDataSource("Reality Creation", rc.GetDescription());

@@ -227,13 +227,13 @@ namespace DigitalHomeCinemaManager.Windows
         private void OkClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
-            this.Close();
+            Close();
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            this.Close();
+            Close();
         }
 
         private void CheckBoxChecked(object sender, RoutedEventArgs e)

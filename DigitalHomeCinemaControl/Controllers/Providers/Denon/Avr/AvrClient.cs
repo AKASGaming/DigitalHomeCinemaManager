@@ -187,6 +187,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateState()
         {
             this.writer.WriteLine("MS?");
@@ -210,12 +211,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             this.writer.Flush();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void GetPowerStatus()
         {
             this.writer.WriteLine("PW?");
             this.writer.Flush();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Initialize()
         {
             this.writer.WriteLine("SSFUN ?");
@@ -226,6 +229,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         private void OnDataReceived(string data)
         {
             if (string.IsNullOrEmpty(data)) { return; }
+
+            // TODO: We can optimize this with Dictionaries and delegates
 
             string command = data.Substring(0, 2);
             string parameter = data.Substring(2).Trim();
@@ -675,6 +680,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             }
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private void SendValue(object value, [CallerMemberName] string name = null)
         {
             if (string.IsNullOrEmpty(name) || (value == null)) { return; }
@@ -702,6 +708,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             // prevent external updates from raising event
@@ -710,6 +717,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDisconnected()
         {
             this.IsConnected = false;

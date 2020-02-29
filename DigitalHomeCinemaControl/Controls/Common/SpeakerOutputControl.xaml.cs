@@ -58,7 +58,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 
         #endregion
 
-        #region Members
+        #region Methods
 
         private void UpdateAvailableChannels()
         {

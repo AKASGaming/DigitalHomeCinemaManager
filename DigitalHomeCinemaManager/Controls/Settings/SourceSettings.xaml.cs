@@ -87,12 +87,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonPathClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            //if (Directory.Exists(this.PrerollPath.Text)) {
-            //    fbd.SelectedPath = this.PrerollPath.Text;
-            //} else {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            //}
+            var fbd = new System.Windows.Forms.FolderBrowserDialog {
+                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+            };
 
             System.Windows.Forms.DialogResult result = fbd.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {

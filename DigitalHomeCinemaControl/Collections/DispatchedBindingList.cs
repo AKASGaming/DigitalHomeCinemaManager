@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Collections
 {
     using System;
     using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Windows.Threading;
 
     /// <summary>
@@ -47,6 +48,7 @@ namespace DigitalHomeCinemaControl.Collections
 
         #region Methods
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnListChanged(ListChangedEventArgs e)
         {
             if ((this.Dispatcher != null) && !this.Dispatcher.CheckAccess()) {
@@ -86,9 +88,11 @@ namespace DigitalHomeCinemaControl.Collections
         public T this[string name]
         {
             get {
-                foreach (IBindingItem item in this) {
-                    if (item.Name.Equals(name, StringComparison.Ordinal)) {
-                        return (T)item;
+                if (this.Count == 0) { return default; }
+
+                for (int i = 0; i < this.Count; i++) {
+                    if (this[i].Name.Equals(name, StringComparison.Ordinal)) {
+                        return (T)this[i];
                     }
                 }
 

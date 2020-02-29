@@ -19,7 +19,7 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
     /// <summary>
     /// Object used by IRoutingSource devices to send data to the routing engine for processing.
     /// </summary>
-    public sealed class RoutingItem
+    public struct RoutingItem
     {
 
         #region Contructor
@@ -27,12 +27,13 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
         /// <summary>
         /// Creates a new instance of the RoutingItem class.
         /// </summary>
-        /// <param name="source">The source device for this item.</param>
+        /// <param name="source">The name of the source device for this item.</param>
         /// <param name="dataType">The Type of data being sent.</param>
         /// <param name="data">The data associated with this item.</param>
-        public RoutingItem(IRoutingSource source, Type dataType, object data)
+        public RoutingItem(string source, Type dataType, object data)
         {
             this.Source = source;
+            this.DataType = dataType;
             this.Data = data;
         }
 
@@ -43,7 +44,7 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
         /// <summary>
         /// Gets the IRoutingSource that sent this item.
         /// </summary>
-        public IRoutingSource Source { get; private set; }
+        public string Source { get; private set; }
 
         /// <summary>
         /// Gets the Type for the data that was sent.

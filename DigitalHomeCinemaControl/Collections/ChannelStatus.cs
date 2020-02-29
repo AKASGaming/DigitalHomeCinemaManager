@@ -20,6 +20,12 @@ namespace DigitalHomeCinemaControl.Collections
     public class ChannelStatus
     {
 
+        #region Members
+
+        private readonly AudioChannel[] channels = (AudioChannel[])Enum.GetValues(typeof(AudioChannel));
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -46,8 +52,8 @@ namespace DigitalHomeCinemaControl.Collections
         /// <param name="value">Optional. Value to set, default is false.</param>
         public void ResetAvailableChannels(bool value = false)
         {
-            foreach (AudioChannel channel in Enum.GetValues(typeof(AudioChannel))) {
-                this.AvailableChannels[channel] = value;
+            for (int i = this.channels.Length - 1; i >= 0; i--) {
+                this.AvailableChannels[this.channels[i]] = value;
             }
         }
 
@@ -57,8 +63,8 @@ namespace DigitalHomeCinemaControl.Collections
         /// <param name="value">Optional. Value to set, default is false.</param>
         public void ResetActiveChannels(bool value = false)
         {
-            foreach (AudioChannel channel in Enum.GetValues(typeof(AudioChannel))) {
-                this.ActiveChannels[channel] = value;
+            for (int i = this.channels.Length - 1; i >=0; i--) {
+                this.ActiveChannels[this.channels[i]] = value;
             }
         }
 

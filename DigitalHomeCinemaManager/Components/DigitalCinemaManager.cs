@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaManager.Components
 {
     using System;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Controls;
     using System.Windows.Threading;
@@ -102,6 +103,7 @@ namespace DigitalHomeCinemaManager.Components
             this.mainWindow.Show();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SendStatusUpdate(string message)
         {
             // if we're already on the UI thread just call UpdateStatus directly
@@ -115,6 +117,7 @@ namespace DigitalHomeCinemaManager.Components
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void ControllerError(object sender, string e)
         {
             SendStatusUpdate(e);
@@ -218,7 +221,7 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowOpenSettings(object sender, EventArgs e)
         {
-            SettingsWindow window = new SettingsWindow() {
+            var window = new SettingsWindow() {
                 Owner = this.mainWindow
             };
             if (window.ShowDialog() == true) {

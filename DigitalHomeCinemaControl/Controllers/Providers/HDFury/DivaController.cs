@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using System.Collections.Specialized;
     using System.IO;
     using System.Net.Sockets;
+    using System.Runtime.CompilerServices;
     using System.Timers;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
@@ -209,6 +210,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void UpdateState()
         {
             string data;

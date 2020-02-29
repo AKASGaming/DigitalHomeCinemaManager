@@ -20,6 +20,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Windows.Threading;
     using System.Xml.Serialization;
@@ -62,7 +63,7 @@ namespace DigitalHomeCinemaManager.Components
             Debug.Assert(this.notifier != null);
 
             this.running = true;
-            this.workerThread = new Thread(this.ProcessQueue) {
+            this.workerThread = new Thread(ProcessQueue) {
                 Name = INTERNAL_THREAD_NAME,
             };
             this.workerThread.Start();
@@ -102,8 +103,8 @@ namespace DigitalHomeCinemaManager.Components
         {
             if (!File.Exists(PATH)) { return; }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(List<MatchAction>));
-            FileStream stream = new FileStream(PATH, FileMode.Open);
+            var serializer = new XmlSerializer(typeof(List<MatchAction>));
+            var stream = new FileStream(PATH, FileMode.Open);
             List<MatchAction> ruleList;
 
             try {
@@ -111,6 +112,8 @@ namespace DigitalHomeCinemaManager.Components
             } catch {
                 OnRuleProcessed("Failed to parse rules!");
                 return;
+            } finally {
+                stream.Dispose();
             }
 
             foreach (var item in ruleList) {
@@ -132,7 +135,7 @@ namespace DigitalHomeCinemaManager.Components
                 }
                 // convert Args Type
                 if (!string.IsNullOrEmpty(item.ArgsType)) {
-                    Type t = Type.GetType(item.ArgsType);
+                    var t = Type.GetType(item.ArgsType);
                     if (t != null) {
                         if (t.IsEnum) {
                             string args = item.Args.ToString();
@@ -154,17 +157,16 @@ namespace DigitalHomeCinemaManager.Components
 
         public void SaveRules()
         {
-            List<MatchAction> ruleList = new List<MatchAction>(this.Rules);
+            var ruleList = new List<MatchAction>(this.Rules);
+            var serializer = new XmlSerializer(typeof(List<MatchAction>));
 
-            XmlSerializer serializer = new XmlSerializer(typeof(List<MatchAction>));
-            TextWriter writer = new StreamWriter(PATH);
-            serializer.Serialize(writer, ruleList);
-            writer.Close();
+            using (TextWriter writer = new StreamWriter(PATH)) {
+                serializer.Serialize(writer, ruleList);
+            }
         }
 
         public void QueueData(object sender, RoutingItem e)
         {
-            Debug.Assert(e != null);
             if (!this.running) { return; }
 
             this.queue.Enqueue(e);
@@ -183,11 +185,13 @@ namespace DigitalHomeCinemaManager.Components
 
         private void ProcessItem(RoutingItem item)
         {
-            foreach (var rule in this.rules) {
+            for (int i = this.rules.Count - 1; i >= 0; i--) {
+                var rule = this.rules[i];
+
                 if (!rule.Enabled) { continue; }
 
-                if (rule.MatchSource.Equals(item.Source.Name, StringComparison.OrdinalIgnoreCase) &&
-                    rule.Match.Equals(item.Data)) { 
+                if (rule.MatchSource.Equals(item.Source, StringComparison.OrdinalIgnoreCase) &&
+                    rule.Match.Equals(item.Data)) {
 
                     if (!this.routes.ContainsKey(rule.ActionDestination)) { continue; } // invalid destination
 
@@ -196,11 +200,12 @@ namespace DigitalHomeCinemaManager.Components
                         OnRuleProcessed(result);
                     } catch {
                         OnRuleProcessed("Rule processing failed!");
-                    } 
+                    }
                 }
-            } // foreach
+            }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnRuleProcessed(string message)
         {
             if ((this.dispatcher != null) && !this.dispatcher.CheckAccess()) {

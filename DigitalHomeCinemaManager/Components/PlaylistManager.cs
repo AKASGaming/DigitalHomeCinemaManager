@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Runtime.CompilerServices;
 
     #region PlaylistType
 
@@ -33,10 +34,16 @@ namespace DigitalHomeCinemaManager.Components
 
     #region PlaylistEntry
 
-    public class PlaylistEntry
+    public struct PlaylistEntry
     {
-        public PlaylistType PlaylistType { get; set; }
-        public string FileName { get; set; }
+        public PlaylistEntry(PlaylistType playlistType, string filename)
+        {
+            this.PlaylistType = playlistType;
+            this.FileName = filename;
+        }
+
+        public PlaylistType PlaylistType { get; private set; }
+        public string FileName { get; private set; }
     }
 
     #endregion
@@ -100,50 +107,50 @@ namespace DigitalHomeCinemaManager.Components
 
             if (!File.Exists(path)) { return; }
 
-            using (StreamReader reader = new StreamReader(path)) {
+            using (var reader = new StreamReader(path)) {
                 string line;
                 bool hasTrailer = false;
                 while ((line = reader.ReadLine()) != null) {
                     if (line.Contains(this.trailerPath)) {
                         hasTrailer = true;
                         this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",") + 1));
-                        this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Trailer, FileName = line.Substring(line.LastIndexOf(",") + 1) });
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",") + 1)));
                         this.TrailersEnabled = true;
                     } else if (line.Contains(this.mediaPath)) {
                         this.Feature = line.Substring(line.LastIndexOf(",") + 1);
                         if (!File.Exists(this.Feature)) {
                             this.Feature = string.Empty;
                         } else {
-                            this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Feature, FileName = this.Feature });
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
                         }
                     } else if (line.Contains(this.prerollPath)) {
                         if (hasTrailer) {
                             this.Commercial = line.Substring(line.LastIndexOf(",") + 1);
-                            this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Commercial, FileName = this.Commercial });
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
                             this.CommercialEnabled = true;
                         } else {
                             this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",") + 1));
-                            this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Preroll, FileName = line.Substring(line.LastIndexOf(",") + 1) });
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",") + 1)));
                             this.PrerollEnabled = true;
                         }
                     }
                 }
             }
 
-            this.OnPlaylistChanged();
+            OnPlaylistChanged();
         }
 
         public void CreatePlaylist()
         {
             string path = VIDEO_PATH + PLAYLIST;
 
-            using (StreamWriter writer = new StreamWriter(path, false)) {
+            using (var writer = new StreamWriter(path, false)) {
                 this.playlist.Clear();
                 writer.WriteLine("MPCPLAYLIST");
                 int i = 1;
                 if (this.PrerollEnabled == true) {
                     foreach (string s in this.PrerollPlaylist) {
-                        this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Preroll, FileName = s });
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
                         writer.WriteLine(i.ToString() + ",type,0");
                         writer.WriteLine(i.ToString() + ",filename," + s);
                         i++;
@@ -151,33 +158,34 @@ namespace DigitalHomeCinemaManager.Components
                 }
                 if (this.TrailersEnabled == true) {
                     foreach (string s in this.TrailerPlaylist) {
-                        this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Trailer, FileName = s });
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
                         writer.WriteLine(i.ToString() + ",type,0");
                         writer.WriteLine(i.ToString() + ",filename," + s);
                         i++;
                     }
                 }
                 if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
-                    this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Commercial, FileName = this.Commercial });
+                    this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
                     writer.WriteLine(i.ToString() + ",type,0");
                     writer.WriteLine(i.ToString() + ",filename," + this.Commercial);
                     i++;
                 }
                 if (!string.IsNullOrEmpty(this.Feature)) {
-                    this.playlist.Add(new PlaylistEntry() { PlaylistType = PlaylistType.Feature, FileName = this.Feature });
+                    this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
                     writer.WriteLine(i.ToString() + ",type,0");
                     writer.WriteLine(i.ToString() + ",filename," + this.Feature);
                 }
                 writer.Flush();
             }
 
-            this.OnPlaylistChanged();
+            OnPlaylistChanged();
         }
 
         /// <summary>
         /// Raised when playlist has been changed.
         /// Not marshalled to UI thread.
         /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnPlaylistChanged()
         {
             PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);

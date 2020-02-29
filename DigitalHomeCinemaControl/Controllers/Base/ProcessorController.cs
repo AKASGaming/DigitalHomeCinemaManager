@@ -14,6 +14,8 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Base
 {
+    using System.Text;
+
     public abstract class ProcessorController : DeviceController, IProcessorController
     {
 
@@ -43,11 +45,11 @@ namespace DigitalHomeCinemaControl.Controllers.Base
                 return (relativeVolume - scale);
             }
 
-            string s = relativeVolume.ToString();
-            if (s.Length == 3) {
-                s = s.Substring(0, 2) + "." + s.Substring(2, 1);
+            StringBuilder sb = new StringBuilder(relativeVolume.ToString());
+            if (sb.Length == 3) {
+                sb.Insert(3, ".");
             }
-            if (decimal.TryParse(s, out decimal d)) {
+            if (decimal.TryParse(sb.ToString(), out decimal d)) {
                 d -= scale;
             }
 
@@ -57,9 +59,10 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         protected int AbsoluteToRelativeVolume(int scale, decimal absoluteVolume)
         {
             decimal d = absoluteVolume + scale;
-            string s = d.ToString().Replace(".", "");
+            StringBuilder sb = new StringBuilder(d.ToString());
+            sb.Replace(".", "");
 
-            if (int.TryParse(s, out int i)) {
+            if (int.TryParse(sb.ToString(), out int i)) {
                 return i;
             }
 

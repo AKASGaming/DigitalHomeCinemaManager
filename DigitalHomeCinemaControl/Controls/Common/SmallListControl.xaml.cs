@@ -32,5 +32,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
             get { return this.List.ItemsSource; }
             set { this.List.ItemsSource = value; }
         }
+
     }
+
 }

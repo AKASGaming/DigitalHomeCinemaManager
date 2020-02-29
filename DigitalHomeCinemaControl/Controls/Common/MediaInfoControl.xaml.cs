@@ -16,8 +16,12 @@ namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.IO;
     using System.Net;
+    using System.Text;
+    using System.Threading;
+    using System.Windows;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Collections;
 
@@ -26,6 +30,12 @@ namespace DigitalHomeCinemaControl.Controls.Common
     /// </summary>
     public partial class MediaInfoControl : DeviceControl
     {
+
+        #region Members
+
+        private const int READ_BUFFER_LENGTH = 100;
+
+        #endregion
 
         #region Constructor
 
@@ -47,7 +57,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                         if (string.IsNullOrEmpty((string)item.Value)) {
                             this.imgPoster.Source = new BitmapImage();
                         } else {
-                            SetFeaturePoster((string)item.Value);
+                            BeginSetFeaturePoster((string)item.Value);
                         }
                         break;
                     case "Description":
@@ -57,38 +67,52 @@ namespace DigitalHomeCinemaControl.Controls.Common
             }
         }
 
-        private void SetFeaturePoster(string url)
+        private void BeginSetFeaturePoster(string url)
         {
-            var image = new BitmapImage();
-            int BytesToRead = 100;
-
             try {
-                WebRequest request = WebRequest.Create(new Uri(url, UriKind.Absolute));
+                var request = WebRequest.Create(new Uri(url, UriKind.Absolute));
                 request.Timeout = -1;
-                WebResponse response = request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-                BinaryReader reader = new BinaryReader(responseStream);
-                MemoryStream memoryStream = new MemoryStream();
-
-                byte[] bytebuffer = new byte[BytesToRead];
-                int bytesRead = reader.Read(bytebuffer, 0, BytesToRead);
-
-                while (bytesRead > 0) {
-                    memoryStream.Write(bytebuffer, 0, bytesRead);
-                    bytesRead = reader.Read(bytebuffer, 0, BytesToRead);
-                }
-
-                image.BeginInit();
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                image.StreamSource = memoryStream;
-                image.EndInit();
-
-                this.imgPoster.Source = image;
+                request.BeginGetResponse(new AsyncCallback(EndSetFeaturePoster), request);
             } catch {
                 this.imgPoster.Source = new BitmapImage();
             }
         }
 
+        private void EndSetFeaturePoster(IAsyncResult result)
+        {
+            var response = (result.AsyncState as WebRequest).EndGetResponse(result) as WebResponse;
+            
+            this.Dispatcher.Invoke((Action)(() => {
+                try {
+                    var responseStream = response.GetResponseStream();
+                    using (var reader = new BinaryReader(responseStream)) {
+                        var memoryStream = new MemoryStream();
+
+                        byte[] bytebuffer = new byte[READ_BUFFER_LENGTH];
+                        int bytesRead = reader.Read(bytebuffer, 0, READ_BUFFER_LENGTH);
+
+                        while (bytesRead > 0) {
+                            memoryStream.Write(bytebuffer, 0, bytesRead);
+                            bytesRead = reader.Read(bytebuffer, 0, READ_BUFFER_LENGTH);
+                        }
+
+                        var image = new BitmapImage();
+                        image.BeginInit();
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        image.StreamSource = memoryStream;
+                        image.EndInit();
+
+                        this.imgPoster.Source = image;
+                    }
+                } catch {
+                    this.imgPoster.Source = new BitmapImage();
+                } finally {
+                    if (response != null) { response.Dispose(); }
+                }
+            }));
+
+        }
+    
         #endregion
 
     }

@@ -60,6 +60,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
             try {
                 SearchContainer<SearchMovie> results = this.movieApi.SearchMovieAsync(title).Result;
 
+                if (results.Results.Count == 0) {
+                    OnError(string.Format("TMDB failed to find result for {0}", title));
+                    UpdateDataSource<string>("PosterPath", string.Empty);
+                    UpdateDataSource<string>("Description", string.Empty);
+                    return;
+                }
+
                 foreach (var result in results.Results) {
                     if (string.IsNullOrEmpty(year) && (!string.IsNullOrEmpty(result.PosterPath))) {
                         UpdateDataSource<string>("PosterPath", POSTER_URL + result.PosterPath);
@@ -73,7 +80,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                     }
                 }
             } catch {
-                OnError("TMDB failed to find result for " + title);
+                OnError(string.Format("TMDB failed to find result for {0}", title));
                 UpdateDataSource<string>("PosterPath", string.Empty);
                 UpdateDataSource<string>("Description", string.Empty);
             }

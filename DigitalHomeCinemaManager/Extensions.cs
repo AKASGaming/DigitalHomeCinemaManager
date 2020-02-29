@@ -26,7 +26,12 @@ namespace DigitalHomeCinemaManager
             var result = new ObservableCollection<KeyValuePair<string, string>>();
 
             foreach (string s in collection) {
-                string[] kv = s.Split(':');
+                if (!s.Contains(":")) { continue; }
+
+                string[] kv = new string[2];
+                kv[0] = s.Substring(0, s.IndexOf(":"));
+                kv[1] = s.Substring(s.IndexOf(":") + 1);
+                
                 var kvp = new KeyValuePair<string, string>(kv[0], kv[1]);
                 result.Add(kvp);
             }
@@ -50,7 +55,11 @@ namespace DigitalHomeCinemaManager
             var result = new NameValueCollection();
 
             foreach (string s in collection) {
-                string[] kv = s.Split(':');
+                if (!s.Contains(":")) { continue; }
+
+                string[] kv = new string[2];
+                kv[0] = s.Substring(0, s.IndexOf(":"));
+                kv[1] = s.Substring(s.IndexOf(":") + 1);
                 result.Add(kv[0], kv[1]);
             }
 

@@ -133,6 +133,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// <remarks>
         /// This event is not marshalled to UI Thread.
         /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnConnected()
         {
             this.ControllerStatus = ControllerStatus.Ok;
@@ -146,6 +147,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// <remarks>
         /// This event is not marshalled to UI Thread.
         /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDisconnected()
         {
             this.ControllerStatus = ControllerStatus.Disconnected;
@@ -160,6 +162,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// This event is not marshalled to the UI Thread.
         /// </remarks>
         /// <param name="message"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(string message)
         {
             Error?.Invoke(this, message);
@@ -173,6 +176,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// This event IS marshalled to the UI Thread if possible.
         /// </remarks>
         /// <param name="name"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             if ((this.Dispatcher != null) && !this.Dispatcher.CheckAccess()) {

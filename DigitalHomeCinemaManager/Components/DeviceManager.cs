@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl;
@@ -83,6 +84,7 @@ namespace DigitalHomeCinemaManager.Components
 
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ControllersStart()
         {
             foreach (var controller in this.Controllers) {
@@ -171,6 +173,7 @@ namespace DigitalHomeCinemaManager.Components
             return device;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private string GetDeviceType(IDevice device)
         {
             Debug.Assert(device != null);
@@ -178,9 +181,10 @@ namespace DigitalHomeCinemaManager.Components
             return device.DeviceType.ToString();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnControllerError(object sender, string message)
         {
-            this.ControllerError?.Invoke(sender, message);
+            ControllerError?.Invoke(sender, message);
         }
 
         protected virtual void Dispose(bool disposing)

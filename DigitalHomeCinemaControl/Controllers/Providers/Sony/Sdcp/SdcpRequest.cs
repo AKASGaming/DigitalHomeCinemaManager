@@ -16,7 +16,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
     using System;
 
-    public class SdcpRequest
+    public sealed class SdcpRequest
     {
 
         #region Members
@@ -121,6 +121,28 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
             this.Data = value;
         }
 
+        public byte[] ToByteArray()
+        {
+            int length = Convert.ToInt32(this.command[3]) + 10;
+            byte[] result = new byte[length];
+            result[0] = version;
+            result[1] = category;
+            result[2] = this.community[0];
+            result[3] = this.community[1];
+            result[4] = this.community[2];
+            result[5] = this.community[3];
+            result[6] = this.command[0];
+            result[7] = this.command[1];
+            result[8] = this.command[2];
+            result[9] = this.command[3];
+
+            if ((this.data != null) && (this.data.Length > 0)) {
+                this.data.CopyTo(result, 10);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Properties
@@ -184,30 +206,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
                 this.data = value;
                 this.command[3] = Convert.ToByte(value.Length.ToString(), 16);
             }
-        }
-
-        public byte[] ToByteArray()
-        {
-            int length = Convert.ToInt32(this.command[3]) + 10;
-            byte[] result = new byte[length];
-            result[0] = version;
-            result[1] = category;
-            result[2] = this.community[0];
-            result[3] = this.community[1];
-            result[4] = this.community[2];
-            result[5] = this.community[3];
-            result[6] = this.command[0];
-            result[7] = this.command[1];
-            result[8] = this.command[2];
-            result[9] = this.command[3];
-
-            if (this.data != null && this.data.Length > 0) {
-                for (int i = 0; i < this.data.Length; i++) {
-                    result[10 + i] = this.data[i];
-                }
-            }
-
-            return result;
         }
 
         #endregion

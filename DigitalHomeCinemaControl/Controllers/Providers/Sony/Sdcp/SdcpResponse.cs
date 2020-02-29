@@ -15,12 +15,18 @@
 namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
 
-    public class SdcpResponse
+    public sealed class SdcpResponse
     {
+
+        #region Members
 
         private SdcpResult result;
         private SdcpError error;
         private byte[] data;
+
+        #endregion
+
+        #region Constructor
 
         public SdcpResponse(SdcpResult result)
         {
@@ -32,6 +38,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         {
             this.error = error;
         }
+
+        #endregion
+
+        #region Properties
 
         public SdcpResult Result
         {
@@ -58,6 +68,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
                 return -2;
             }
         }
+
+        #endregion
 
     }
 

@@ -14,8 +14,6 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Base
 {
-    using System.ComponentModel;
-    using DigitalHomeCinemaControl.Collections;
 
     /// <summary>
     /// Abstract DisplayController class.

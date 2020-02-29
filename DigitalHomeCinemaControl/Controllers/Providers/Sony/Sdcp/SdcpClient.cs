@@ -82,14 +82,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         public void Connect(string host)
         {
             this.host = host;
-            this.Connect();
+            Connect();
         }
 
         public void Connect(string host, int port)
         {
             this.host = host;
             this.port = port;
-            this.Connect();
+            Connect();
         }
 
         public SdcpResponse Send(SdcpRequest request)

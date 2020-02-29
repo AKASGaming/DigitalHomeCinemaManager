@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaManager.Windows
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Windows;
     using System.Windows.Controls;
@@ -76,10 +77,10 @@ namespace DigitalHomeCinemaManager.Windows
             if (this.errorLog.Count >= 2) {
                 this.errorLog.RemoveAt(0);
             }
-            this.errorLog.Add(DateTime.Now.ToString() + " - " + message);
+            this.errorLog.Add(string.Format("{0} - {1}", DateTime.Now.ToString(), message));
             StringBuilder result = new StringBuilder();
-            foreach (var s in this.errorLog) {
-                result.Append(s + "\r\n");
+            foreach (string s in this.errorLog) {
+                result.Append(string.Format("{0} \r\n", s));
             }
             this.txtLog.Text = result.ToString();
         }
@@ -130,10 +131,10 @@ namespace DigitalHomeCinemaManager.Windows
                 (e.PropertyName == "MasterVolume"))) {
 
                 this.StatusControl.ProcessorStatus.Content = processor.ControllerStatus.ToString();
-                this.StatusControl.Delay.Content = processor.Delay + "ms";
+                this.StatusControl.Delay.Content = string.Format("{0}ms", processor.Delay);
                 this.MasterVolume.Text = (processor.MasterVolume <= -80m)? "--dB" :
-                    (processor.MasterVolume > 0)? "+" + processor.MasterVolume + "dB" : 
-                    processor.MasterVolume + "dB";
+                    (processor.MasterVolume > 0)? string.Format("+{0}dB", processor.MasterVolume) : 
+                     string.Format("{0}dB", processor.MasterVolume);
 
                 if (processor.MasterVolume <= -80) {
                     this.MasterVolume.Foreground = new SolidColorBrush(Colors.Aqua);
@@ -156,7 +157,7 @@ namespace DigitalHomeCinemaManager.Windows
 
                 this.StatusControl.ProjectorStatus.Content = display.ControllerStatus.ToString();
                 this.StatusControl.Lamp.Content = display.LampStatus.GetDescription();
-                this.StatusControl.LampTime.Content = (display.LampTimer >= 0)? display.LampTimer + "h": string.Empty;
+                this.StatusControl.LampTime.Content = (display.LampTimer >= 0)? string.Format("{0}h", display.LampTimer) : string.Empty;
             }
         }
 
@@ -175,6 +176,7 @@ namespace DigitalHomeCinemaManager.Windows
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SetImageSource(Image image, string source)
         {
             if (string.IsNullOrEmpty(source)) {
@@ -195,7 +197,7 @@ namespace DigitalHomeCinemaManager.Windows
             switch (this.Playlist.FeatureAudioFormat) {
                 case AudioFormat.Atmos: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/atmos.png"); break;
                 case AudioFormat.DTS: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dts.jpg"); break;
-                case AudioFormat.Dolby: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dd.jpg"); break;
+                case AudioFormat.Dolby: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dd.png"); break;
                 case AudioFormat.Unknown: SetImageSource(this.imgAudio, ""); break;
             }
         }
@@ -245,6 +247,8 @@ namespace DigitalHomeCinemaManager.Windows
                         this.playbackPosition = (int)item.Value;
                         if (this.playbackLength > 0) {
                             this.TaskbarItemInfo.ProgressValue = (double)this.playbackPosition / (double)this.playbackLength;
+                        } else {
+                            this.TaskbarItemInfo.ProgressValue = 0d;
                         }
                         break;
                 }
@@ -298,7 +302,7 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonCommercialClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog() {
+            var ofd = new OpenFileDialog() {
                 Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
             };
 
@@ -316,7 +320,7 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonFeatureClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog() {
+            var ofd = new OpenFileDialog() {
                 Filter = "Movies (*.mkv)|*.mkv|All Files (*.*)|*.*"
             };
 

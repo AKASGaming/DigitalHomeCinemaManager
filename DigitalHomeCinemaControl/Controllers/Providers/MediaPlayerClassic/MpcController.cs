@@ -20,6 +20,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     using System.IO;
     using System.Net;
     using System.Net.Http;
+    using System.Runtime.CompilerServices;
     using System.Text;
     using System.Timers;
     using DigitalHomeCinemaControl.Controllers.Base;
@@ -157,10 +158,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             if (!File.Exists(this.Path)) { return; }
 
             ProcessStartInfo mpcStart = new ProcessStartInfo {
-                Arguments = playlist + MpcController.PLAYER_PARAMS +
+                Arguments = playlist + PLAYER_PARAMS +
                     ((this.FullscreenDisplay >= 0) ?
-                        MpcController.DISPLAY_PARAM + this.FullscreenDisplay.ToString()
-                        : string.Empty),
+                        DISPLAY_PARAM + this.FullscreenDisplay.ToString() : string.Empty),
                 FileName = this.Path
             };
             Process mpc = new Process {
@@ -219,6 +219,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             SendCommand(909);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SendCommand(int command)
         {
             string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + COMMANDS;
@@ -235,10 +236,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         protected void OnDataReceived(PlaybackState data)
         {
             if (this.Dispatcher == null) {
-                RouteData?.Invoke(this, new RoutingItem(this, typeof(PlaybackState), data));
+                RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
             } else {
                 this.Dispatcher.BeginInvoke((Action)(() => {
-                    RouteData?.Invoke(this, new RoutingItem(this, typeof(PlaybackState), data));
+                    RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
                 }));
             }
         }

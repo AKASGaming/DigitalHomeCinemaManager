@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
@@ -118,7 +119,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             
         }
 
-        private void ClientPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ClientPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName) {
                 case "Power":
@@ -301,11 +302,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             // A mapping is needed to convert from Denon.Avr.Channel to DigitalHomeCinemaControl.AudioChannel
             // Different vendors may specify channels differently from each other and we want to have the
             // flexibility needed to support them in the future.
+            Channel[] keys = new Channel[this.avr.ChannelStatus.Keys.Count];
+            this.avr.ChannelStatus.Keys.CopyTo(keys, 0);
 
-            foreach (var channel in this.avr.ChannelStatus) {
-                var key = channel.Key.ToAudioChannel();
+            for (int i = keys.Length - 1; i >= 0; i--) {
+                var key = keys[i].ToAudioChannel();
                 if (channels.ContainsKey(key)) {
-                    channels[key] = channel.Value;
+                    channels[key] = this.avr.ChannelStatus[keys[i]];
                 }
             }
 

@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Collections
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Windows.Threading;
 
     /// <summary>
@@ -88,6 +89,7 @@ namespace DigitalHomeCinemaControl.Collections
             return this.multiplexedLists[key];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void MultiplexedListChanged(object sender, ListChangedEventArgs e)
         {
             // Set the OldIndex to -2 so that consumers can identify the change was in a 
@@ -95,6 +97,7 @@ namespace DigitalHomeCinemaControl.Collections
             OnListChanged(new ListChangedEventArgs(e.ListChangedType, e.NewIndex, -2));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnListChanged(ListChangedEventArgs e)
         {
             if ((this.Dispatcher != null) && !this.Dispatcher.CheckAccess()) {

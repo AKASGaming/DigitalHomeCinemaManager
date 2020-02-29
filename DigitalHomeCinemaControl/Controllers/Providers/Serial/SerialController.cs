@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
     using System;
     using System.Collections.Generic;
     using System.IO.Ports;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
@@ -122,13 +123,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
             OnDisconnected();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDataReceived(string data)
         {
             if (this.Dispatcher == null) {
-                RouteData?.Invoke(this, new RoutingItem(this, typeof(string), data));
+                RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
             } else {
                 this.Dispatcher.BeginInvoke((Action)(() => {
-                    RouteData?.Invoke(this, new RoutingItem(this, typeof(string), data));
+                    RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
                 }));
             }
         }

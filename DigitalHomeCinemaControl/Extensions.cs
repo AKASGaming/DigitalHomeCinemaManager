@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl
 {
     using System;
     using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -37,10 +38,8 @@ namespace DigitalHomeCinemaControl
             if (string.IsNullOrEmpty(asciiString)) { return new byte[0]; }
 
             byte[] data = new byte[asciiString.Length];
-            for (int i = 0; i < asciiString.Length; i++) {
-                if (char.TryParse(asciiString.Substring(i, 1), out char c)) {
-                    data[i] = Convert.ToByte((int)c);
-                }
+            for (int i = asciiString.Length - 1; i >= 0; i--) {
+                data[i] = Convert.ToByte((int)asciiString[i]);
             }
 
             return data;
@@ -76,9 +75,9 @@ namespace DigitalHomeCinemaControl
             Type genericEnumType = GenericEnum.GetType();
             MemberInfo[] memberInfo = genericEnumType.GetMember(GenericEnum.ToString());
             if ((memberInfo != null && memberInfo.Length > 0)) {
-                var _Attribs = memberInfo[0].GetCustomAttributes(typeof(System.ComponentModel.DescriptionAttribute), false);
+                var _Attribs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
                 if ((_Attribs != null && _Attribs.Count() > 0)) {
-                    return ((System.ComponentModel.DescriptionAttribute)_Attribs.ElementAt(0)).Description;
+                    return ((DescriptionAttribute)_Attribs.ElementAt(0)).Description;
                 }
             }
             return GenericEnum.ToString();

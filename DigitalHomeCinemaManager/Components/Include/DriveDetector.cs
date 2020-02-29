@@ -83,7 +83,7 @@ namespace DigitalHomeCinemaManager.Components.Include
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            SuspendLayout();
             // 
             // label1
             // 
@@ -99,8 +99,8 @@ namespace DigitalHomeCinemaManager.Components.Include
             this.ClientSize = new System.Drawing.Size(360, 80);
             this.Controls.Add(this.label1);
             this.Name = "DetectorForm";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
     }   // class DetectorForm
@@ -113,7 +113,6 @@ namespace DigitalHomeCinemaManager.Components.Include
     /// </summary>
     public class DriveDetectorEventArgs : EventArgs
     {
-
 
         public DriveDetectorEventArgs()
         {
