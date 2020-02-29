@@ -34,14 +34,12 @@ namespace DigitalHomeCinemaControl.Collections
         /// </summary>
         public ChannelStatus()
         {
-            int len = this.channels.Length;
+            this.AvailableChannels = new Dictionary<AudioChannel, bool>(CHANNEL_COUNT);
+            this.ActiveChannels = new Dictionary<AudioChannel, bool>(CHANNEL_COUNT);
 
-            this.AvailableChannels = new Dictionary<AudioChannel, bool>(len);
-            this.ActiveChannels = new Dictionary<AudioChannel, bool>(len);
-
-            for (int i = len - 1; i >= 0; i--) {
-                this.AvailableChannels.Add(this.channels[i], false);
-                this.ActiveChannels.Add(this.channels[i], false);
+            for (int i = CHANNEL_COUNT - 1; i >= 0; i--) {
+                this.AvailableChannels.Add(CHANNELS[i], false);
+                this.ActiveChannels.Add(CHANNELS[i], false);
             }
             
         }
