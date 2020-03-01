@@ -206,7 +206,7 @@ namespace DigitalHomeCinemaManager.Components
 
                     try {
                         string result = this.routes[rule.ActionDestination].RouteAction(rule.Action, rule.Args);
-                        OnRuleProcessed(result);
+                        OnRuleProcessed(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_ROUTING_OK, result));
                     } catch {
                         OnRuleProcessed(Properties.Resources.MSG_ROUTING_ERROR);
                     }

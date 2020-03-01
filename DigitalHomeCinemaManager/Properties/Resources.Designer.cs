@@ -61,6 +61,15 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rule match: {0}.
+        /// </summary>
+        internal static string FMT_ROUTING_OK {
+            get {
+                return ResourceManager.GetString("FMT_ROUTING_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Media Drive Ejected!.
         /// </summary>
         internal static string MSG_DRIVE_EJECTED {
