@@ -27,7 +27,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Color Space:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <ListBox x:Name="ColorSpace" Width="150" Height="55" MouseDoubleClick="ColorSpaceMouseDoubleClick">
+                <ListBox x:Name="ColorSpace" Width="225" Height="55" MouseDoubleClick="ColorSpaceMouseDoubleClick">
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add" Click="ColorSpaceAddClick" />
@@ -37,8 +37,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Key}" Width="70"/>
-                                <TextBlock Margin="10,0,0,0" Width="50" Text="{Binding Value}" Background="SlateGray"/>
+                                <TextBlock Text="{Binding Key}" Width="100"/>
+                                <TextBlock Margin="10,0,0,0" Width="100" Text="{Binding Value}" Background="SlateGray"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -46,7 +46,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Gamma:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="75" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <ListBox x:Name="Gamma" Width="150" Height="55" MouseDoubleClick="GammaMouseDoubleClick">
+                <ListBox x:Name="Gamma" Width="225" Height="55" MouseDoubleClick="GammaMouseDoubleClick">
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add" Click="GammaAddClick" />
@@ -56,8 +56,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Key}" Width="70"/>
-                                <TextBlock Margin="10,0,0,0" Width="50" Text="{Binding Value}" Background="SlateGray"/>
+                                <TextBlock Text="{Binding Key}" Width="100"/>
+                                <TextBlock Margin="10,0,0,0" Width="100" Text="{Binding Value}" Background="SlateGray"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
