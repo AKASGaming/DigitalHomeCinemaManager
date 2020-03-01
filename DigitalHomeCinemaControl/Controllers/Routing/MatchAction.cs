@@ -31,6 +31,21 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
 
         #endregion
 
+        #region Methods
+
+        public bool Equals(RoutingItem other)
+        {
+            if (this.MatchSource.Equals(other.Source, StringComparison.Ordinal) &&
+                this.Match.Equals(other.Data) && this.Enabled) {
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -98,17 +113,6 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
         /// Gets or Sets a value that determines if this MatchAction is ignored by the routing engine.
         /// </summary>
         public bool Enabled { get; set; }
-
-        public bool Equals(RoutingItem other)
-        {
-            if (this.MatchSource.Equals(other.Source, StringComparison.Ordinal) &&
-                this.Match.Equals(other.Data)) {
-
-                return true;
-            }
-
-            return false;
-        }
 
         #endregion
 

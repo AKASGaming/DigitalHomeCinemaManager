@@ -201,7 +201,6 @@ namespace DigitalHomeCinemaManager.Components
             for (int i = count - 1; i >= 0; i--) {
                 var rule = this.rules[i];
 
-                if (!rule.Enabled) { continue; }
                 if (item.Equals(rule)) {
                     if (!this.routes.ContainsKey(rule.ActionDestination)) { continue; } // invalid destination
 

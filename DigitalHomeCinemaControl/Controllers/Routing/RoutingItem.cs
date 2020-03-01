@@ -63,7 +63,7 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
             if (other == null) { return false; }
 
             if (this.Source.Equals(other.MatchSource, StringComparison.Ordinal) &&
-                this.Data.Equals(other.Match)) {
+                this.Data.Equals(other.Match) && other.Enabled) {
 
                 return true;
             }
