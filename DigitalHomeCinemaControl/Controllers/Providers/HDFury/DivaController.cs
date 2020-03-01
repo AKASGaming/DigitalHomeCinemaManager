@@ -240,7 +240,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                 return;
             }
 
-            UpdateState();
+            try {
+                UpdateState();
+            } catch { 
+            } finally {
+                if (this.IsConnected && (this.timer != null) && !this.timer.Enabled) {
+                    this.timer.Start();
+                }
+            }
         }
 
         #endregion
