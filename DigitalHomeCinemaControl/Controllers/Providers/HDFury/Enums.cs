@@ -28,6 +28,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         Input4 = 3,
         [Description("Follow Tx0")]
         Follow = 4,
+        [Description("---")]
+        Unknown = -1,
     }
 
 }

@@ -57,7 +57,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             this.DataSource.Add(new BindingItem<string>("Tx0 Sink"));
             this.DataSource.Add(new BindingItem<string>("Tx0 Output"));
-            this.DataSource.Add(new BindingItem<Rx>("Input"));
+            this.DataSource.Add(new BindingItem<Rx>("Input", Rx.Unknown));
 
             this.actions = new Dictionary<string, Type> {
                 { "Input", typeof(Rx) },

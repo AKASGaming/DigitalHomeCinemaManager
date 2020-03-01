@@ -84,6 +84,12 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
                     SetImageSource(this.Input2, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_3_black_24dp.png");
                     SetImageSource(this.Input3, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_4_white_24dp.png");
                     break;
+                default:
+                    SetImageSource(this.Input0, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_1_black_24dp.png");
+                    SetImageSource(this.Input1, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_2_black_24dp.png");
+                    SetImageSource(this.Input2, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_3_black_24dp.png");
+                    SetImageSource(this.Input3, "pack://application:,,/DigitalHomeCinemaControl;component/Resources/Icons/outline_filter_4_black_24dp.png");
+                    break;
             }
         }
 
