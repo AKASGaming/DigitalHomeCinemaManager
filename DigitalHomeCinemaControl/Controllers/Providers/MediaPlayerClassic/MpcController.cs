@@ -24,6 +24,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     using System.Net.Http;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using System.Threading.Tasks;
     using System.Timers;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
@@ -231,11 +232,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
                 { "wm_command", command.ToString(CultureInfo.InvariantCulture) }
             };
 
-            ;
+            
             try {
-                using (var content = new FormUrlEncodedContent(values)) {
-                    client.PostAsync(new Uri(playerUrl), content);
-                }
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                var content = new FormUrlEncodedContent(values);
+
+                _ = client.PostAsync(new Uri(playerUrl), content).ContinueWith((requestTask) => {
+                    content.Dispose();
+                }, TaskScheduler.Current);
+
+#pragma warning restore CA2000 // Dispose objects before losing scope
             } catch { }
         }
 
