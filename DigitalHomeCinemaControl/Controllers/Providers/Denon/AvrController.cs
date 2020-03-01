@@ -25,8 +25,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
     using DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class AvrController : ProcessorController, IRoutingDestination
+    public sealed class AvrController : ProcessorController, IRoutingDestination, IDisposable
     {
 
         #region Members
@@ -37,6 +36,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         private AvrClient avr;
         private ChannelBinding channelBinding;
         private IDictionary<string, Type> actions;
+        private bool disposed = false; 
 
         #endregion
 
@@ -92,6 +92,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
 
         public override void Connect()
         {
+            this.disposed = false;
+
             this.avr = new AvrClient() {
                 Host = this.Host,
                 Port = this.Port,
@@ -111,12 +113,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         public override void Disconnect()
         {
             try {
-                if (this.avr != null) {
-                    this.avr.Close();
-                }
+                Dispose(true);
             } catch { 
             } finally {
-                this.avr.Dispose();
                 OnDisconnected();
             }
             
@@ -324,6 +323,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             OnError(Properties.Resources.FMT_DISCONNECTED);
             this.ControllerStatus = ControllerStatus.Disconnected;
 
+            try {
+                this.avr?.Close();
+            } catch { }
+
             // TODO: reconnect?
         }
 
@@ -361,6 +364,27 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             }
 
             return "AVR OK.";
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    if (this.avr != null) {
+                        this.avr.Dispose();
+                    }
+                }
+
+                this.avr = null;
+
+                this.disposed = true;
+            }
+        }
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion

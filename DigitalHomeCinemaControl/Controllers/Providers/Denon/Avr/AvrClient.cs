@@ -127,24 +127,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             }
 
             try {
-                this.client.Close();
-                this.readThread.Abort();
-                this.readThread.Join();
+                this.readThread?.Abort();
+                this.readThread?.Join();
+            } catch { }
+
+            try {
+                Dispose(true);
             } catch {
             } finally {
-                if (this.reader != null) {
-                    this.reader.Close();
-                }
-                if (this.writer != null) {
-                    this.writer.Close();
-                }
-                if (this.networkStream != null) {
-                    this.networkStream.Close();
-                }
                 this.Closed = true;
-                Dispose(true);
             }
-
         }
 
         private void ClientThread()
@@ -158,7 +150,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             while (this.IsConnected) {
                 if (!this.networkStream.CanRead || !this.networkStream.CanWrite) {
                     OnDisconnected();
-                    Close();
                     return;
                 }
 
@@ -730,31 +721,21 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         {
             if (!this.disposed) {
                 if (disposing) {
-                    try {
-                        if (this.reader != null) {
-                            this.reader.Dispose();
-                        }
-                        if (this.writer != null) {
-                            this.writer.Dispose();
-                        }
-                        if (this.networkStream != null) {
-                            this.networkStream.Dispose();
-                        }
-                        if (this.timer != null) {
-                            this.timer.Dispose();
-                        }
-                    } finally {
-                        this.reader = null;
-                        this.writer = null;
-                        this.networkStream = null;
-                        this.timer = null;
-                    }
+
+                        this.reader?.Dispose();
+                        this.writer?.Dispose();
+                        this.networkStream?.Dispose();
+                        this.timer?.Dispose();
+                        this.client?.Close();
                 }
 
                 this.disposed = true;
                 this.IsConnected = false;
                 this.Closed = true;
                 this.client = null;
+                this.reader = null;
+                this.writer = null;
+                this.networkStream = null;
                 this.readThread = null;
             }
         }
