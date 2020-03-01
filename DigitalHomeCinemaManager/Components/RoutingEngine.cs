@@ -202,10 +202,7 @@ namespace DigitalHomeCinemaManager.Components
                 var rule = this.rules[i];
 
                 if (!rule.Enabled) { continue; }
-
-                if (rule.MatchSource.Equals(item.Source, StringComparison.OrdinalIgnoreCase) &&
-                    rule.Match.Equals(item.Data)) {
-
+                if (item.Equals(rule)) {
                     if (!this.routes.ContainsKey(rule.ActionDestination)) { continue; } // invalid destination
 
                     try {
@@ -215,7 +212,8 @@ namespace DigitalHomeCinemaManager.Components
                         OnRuleProcessed(Properties.Resources.MSG_ROUTING_ERROR);
                     }
                 }
-            }
+
+            }  // for
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
