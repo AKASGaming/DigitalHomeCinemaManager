@@ -224,6 +224,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 } else {
                     UpdateDataSource(name, ((T)(object)response.DataValue).GetDescription(customValues));
                 }
+            } else if (response.Error == SdcpError.NotApplicableItem) {
+                UpdateDataSource(name, "N/A");
             }
         }
 
