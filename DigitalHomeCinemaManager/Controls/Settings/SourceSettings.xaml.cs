@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
+    using Microsoft.Win32;
 
 
     /// <summary>
@@ -87,13 +88,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonPathClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            var fbd = new System.Windows.Forms.FolderBrowserDialog {
-                SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+            var ofd = new OpenFileDialog() {
+                Filter = "Programs (*.exe)|*.exe|All Files (*.*)|*.*",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
             };
 
-            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                this.Path.Text = fbd.SelectedPath;
+            if (ofd.ShowDialog() == true) {
+                this.Path.Text = ofd.FileName;
                 OnItemChanged();
             }
         }
