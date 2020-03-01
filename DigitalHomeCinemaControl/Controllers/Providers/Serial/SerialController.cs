@@ -129,13 +129,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDataReceived(string data)
         {
-            if (this.Dispatcher == null) {
-                RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
-            } else {
-                this.Dispatcher.BeginInvoke((Action)(() => {
-                    RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
-                }));
-            }
+            RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
         }
 
         #endregion
