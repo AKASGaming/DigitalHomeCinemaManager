@@ -247,13 +247,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         protected void OnDataReceived(PlaybackState data)
         {
-            if (this.Dispatcher == null) {
-                RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
-            } else {
-                this.Dispatcher.BeginInvoke((Action)(() => {
-                    RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
-                }));
-            }
+            RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
         }
 
         #endregion
