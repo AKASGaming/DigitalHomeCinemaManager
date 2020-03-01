@@ -45,7 +45,7 @@ namespace DigitalHomeCinemaManager.Windows
         private List<string> errorLog = new List<string>();
         private IDispatchedBindingList<IBindingItem> sourceData;
         private System.Timers.Timer clockTimer;
-        private int playbackLength;
+        private double playbackLength;
         private int playbackPosition;
 
         #endregion
@@ -240,16 +240,17 @@ namespace DigitalHomeCinemaManager.Windows
                 IBindingItem item = this.SourceData[e.NewIndex];
                 switch (item.Name) {
                     case "Length":
-                        this.playbackLength = (int)item.Value;
+                        int i = (int)item.Value;
+                        if (i > 0) {
+                            this.playbackLength = 1d / (int)item.Value;
+                        } else {
+                            this.playbackLength = 1d;
+                        }
                         this.TaskbarItemInfo.ProgressValue = 0;
                         break;
                     case "CurrentPosition":
                         this.playbackPosition = (int)item.Value;
-                        if (this.playbackLength > 0) {
-                            this.TaskbarItemInfo.ProgressValue = (double)this.playbackPosition / (double)this.playbackLength;
-                        } else {
-                            this.TaskbarItemInfo.ProgressValue = 0d;
-                        }
+                        this.TaskbarItemInfo.ProgressValue = this.playbackPosition * this.playbackLength;
                         break;
                 }
             }
