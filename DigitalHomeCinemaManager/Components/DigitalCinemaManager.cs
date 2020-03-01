@@ -86,6 +86,7 @@ namespace DigitalHomeCinemaManager.Components
             this.deviceManager.ControllersInit();
             this.router.LoadRules();
             this.router.BindControllers(this.deviceManager.Controllers);
+            this.router.Start();
 
             // add all UI elements to the main window
             this.mainWindow.BindDevices(this.deviceManager.Devices);
