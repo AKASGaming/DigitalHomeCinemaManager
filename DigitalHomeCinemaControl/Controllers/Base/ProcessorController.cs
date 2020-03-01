@@ -14,6 +14,8 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Base
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Text;
 
     public abstract class ProcessorController : DeviceController, IProcessorController
@@ -39,13 +41,14 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         #region Methods
 
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         protected decimal RelativeToAbsoluteVolume(int scale, int relativeVolume)
         {
             if (relativeVolume == 0) {
                 return (relativeVolume - scale);
             }
 
-            var sb = new StringBuilder(relativeVolume.ToString());
+            var sb = new StringBuilder(relativeVolume.ToString(CultureInfo.InvariantCulture));
             if (sb.Length == 3) {
                 sb.Insert(3, ".");
             }
@@ -56,10 +59,11 @@ namespace DigitalHomeCinemaControl.Controllers.Base
             return d;
         }
 
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         protected int AbsoluteToRelativeVolume(int scale, decimal absoluteVolume)
         {
             decimal d = absoluteVolume + scale;
-            var sb = new StringBuilder(d.ToString());
+            var sb = new StringBuilder(d.ToString(CultureInfo.InvariantCulture));
             sb.Replace(".", "");
 
             if (int.TryParse(sb.ToString(), out int i)) {

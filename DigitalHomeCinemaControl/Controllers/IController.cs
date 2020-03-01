@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controllers
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl.Collections;
@@ -56,9 +57,11 @@ namespace DigitalHomeCinemaControl.Controllers
         /// </summary>
         event EventHandler Disconnected;
 
+
         /// <summary>
         /// Raised when the controller encounters an error.
         /// </summary>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "<Pending>")]
         event EventHandler<string> Error;
 
         /// <summary>

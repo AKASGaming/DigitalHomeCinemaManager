@@ -15,6 +15,7 @@
 namespace DigitalHomeCinemaControl.Controls
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl.Collections;
 
@@ -47,6 +48,7 @@ namespace DigitalHomeCinemaControl.Controls
         /// <summary>
         /// Gets or Sets a generic collection that supports data binding.
         /// </summary>
+        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>")]
         public IDispatchedBindingList<IBindingItem> DataSource
         {
             get { return this.dataSource; }

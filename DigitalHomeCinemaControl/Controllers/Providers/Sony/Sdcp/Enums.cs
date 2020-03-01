@@ -12,16 +12,21 @@
  *
  */
 
+#pragma warning disable CA1707
+
 namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
 
+    [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
     public enum RequestType : byte
     {
         Set = 0x0,
         Get = 0x1
     }
 
+    [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
     public enum SdcpResult : byte
     {
         OK = 0x1,
@@ -239,11 +244,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         NotApplicable
     }
 
+#pragma warning disable IDE1006 // Naming Styles
     public enum xvColor
     {
         Off = 0x0000,
         On = 0x0001
     }
+#pragma warning restore IDE1006 // Naming Styles
 
     public enum RealityCreation
     {
@@ -304,11 +311,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         Unknown = -2
     }
 
+#pragma warning disable CA1724
     public enum Input
     {
         HDMI1 = 0x0002,
         HDMI2 = 0x0003
     }
+#pragma warning restore CA1724
 
     public enum SettingsLock
     {
@@ -345,3 +354,5 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
     }
 
 }
+
+#pragma warning restore CA1707

@@ -20,6 +20,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Runtime.CompilerServices;
     using System.Text;
     using System.Timers;
@@ -28,6 +30,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class ProjectorController : DisplayController, IRoutingDestination
     {
 
@@ -112,7 +115,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 OnConnected();
             } else {
                 this.ControllerStatus = ControllerStatus.Error;
-                OnError("Network timeout connecting to projector");
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
             }
 
             this.timer.Start();
@@ -150,7 +153,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 if (response.Result == SdcpResult.OK) {
                     return "SDCP OK.";
                 } else {
-                    return string.Format("SDCP ERROR: {0}", response.Error.ToString("G"));
+                    return string.Format(CultureInfo.InvariantCulture, "SDCP ERROR: {0}", response.Error.ToString("G"));
                 }
             } else {
                 return "SDCP ERROR: Invalid Action!";
@@ -167,7 +170,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                     this.client.Close();
                 }
             } catch {
-                OnError("Network timeout connecting to projector");
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
             } finally {
                 if (!this.timer.Enabled) {
                     if (this.running) {
@@ -345,7 +348,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 if (rcd == RealityCreationDatabase.Unknown) {
                     UpdateDataSource("Reality Creation", rc.GetDescription());
                 } else {
-                    UpdateDataSource("Reality Creation", string.Format("{0} - {1}", rc.GetDescription(), rcd.GetDescription()));
+                    UpdateDataSource("Reality Creation", string.Format(CultureInfo.InvariantCulture, "{0} - {1}", rc.GetDescription(), rcd.GetDescription()));
                 }
             } else {
                 UpdateDataSource("Reality Creation", rc.GetDescription());
@@ -377,19 +380,19 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         public NameValueCollection CustomGamma
         {
             get { return GetSetting<NameValueCollection>(); }
-            set { Setting<NameValueCollection>(value); }
+            private set { Setting<NameValueCollection>(value); }
         }
 
         public NameValueCollection CustomColorSpace
         {
             get { return GetSetting<NameValueCollection>(); }
-            set { Setting<NameValueCollection>(value); }
+            private set { Setting<NameValueCollection>(value); }
         }
 
         public NameValueCollection CustomColorTemp
         {
             get { return GetSetting<NameValueCollection>(); }
-            set { Setting<NameValueCollection>(value); }
+            private set { Setting<NameValueCollection>(value); }
         }
 
         #endregion

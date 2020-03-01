@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Collections
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
 
@@ -25,6 +26,7 @@ namespace DigitalHomeCinemaControl.Collections
     /// which is a Dictionary of DispatchedBindingList.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
     public sealed class MultiplexedBindingList<T> : BindingList<T>, IDispatchedBindingList<T>
         where T : IBindingItem
     {
@@ -122,7 +124,7 @@ namespace DigitalHomeCinemaControl.Collections
         {
             get {
                 if (this.hashTable.ContainsKey(name)) {
-                    var key = this.hashTable[name];
+                    string key = this.hashTable[name];
                     foreach (IBindingItem item in this.multiplexedLists[key]) {
                         if (item.Name.Equals(name, StringComparison.Ordinal)) {
                             return (T)item;

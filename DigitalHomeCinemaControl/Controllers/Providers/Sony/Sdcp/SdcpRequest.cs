@@ -15,6 +15,7 @@
 namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
     using System;
+    using System.Globalization;
 
     public sealed class SdcpRequest
     {
@@ -39,8 +40,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 
         public SdcpRequest(string community)
         {
-            if (community == null) { throw new ArgumentException("value cannot be NULL", "community"); }
-            if (community.Length != 4) { throw new ArgumentException("value length must be equal to 4 characters", "community"); }
+            if (community == null) { throw new ArgumentException(Properties.Resources.MSG_OBJECT_NULL, nameof(community)); }
+            if (community.Length != 4) { throw new ArgumentException(Properties.Resources.MSG_SDCP_ERROR_COMMUNITY_LEN, nameof(community)); }
 
             this.community = community.ToByteArray();
         }
@@ -108,7 +109,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 
         public void SetData(object data)
         {
-            if (data.GetType().IsEnum == false) { throw new ArgumentException(""); }
+            if (data == null) { throw new ArgumentException(Properties.Resources.MSG_OBJECT_NULL, nameof(data)); }
+            if (data.GetType().IsEnum == false) { throw new ArgumentException(string.Empty); }
 
             int i = (int)data;
             byte[] value = new byte[2] { (byte)(i >> 8), (byte)(i & 0xff) };
@@ -147,6 +149,26 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 
         #region Properties
 
+        public RequestType Request
+        {
+            get { return (RequestType)this.command[0]; }
+            set { this.command[0] = (byte)value; }
+        }
+
+        public CommandItem Item
+        {
+            get {
+                int i = (256 * this.command[1]) + this.command[2];
+                return (CommandItem)i;
+            }
+            set {
+                this.command[1] = (byte)((int)(value) >> 8);
+                this.command[2] = (byte)((int)(value) & 0xff);
+            }
+        }
+
+#pragma warning disable CA1819
+
         public byte[] Community
         {
             get { return this.community; }
@@ -164,24 +186,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
                 if (value != null) {
                     this.command = value;
                 }
-            }
-        }
-
-        public RequestType Request
-        {
-            get { return (RequestType)this.command[0]; }
-            set { this.command[0] = (byte)value; }
-        }
-
-        public CommandItem Item
-        {
-            get {
-                int i = (256 * this.command[1]) + this.command[2];
-                return (CommandItem)i;
-            }
-            set {
-                this.command[1] = (byte)((int)(value) >> 8);
-                this.command[2] = (byte)((int)(value) & 0xff);
             }
         }
 
@@ -204,9 +208,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
             set {
                 if (value == null) { return; }
                 this.data = value;
-                this.command[3] = Convert.ToByte(value.Length.ToString(), 16);
+                this.command[3] = Convert.ToByte(value.Length.ToString(CultureInfo.InvariantCulture), 16);
             }
         }
+
+#pragma warning restore CA1819
 
         #endregion
 

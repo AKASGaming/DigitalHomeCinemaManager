@@ -67,8 +67,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 
         public void Connect()
         {
-            if (string.IsNullOrEmpty(this.host)) { throw new InvalidOperationException("Invalid Host"); }
-            if (this.Closed) { throw new ObjectDisposedException("SdcpClient", "Client has been Disposed."); }
+            if (string.IsNullOrEmpty(this.host)) { throw new InvalidOperationException(Properties.Resources.MSG_INVALID_HOST); }
+            if (this.Closed) { throw new ObjectDisposedException("SdcpClient", Properties.Resources.MSG_OBJECT_DISPOSED); }
 
             this.waitHandle.Reset();
             this.client.Connect(this.host, this.port);
@@ -94,13 +94,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 
         public SdcpResponse Send(SdcpRequest request)
         {
-            if (request == null) { throw new ArgumentException("object cannot be null", "request"); }
-            if (!this.client.Connected) { throw new InvalidOperationException("Not Connected"); }
-            if (this.Closed) { throw new InvalidOperationException("Connection closed"); }
+            if (request == null) { throw new ArgumentException(Properties.Resources.MSG_OBJECT_NULL, nameof(request)); }
+            if (!this.client.Connected) { throw new InvalidOperationException(Properties.Resources.MSG_NOT_CONNECTED); }
+            if (this.Closed) { throw new InvalidOperationException(Properties.Resources.MSG_CONNECTION_CLOSED); }
 
             if ((this.stream == null) || !this.stream.CanWrite || !this.stream.CanRead) {
                 this.Closed = true;
-                throw new InvalidOperationException("Stream not readable or writable"); 
+                throw new InvalidOperationException(Properties.Resources.MSG_STREAM_ERROR); 
             }
 
             byte[] buffer = request.ToByteArray();
@@ -207,6 +207,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -232,8 +233,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         {
             get { return this.commandDelay; }
             set {
-                if (value < 30) { throw new ArgumentOutOfRangeException("CommandDelay", "Value may not be less than 30"); }
-                if (value > 3200) { throw new ArgumentOutOfRangeException("CommandDelay", "Value may not be larger than 3200"); }
+                if (value < 30) { throw new ArgumentOutOfRangeException("CommandDelay", Properties.Resources.MSG_SDCP_DELAY_LESS_30); }
+                if (value > 3200) { throw new ArgumentOutOfRangeException("CommandDelay", Properties.Resources.MSG_SDCP_DELAY_MORE_3200); }
 
                 this.commandDelay = value;
             }

@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Devices
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     public sealed class SwitchDevice : Device
     {
@@ -40,6 +41,7 @@ namespace DigitalHomeCinemaControl.Devices
         /// <summary>
         /// Lists all available ProcessorDevices.
         /// </summary>
+        [SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
         public static Dictionary<string, SwitchDevice> Items = new Dictionary<string, SwitchDevice>();
 
         #endregion

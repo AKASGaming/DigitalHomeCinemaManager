@@ -15,6 +15,7 @@
 namespace DigitalHomeCinemaControl.Controls.Denon
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl.Collections;
 
@@ -55,6 +56,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
 
         #region Properties
 
+        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>")]
         public IDispatchedBindingList<IBindingItem> ItemsSource
         {
             get { return this.itemsSource; }

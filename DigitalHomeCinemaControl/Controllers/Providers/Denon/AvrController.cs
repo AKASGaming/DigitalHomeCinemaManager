@@ -18,11 +18,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class AvrController : ProcessorController, IRoutingDestination
     {
 
@@ -101,7 +104,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 OnConnected();
             } catch {
                 this.ControllerStatus = ControllerStatus.Error;
-                OnError("Network timeout connecting to processor");
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "processor"));
             }
         }
 
@@ -166,8 +169,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     break;
                 case "Input":
                     string inputName = this.avr.Input.ToString();
-                    if (this.avr.InputNames.ContainsKey(inputName.ToUpper())) {
-                        UpdateDataSource<string>("Input Source", this.avr.InputNames[inputName.ToUpper()]);
+                    if (this.avr.InputNames.ContainsKey(inputName.ToUpperInvariant())) {
+                        UpdateDataSource<string>("Input Source", this.avr.InputNames[inputName.ToUpperInvariant()]);
                     } else {
                         UpdateDataSource<string>("Input Source", this.avr.Input.GetDescription());
                     }
@@ -318,7 +321,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
 
         private void ClientDisconnected(object sender, EventArgs e)
         {
-            OnError("Disconnected from processor");
+            OnError(Properties.Resources.FMT_DISCONNECTED);
             this.ControllerStatus = ControllerStatus.Disconnected;
 
             // TODO: reconnect?
@@ -334,6 +337,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             }
         }
 
+        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         public string RouteAction(string action, object args)
         {
             if (string.IsNullOrEmpty(action)) { return "AVR ERROR: Invalid Action!"; }

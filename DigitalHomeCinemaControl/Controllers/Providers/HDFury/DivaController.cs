@@ -17,6 +17,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Net.Sockets;
     using System.Runtime.CompilerServices;
@@ -25,6 +27,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class DivaController : DeviceController, ISwitchController, IRoutingDestination
     {
 
@@ -70,7 +73,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
         public override void Connect()
         {
-            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException("Invalid Host"); }
+            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException(Properties.Resources.MSG_OBJECT_DISPOSED); }
 
             this.client = new TcpClient() {
                 NoDelay = true,
@@ -86,7 +89,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             } catch {
                 this.IsConnected = false;
                 this.ControllerStatus = ControllerStatus.Error;
-                OnError("Network timeout connecting to HD Fury");
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "HDFury"));
                 return;
             }
 
@@ -134,7 +137,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             this.networkStream = null;
             this.timer = null;
 
-            OnError("Disconnected from HD Fury");
+            OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DISCONNECTED, "HDFury"));
             OnDisconnected();
         }
 
@@ -147,9 +150,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             string command;
 
             switch (action) {
-                case "Input": command = string.Format("set insel {0} 4", (int)args); break;
-                case "Input Tx 0": command = string.Format("set inseltx0 {0}", (int)args); break;
-                case "Input Tx 1": command = string.Format("set inseltx1 {0}", (int)args); break;
+                case "Input": command = string.Format(CultureInfo.InvariantCulture, "set insel {0} 4", (int)args); break;
+                case "Input Tx 0": command = string.Format(CultureInfo.InvariantCulture, "set inseltx0 {0}", (int)args); break;
+                case "Input Tx 1": command = string.Format(CultureInfo.InvariantCulture, "set inseltx1 {0}", (int)args); break;
                 default: command = string.Empty; break;
             }
 
@@ -173,7 +176,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         {
             if (!this.IsConnected) { return false; }
 
-            string command = string.Format("set insel {0} 4", (int)input);
+            string command = string.Format(CultureInfo.InvariantCulture, "set insel {0} 4", (int)input);
 
             if (this.writer != null) {
                 try {
@@ -194,7 +197,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             string[] dataParts = data.Split(null, 2);
 
-            switch (dataParts[0].ToUpper()) {
+            switch (dataParts[0].ToUpperInvariant()) {
                 case "TX0:":
                     UpdateDataSource<string>("Tx0 Output", dataParts[1].Trim());
                     break;
@@ -269,7 +272,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         public NameValueCollection CustomInputs
         {
             get { return GetSetting<NameValueCollection>(); }
-            set { Setting<NameValueCollection>(value); }
+            private set { Setting<NameValueCollection>(value); }
         }
 
         public string Name

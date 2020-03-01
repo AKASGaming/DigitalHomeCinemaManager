@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Devices
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Serial device.
@@ -41,6 +42,7 @@ namespace DigitalHomeCinemaControl.Devices
         /// <summary>
         /// Lists all available SerialDevices.
         /// </summary>
+        [SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
         public static Dictionary<string, SerialDevice> Items = new Dictionary<string, SerialDevice>();
 
         #endregion

@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.IO;
     using System.Net.Sockets;
     using System.Runtime.CompilerServices;
@@ -89,8 +90,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
 
         public void Connect()
         {
-            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException("Invalid Host"); }
-            if (this.Closed) { throw new ObjectDisposedException("SdcpClient", "Client has been Disposed."); }
+            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException(Properties.Resources.MSG_INVALID_HOST); }
+            if (this.Closed) { throw new ObjectDisposedException("SdcpClient", Properties.Resources.MSG_OBJECT_DISPOSED); }
 
             this.client.Connect(this.Host, this.Port);
             try {
@@ -104,7 +105,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
 
             this.IsConnected = true;
 
-            this.readThread = new Thread(this.ClientThread) {
+            this.readThread = new Thread(ClientThread) {
                 Name = INTERNAL_THREAD_NAME,
             };
             this.readThread.Start();
@@ -494,7 +495,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                 string s = data.Replace("FUN", "");
                 if (s == " END") {
                     this.inputNamesInit = true;
-                    PropertyChanged(this, new PropertyChangedEventArgs("InputNames"));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(this.InputNames)));
                 } else {
                     if (this.inputNamesInit == true) {
                         this.inputNames.Clear();
@@ -513,7 +514,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                 string s = data.Replace("QSNZMA", "");
                 if (s == " END") {
                     this.quickNamesInit = true;
-                    PropertyChanged(this, new PropertyChangedEventArgs("QuickNames"));
+                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(this.QuickNames)));
                 } else {
                     if (this.quickNamesInit == true) {
                         this.quickNames.Clear();
@@ -672,7 +673,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                                 this.ChannelStatus.Add(channel, (this.Power == PowerStatus.On) ? val : false);
                             }
                         }
-                        PropertyChanged(this, new PropertyChangedEventArgs("ChannelStatus"));
+                        PropertyChanged(this, new PropertyChangedEventArgs(nameof(this.ChannelStatus)));
                         break;
                     case "INFINS": // input channel bitmap
                         break;
@@ -686,19 +687,19 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             if (string.IsNullOrEmpty(name) || (value == null)) { return; }
 
             // prevent internal updates from triggering setting new value
-            if (Thread.CurrentThread.Name.Equals(INTERNAL_THREAD_NAME)) { return; }
+            if (Thread.CurrentThread.Name.Equals(INTERNAL_THREAD_NAME, StringComparison.Ordinal)) { return; }
 
             string command = string.Empty;
 
             switch (name) {
                 case "QuickSelect":
-                    command = "MSQUICK" + ((int)value).ToString();
+                    command = string.Format(CultureInfo.InvariantCulture, "MSQUICK{0}", ((int)value));
                     break;
                 case "MasterVolume":
-                    command = "MV" + value.ToString();
+                    command = string.Format(CultureInfo.InvariantCulture, "MV{0}", value);
                     break;
                 case "Delay":
-                    command = "PSDELAY " + value.ToString();
+                    command = string.Format(CultureInfo.InvariantCulture, "PSDELAY {0}", value);
                     break;
             }
              
@@ -712,7 +713,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             // prevent external updates from raising event
-            if (!Thread.CurrentThread.Name.Equals(INTERNAL_THREAD_NAME)) { return; }
+            if (!Thread.CurrentThread.Name.Equals(INTERNAL_THREAD_NAME, StringComparison.Ordinal)) { return; }
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
@@ -761,6 +762,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

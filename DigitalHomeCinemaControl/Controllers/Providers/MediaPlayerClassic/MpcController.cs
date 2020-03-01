@@ -17,6 +17,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO;
     using System.Net;
     using System.Net.Http;
@@ -26,9 +28,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+
     /// <summary>
     /// Media Player Classic - Home Cinema controller.
     /// </summary>
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class MpcController : SourceController, ISourceController, IRoutingSource
     {
 
@@ -72,16 +76,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         {
             string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
 
-            WebRequest request = WebRequest.Create(url);
+            WebRequest request = WebRequest.Create(new Uri(url));
             HttpWebResponse response;
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
             } catch (WebException ex) {
-                OnError(string.Format("Failed to connect to MPC: {0}", ex.Status.ToString()));
+                OnError(string.Format(CultureInfo.InvariantCulture ,"Failed to connect to MPC: {0}", ex.Status));
                 this.errorCount++;
                 if (this.errorCount > MAX_ERROR_COUNT) {
-                    OnError("MPC: Max errors exceeded. Exiting.");
+                    OnError(Properties.Resources.MSG_MPC_MAX_ERRORS);
                     this.statsTimer.Stop();
                 }
                 return;
@@ -160,17 +164,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             ProcessStartInfo mpcStart = new ProcessStartInfo {
                 Arguments = playlist + PLAYER_PARAMS +
                     ((this.FullscreenDisplay >= 0) ?
-                        DISPLAY_PARAM + this.FullscreenDisplay.ToString() : string.Empty),
+                        DISPLAY_PARAM + this.FullscreenDisplay.ToString(CultureInfo.InvariantCulture) : string.Empty),
                 FileName = this.Path
-            };
-            Process mpc = new Process {
-                StartInfo = mpcStart
             };
 
             try {
-                mpc.Start();
+                using (var mpc = new Process() { StartInfo = mpcStart }) {
+                    mpc.Start();
+                } 
             } catch {
-                OnError("Failed to start MPC process!");
+                OnError(Properties.Resources.MSG_MPC_START_ERROR);
             }
         }
 
@@ -225,11 +228,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + COMMANDS;
 
             var values = new Dictionary<string, string> {
-                { "wm_command", command.ToString() }
+                { "wm_command", command.ToString(CultureInfo.InvariantCulture) }
             };
-            var content = new FormUrlEncodedContent(values);
+
+            ;
             try {
-                var response = client.PostAsync(playerUrl, content);
+                using (var content = new FormUrlEncodedContent(values)) {
+                    client.PostAsync(new Uri(playerUrl), content);
+                }
             } catch { }
         }
 

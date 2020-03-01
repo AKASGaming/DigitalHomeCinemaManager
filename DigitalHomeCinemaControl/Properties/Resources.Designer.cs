@@ -59,5 +59,131 @@ namespace DigitalHomeCinemaControl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnected from {0}.
+        /// </summary>
+        internal static string FMT_DISCONNECTED {
+            get {
+                return ResourceManager.GetString("FMT_DISCONNECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network timeout connecting to {0}.
+        /// </summary>
+        internal static string FMT_NETWORK_TIMEOUT {
+            get {
+                return ResourceManager.GetString("FMT_NETWORK_TIMEOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection Closed.
+        /// </summary>
+        internal static string MSG_CONNECTION_CLOSED {
+            get {
+                return ResourceManager.GetString("MSG_CONNECTION_CLOSED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Host.
+        /// </summary>
+        internal static string MSG_INVALID_HOST {
+            get {
+                return ResourceManager.GetString("MSG_INVALID_HOST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MPC: Max errors exceeded, Exiting..
+        /// </summary>
+        internal static string MSG_MPC_MAX_ERRORS {
+            get {
+                return ResourceManager.GetString("MSG_MPC_MAX_ERRORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start MPC process!.
+        /// </summary>
+        internal static string MSG_MPC_START_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_MPC_START_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Connected.
+        /// </summary>
+        internal static string MSG_NOT_CONNECTED {
+            get {
+                return ResourceManager.GetString("MSG_NOT_CONNECTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object has been disposed..
+        /// </summary>
+        internal static string MSG_OBJECT_DISPOSED {
+            get {
+                return ResourceManager.GetString("MSG_OBJECT_DISPOSED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object cannot be null.
+        /// </summary>
+        internal static string MSG_OBJECT_NULL {
+            get {
+                return ResourceManager.GetString("MSG_OBJECT_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value may not be less than 30.
+        /// </summary>
+        internal static string MSG_SDCP_DELAY_LESS_30 {
+            get {
+                return ResourceManager.GetString("MSG_SDCP_DELAY_LESS_30", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value may not be larger than 3200.
+        /// </summary>
+        internal static string MSG_SDCP_DELAY_MORE_3200 {
+            get {
+                return ResourceManager.GetString("MSG_SDCP_DELAY_MORE_3200", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to value length must be equal to 4 characters.
+        /// </summary>
+        internal static string MSG_SDCP_ERROR_COMMUNITY_LEN {
+            get {
+                return ResourceManager.GetString("MSG_SDCP_ERROR_COMMUNITY_LEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stream not readable or writable.
+        /// </summary>
+        internal static string MSG_STREAM_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_STREAM_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Api Key not set..
+        /// </summary>
+        internal static string MSG_TMDB_API_KEY_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_TMDB_API_KEY_ERROR", resourceCulture);
+            }
+        }
     }
 }

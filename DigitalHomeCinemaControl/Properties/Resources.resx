@@ -117,4 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FMT_DISCONNECTED" xml:space="preserve">
+    <value>Disconnected from {0}</value>
+  </data>
+  <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
+    <value>Network timeout connecting to {0}</value>
+  </data>
+  <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
+    <value>Connection Closed</value>
+  </data>
+  <data name="MSG_INVALID_HOST" xml:space="preserve">
+    <value>Invalid Host</value>
+  </data>
+  <data name="MSG_MPC_MAX_ERRORS" xml:space="preserve">
+    <value>MPC: Max errors exceeded, Exiting.</value>
+  </data>
+  <data name="MSG_MPC_START_ERROR" xml:space="preserve">
+    <value>Failed to start MPC process!</value>
+  </data>
+  <data name="MSG_NOT_CONNECTED" xml:space="preserve">
+    <value>Not Connected</value>
+  </data>
+  <data name="MSG_OBJECT_DISPOSED" xml:space="preserve">
+    <value>Object has been disposed.</value>
+  </data>
+  <data name="MSG_OBJECT_NULL" xml:space="preserve">
+    <value>Object cannot be null</value>
+  </data>
+  <data name="MSG_SDCP_DELAY_LESS_30" xml:space="preserve">
+    <value>Value may not be less than 30</value>
+  </data>
+  <data name="MSG_SDCP_DELAY_MORE_3200" xml:space="preserve">
+    <value>Value may not be larger than 3200</value>
+  </data>
+  <data name="MSG_SDCP_ERROR_COMMUNITY_LEN" xml:space="preserve">
+    <value>value length must be equal to 4 characters</value>
+  </data>
+  <data name="MSG_STREAM_ERROR" xml:space="preserve">
+    <value>Stream not readable or writable</value>
+  </data>
+  <data name="MSG_TMDB_API_KEY_ERROR" xml:space="preserve">
+    <value>Api Key not set.</value>
+  </data>
 </root>

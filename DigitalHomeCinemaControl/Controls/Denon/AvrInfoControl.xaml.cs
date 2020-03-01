@@ -15,7 +15,7 @@
 namespace DigitalHomeCinemaControl.Controls.Denon
 {
     using System.ComponentModel;
-    using System.Linq;
+    using System.Diagnostics.CodeAnalysis;
     using DigitalHomeCinemaControl.Collections;
 
     /// <summary>
@@ -42,6 +42,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
 
         #region Methods
 
+        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             // The controller for this UI Element uses a MultiplexedBindingList as it's 

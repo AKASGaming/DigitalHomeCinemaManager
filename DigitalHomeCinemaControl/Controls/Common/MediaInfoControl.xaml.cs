@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Net;
     using System.Windows.Media.Imaging;
@@ -44,6 +45,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 
         #region Methods
 
+        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemChanged) {

@@ -16,6 +16,8 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Imaging;
@@ -40,6 +42,7 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
 
         #region Methods
 
+        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             var changedItem = this.DataSource[e.NewIndex];
@@ -84,7 +87,8 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
             }
         }
 
-        private void SetImageSource(Image image, string source)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void SetImageSource(Image image, string source)
         {
             if (string.IsNullOrEmpty(source)) {
                 image.Source = new BitmapImage();

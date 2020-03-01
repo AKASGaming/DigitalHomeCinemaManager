@@ -14,12 +14,15 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
     using TMDbLib.Client;
     using TMDbLib.Objects.General;
     using TMDbLib.Objects.Search;
 
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class MovieDbController : DeviceController, IMediaInfoController
     {
 
@@ -61,7 +64,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                 SearchContainer<SearchMovie> results = this.movieApi.SearchMovieAsync(title).Result;
 
                 if (results.Results.Count == 0) {
-                    OnError(string.Format("TMDB failed to find result for {0}", title));
+                    OnError(string.Format(CultureInfo.InvariantCulture, "TMDB failed to find result for {0}", title));
                     UpdateDataSource<string>("PosterPath", string.Empty);
                     UpdateDataSource<string>("Description", string.Empty);
                     return;
@@ -72,7 +75,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                         UpdateDataSource<string>("PosterPath", POSTER_URL + result.PosterPath);
                         UpdateDataSource<string>("Description", result.Overview);
                         break;
-                    } else if ((title == result.Title) && (result.ReleaseDate?.Year.ToString() == year) &&
+                    } else if ((title == result.Title) && (result.ReleaseDate?.Year.ToString(CultureInfo.InvariantCulture) == year) &&
                         (!string.IsNullOrEmpty(result.PosterPath))) {
                         UpdateDataSource<string>("PosterPath", POSTER_URL + result.PosterPath);
                         UpdateDataSource<string>("Description", result.Overview);
@@ -80,7 +83,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                     }
                 }
             } catch {
-                OnError(string.Format("TMDB failed to find result for {0}", title));
+                OnError(string.Format(CultureInfo.InvariantCulture, "TMDB failed to find result for {0}", title));
                 UpdateDataSource<string>("PosterPath", string.Empty);
                 UpdateDataSource<string>("Description", string.Empty);
             }
@@ -91,7 +94,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
             if (this.movieApi != null) { return; }
 
             if (string.IsNullOrEmpty(this.ApiKey)) {
-                OnError("Api Key not set.");
+                OnError(Properties.Resources.MSG_TMDB_API_KEY_ERROR);
             } else {
                 this.movieApi = new TMDbClient(this.ApiKey, false);
                 OnConnected();

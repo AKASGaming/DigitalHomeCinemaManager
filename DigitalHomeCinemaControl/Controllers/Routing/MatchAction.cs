@@ -21,7 +21,7 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
     /// and directing an action to the IRoutingDestination
     /// </summary>
     [Serializable]
-    public sealed class MatchAction
+    public sealed class MatchAction : IEquatable<RoutingItem>
     {
 
         #region Members
@@ -98,6 +98,17 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
         /// Gets or Sets a value that determines if this MatchAction is ignored by the routing engine.
         /// </summary>
         public bool Enabled { get; set; }
+
+        public bool Equals(RoutingItem other)
+        {
+            if (this.MatchSource.Equals(other.Source, StringComparison.Ordinal) &&
+                this.Match.Equals(other.Data)) {
+
+                return true;
+            }
+
+            return false;
+        }
 
         #endregion
 

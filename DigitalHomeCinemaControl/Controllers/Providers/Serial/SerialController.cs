@@ -16,15 +16,18 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO.Ports;
     using System.Runtime.CompilerServices;
     using System.Threading;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+
     /// <summary>
     /// Generic Serial Device Controller
     /// </summary>
+    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class SerialController : DeviceController, ISerialController, IRoutingSource
     {
 

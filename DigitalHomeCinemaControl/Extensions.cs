@@ -17,7 +17,7 @@ namespace DigitalHomeCinemaControl
     using System;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Globalization;
     using System.Reflection;
     using System.Text;
     using DigitalHomeCinemaControl.Controllers.Routing;
@@ -62,7 +62,7 @@ namespace DigitalHomeCinemaControl
                 if (i > 0) {
                     result.Append(":");
                 }
-                result.Append(bytes[i].ToString("x"));
+                result.Append(bytes[i].ToString("x", CultureInfo.InvariantCulture));
             }
             return result.ToString();
         }
@@ -70,38 +70,41 @@ namespace DigitalHomeCinemaControl
         /// <summary>
         /// Gets the Description attribute of the specified enum.
         /// </summary>
-        /// <param name="GenericEnum"></param>
+        /// <param name="genericEnum"></param>
         /// <returns></returns>
-        public static string GetDescription(this Enum GenericEnum)
+        public static string GetDescription(this Enum genericEnum)
         {
-            Type genericEnumType = GenericEnum.GetType();
-            MemberInfo[] memberInfo = genericEnumType.GetMember(GenericEnum.ToString());
+            if (genericEnum == null) { return string.Empty; }
+
+            Type genericEnumType = genericEnum.GetType();
+            MemberInfo[] memberInfo = genericEnumType.GetMember(genericEnum.ToString());
             if ((memberInfo != null && memberInfo.Length > 0)) {
-                var _Attribs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if ((_Attribs != null && _Attribs.Count() > 0)) {
-                    return ((DescriptionAttribute)_Attribs.ElementAt(0)).Description;
+                object[] attribs = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                if ((attribs != null && attribs.Length > 0)) {
+                    return ((DescriptionAttribute)attribs[0]).Description;
                 }
             }
-            return GenericEnum.ToString();
+            return genericEnum.ToString();
         }
 
         /// <summary>
         /// Gets the custom value for the specified enum or it's Description attribute if no custom name exists.
         /// </summary>
-        /// <param name="GenericEnum"></param>
+        /// <param name="genericEnum"></param>
         /// <param name="customValues"></param>
         /// <returns></returns>
-        public static string GetDescription(this Enum GenericEnum, NameValueCollection customValues)
+        public static string GetDescription(this Enum genericEnum, NameValueCollection customValues)
         {
+            if (genericEnum == null) { return string.Empty; }
             if ((customValues == null) || (customValues.Count == 0)) {
-                return GetDescription(GenericEnum);
+                return GetDescription(genericEnum);
             }
 
-            string value = customValues.Get(GenericEnum.ToString());
+            string value = customValues.Get(genericEnum.ToString());
             if (value != null) {
                 return value;
             }
-            return GetDescription(GenericEnum);
+            return GetDescription(genericEnum);
         }
 
         /// <summary>

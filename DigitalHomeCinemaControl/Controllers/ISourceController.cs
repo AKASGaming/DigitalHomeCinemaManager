@@ -14,6 +14,7 @@
 
 namespace DigitalHomeCinemaControl.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Defines the interface that source controllers implement.
@@ -39,9 +40,11 @@ namespace DigitalHomeCinemaControl.Controllers
         /// </summary>
         void Pause();
 
+
         /// <summary>
         /// Stop playback.
         /// </summary>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "<Pending>")]
         void Stop();
 
         /// <summary>
@@ -59,9 +62,11 @@ namespace DigitalHomeCinemaControl.Controllers
         /// </summary>
         void Previous();
 
+
         /// <summary>
         /// Jump to the next track.
         /// </summary>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "<Pending>")]
         void Next();
 
         /// <summary>
