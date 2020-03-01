@@ -26,7 +26,7 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaManager.Components.Include;
     using DigitalHomeCinemaManager.Windows;
 
-    internal class DigitalCinemaManager : IDisposable
+    internal sealed class DigitalCinemaManager : IDisposable
     {
 
         #region Members
@@ -138,11 +138,11 @@ namespace DigitalHomeCinemaManager.Components
             this.mainWindow.PlaylistInitialized = true;
 
             new Task(async () => {
-                await Task.Delay(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
                 this.deviceManager.ControllersStart();
             }).Start();
-
-            SendStatusUpdate("Initialization complete.");
+            
+            SendStatusUpdate(Properties.Resources.MSG_INIT_COMPLETE);
         }
 
         /// <summary>
@@ -153,9 +153,7 @@ namespace DigitalHomeCinemaManager.Components
         private void MainWindowClosed(object sender, System.EventArgs e)
         {
             this.router.Stop();
-            this.router.Dispose();
-            this.deviceManager.Dispose();
-
+            Dispose(true);
             Environment.Exit(0);
         }
 
@@ -262,7 +260,7 @@ namespace DigitalHomeCinemaManager.Components
         {
             if (Properties.Settings.Default.MediaPath.Contains(e.Drive)) {
                 e.HookQueryRemove = true;
-                SendStatusUpdate("Media Drive Inserted.");
+                SendStatusUpdate(Properties.Resources.MSG_DRIVE_INSERTED);
                 this.playlist.Feature = string.Empty;
                 this.playlist.CreatePlaylist();
             }
@@ -284,7 +282,7 @@ namespace DigitalHomeCinemaManager.Components
         {
 
             if (Properties.Settings.Default.MediaPath.Contains(e.Drive)) {
-                SendStatusUpdate("Media Drive Ejected!");
+                SendStatusUpdate(Properties.Resources.MSG_DRIVE_EJECTED);
                 this.playlist.Feature = string.Empty;
                 this.playlist.CreatePlaylist();
             }
@@ -294,12 +292,13 @@ namespace DigitalHomeCinemaManager.Components
 
         #region IDisposable
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!this.disposed) {
                 if (disposing) {
                     this.deviceManager.Dispose();
                     this.router.Dispose();
+                    this.mainWindow.Dispose();
                 }
 
                 this.driveDetector.Dispose();
@@ -307,6 +306,7 @@ namespace DigitalHomeCinemaManager.Components
                 this.deviceManager = null;
                 this.router = null;
                 this.driveDetector = null;
+                this.mainWindow = null;
 
                 this.disposed = true;
             }

@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaManager.Windows
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
@@ -25,7 +26,7 @@ namespace DigitalHomeCinemaManager.Windows
     /// <summary>
     /// Interaction logic for EditRuleWindow.xaml
     /// </summary>
-    public partial class EditRuleWindow : Window
+    internal partial class EditRuleWindow : Window
     {
 
         #region Members
@@ -60,7 +61,7 @@ namespace DigitalHomeCinemaManager.Windows
                     ((TextBox)this.matchBorder.Child).Text = rule.Match.ToString();
                 }
                 this.cmbDest.SelectedValue = rule.ActionDestination;
-                this.cmbAction.SelectedValue = rule.Action.ToString();
+                this.cmbAction.SelectedValue = rule.Action.ToString(CultureInfo.InvariantCulture);
                 if (rule.GetArgsType().IsEnum) {
                     ((ComboBox)this.argsBorder.Child).SelectedValue = rule.Args;
                 } else {

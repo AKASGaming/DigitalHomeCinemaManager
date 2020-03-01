@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
@@ -50,8 +51,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
 
             this.Host.Text = Properties.DeviceSettings.Default.Display_Host;
-            this.Port.Text = Properties.DeviceSettings.Default.Display_Port.ToString();
-            this.CommandDelay.Text = Properties.DeviceSettings.Default.Display_CommandDelay.ToString();
+            this.Port.Text = Properties.DeviceSettings.Default.Display_Port.ToString(CultureInfo.InvariantCulture);
+            this.CommandDelay.Text = Properties.DeviceSettings.Default.Display_CommandDelay.ToString(CultureInfo.InvariantCulture);
 
             if (Properties.DeviceSettings.Default.Display_CustomColorSpace != null) {
                 this.customColorSpace = Properties.DeviceSettings.Default.Display_CustomColorSpace.ToObservableCollection();
@@ -172,7 +173,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ColorSpaceDeleteClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            var selected = this.ColorSpace.SelectedIndex;
+            int selected = this.ColorSpace.SelectedIndex;
             if (selected < 0) { return; }
 
             this.customColorSpace.RemoveAt(selected);
@@ -212,7 +213,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void GammaDeleteClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            var selected = this.Gamma.SelectedIndex;
+            int selected = this.Gamma.SelectedIndex;
             if (selected < 0) { return; }
 
             this.customGamma.RemoveAt(selected);

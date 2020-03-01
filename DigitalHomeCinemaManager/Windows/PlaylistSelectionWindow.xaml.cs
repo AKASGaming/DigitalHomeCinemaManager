@@ -23,10 +23,22 @@ namespace DigitalHomeCinemaManager.Windows
     /// </summary>
     public partial class PlaylistSelectionWindow : Window
     {
-        public PlaylistSelectionWindow()
+
+        #region Constructor
+
+        public PlaylistSelectionWindow(List<string> playlist)
         {
             InitializeComponent();
+            if (playlist == null) {
+                this.Playlist = new List<string>();
+            } else {
+                this.Playlist = new List<string>(playlist);
+            }
         }
+
+        #endregion
+
+        #region Methods
 
         public new bool? ShowDialog()
         {
@@ -39,15 +51,12 @@ namespace DigitalHomeCinemaManager.Windows
             return base.ShowDialog();
         }
 
-        public List<string> Playlist { get; set; }
-        public string InitialDirectory { get; set; }
-        public string Filter { get; set; }
-
         private void AddClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = this.InitialDirectory;
-            ofd.Filter = this.Filter;
+            OpenFileDialog ofd = new OpenFileDialog() {
+                InitialDirectory = this.InitialDirectory,
+                Filter = this.Filter
+            };
             if (ofd.ShowDialog() == true) {
                 this.lstPlaylist.Items.Add(ofd.FileName);
             }
@@ -97,18 +106,31 @@ namespace DigitalHomeCinemaManager.Windows
         private void OkClick(object sender, RoutedEventArgs e)
         {
             this.Playlist.Clear();
-            foreach (var item in this.lstPlaylist.Items) {
-                this.Playlist.Add(item.ToString());
+            foreach (string item in this.lstPlaylist.Items) {
+                this.Playlist.Add(item);
             }
             this.DialogResult = true;
-            this.Close();
+            Close();
         }
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            this.Close();
+            Close();
         }
 
+        #endregion
+
+        #region Properties
+
+        public List<string> Playlist { get; private set; }
+
+        public string InitialDirectory { get; set; }
+
+        public string Filter { get; set; }
+
+        #endregion
+
     }
+
 }

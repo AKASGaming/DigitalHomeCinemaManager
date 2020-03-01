@@ -14,13 +14,14 @@
 
 namespace DigitalHomeCinemaManager
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
 
     internal static class Extensions
     {
-
+       
         internal static ObservableCollection<KeyValuePair<string, string>> ToObservableCollection(this StringCollection collection)
         {
             var result = new ObservableCollection<KeyValuePair<string, string>>();
@@ -30,8 +31,8 @@ namespace DigitalHomeCinemaManager
                 if (!s.Contains(":")) { continue; }
 
                 string[] kv = new string[2];
-                kv[0] = s.Substring(0, s.IndexOf(":"));
-                kv[1] = s.Substring(s.IndexOf(":") + 1);
+                kv[0] = s.Substring(0, s.IndexOf(":", StringComparison.Ordinal));
+                kv[1] = s.Substring(s.IndexOf(":", StringComparison.Ordinal) + 1);
                 
                 var kvp = new KeyValuePair<string, string>(kv[0], kv[1]);
                 result.Add(kvp);
@@ -61,8 +62,8 @@ namespace DigitalHomeCinemaManager
                 if (!s.Contains(":")) { continue; }
 
                 string[] kv = new string[2];
-                kv[0] = s.Substring(0, s.IndexOf(":"));
-                kv[1] = s.Substring(s.IndexOf(":") + 1);
+                kv[0] = s.Substring(0, s.IndexOf(":", StringComparison.Ordinal));
+                kv[1] = s.Substring(s.IndexOf(":", StringComparison.Ordinal) + 1);
                 result.Add(kv[0], kv[1]);
             }
 

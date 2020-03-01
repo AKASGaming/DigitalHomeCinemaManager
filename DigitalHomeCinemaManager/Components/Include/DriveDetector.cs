@@ -20,12 +20,18 @@ namespace DigitalHomeCinemaManager.Components.Include
     using System.Windows.Forms;             // required for Message
     using Microsoft.Win32.SafeHandles;
 
+#pragma warning disable IDE0003 // name can be simplified
 #pragma warning disable IDE0009 // Member access should be qualified.
 #pragma warning disable IDE0011 // Add braces to else statement.
 #pragma warning disable IDE0049 // Name can be simplified.
 #pragma warning disable IDE0017 // Object initialization can be simplified.
 #pragma warning disable IDE0051 // Member is unused.
 #pragma warning disable IDE0054 // Use compound assignment.
+#pragma warning disable CA1051
+#pragma warning disable CA1823
+#pragma warning disable CA1303
+#pragma warning disable CA1031
+#pragma warning disable CA1806
 
     /// <summary>
     /// Hidden Form which we use to receive Windows messages about flash drives
@@ -92,7 +98,7 @@ namespace DigitalHomeCinemaManager.Components.Include
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(314, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "This is invisible form. To see DriveDetector code click View Code";
+            this.label1.Text = string.Empty;
             // 
             // DetectorForm
             // 
@@ -766,11 +772,17 @@ namespace DigitalHomeCinemaManager.Components.Include
 
     }
 
+#pragma warning restore IDE0003
 #pragma warning restore IDE0009 // Member access should be qualified.
 #pragma warning restore IDE0011 // Add braces to else statement.
 #pragma warning restore IDE0049 // Name can be simplified.
 #pragma warning restore IDE0017 // Object initialization can be simplified.
 #pragma warning restore IDE0051 // Member is unused.
 #pragma warning restore IDE0054 // Use compound assignment.
+#pragma warning restore CA1051
+#pragma warning restore CA1823
+#pragma warning restore CA1303
+#pragma warning restore CA1031
+#pragma warning restore CA1806
 
 }

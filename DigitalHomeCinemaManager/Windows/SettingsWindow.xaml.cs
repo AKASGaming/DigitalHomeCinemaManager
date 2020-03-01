@@ -77,9 +77,13 @@ namespace DigitalHomeCinemaManager.Windows
         {
             var categories = new List<CategoryItem>();
 
+#pragma warning disable IDE0008 // Use explicit type
             foreach (var t in Enum.GetValues(typeof(DeviceType))) {
-                var name = t.ToString();
+#pragma warning restore IDE0008 // Use explicit type
+
+                string name = t.ToString();
                 CategoryItem category = new CategoryItem() { Category = "Devices", Name = name, };
+
                 switch (name) {
                     case "Display":
                         var dui = new DisplaySettings();
@@ -142,13 +146,13 @@ namespace DigitalHomeCinemaManager.Windows
             }
 
             this.DialogResult = true;
-            this.Close();
+            Close();
         }
 
         private void ButtonCancelClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            this.Close();
+            Close();
         }
 
         #endregion

@@ -14,6 +14,7 @@
 
 namespace DigitalHomeCinemaManager.Controls.Settings
 {
+    using System.Globalization;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
@@ -39,7 +40,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
 
             this.Host.Text = Properties.DeviceSettings.Default.Processor_Host;
-            this.Port.Text = Properties.DeviceSettings.Default.Processor_Port.ToString();
+            this.Port.Text = Properties.DeviceSettings.Default.Processor_Port.ToString(CultureInfo.InvariantCulture);
             if (Properties.DeviceSettings.Default.Processor_HideUnusedOutputs) {
                 this.HideOutputs.SelectedIndex = 0;
             } else {

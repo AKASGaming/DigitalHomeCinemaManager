@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO.Ports;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
@@ -45,9 +46,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Provider.SelectedValue = Properties.Settings.Default.SerialDevice;
             }
             this.Port.SelectedValue = Properties.DeviceSettings.Default.Serial_Port;
-            this.ReadDelay.Text = Properties.DeviceSettings.Default.Serial_ReadDelay.ToString();
-            this.BaudRate.Text = Properties.DeviceSettings.Default.Serial_BaudRate.ToString();
-            this.DataBits.Text = Properties.DeviceSettings.Default.Serial_DataBits.ToString();
+            this.ReadDelay.Text = Properties.DeviceSettings.Default.Serial_ReadDelay.ToString(CultureInfo.InvariantCulture);
+            this.BaudRate.Text = Properties.DeviceSettings.Default.Serial_BaudRate.ToString(CultureInfo.InvariantCulture);
+            this.DataBits.Text = Properties.DeviceSettings.Default.Serial_DataBits.ToString(CultureInfo.InvariantCulture);
             this.Parity.SelectedValue = Properties.DeviceSettings.Default.Serial_Parity;
             this.StopBits.SelectedValue = Properties.DeviceSettings.Default.Serial_StopBits;
         }

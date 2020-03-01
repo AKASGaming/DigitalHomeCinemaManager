@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaManager.Windows
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -35,7 +36,7 @@ namespace DigitalHomeCinemaManager.Windows
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    internal partial class MainWindow : Window, IDisposable
     {
 
         #region Members
@@ -47,6 +48,7 @@ namespace DigitalHomeCinemaManager.Windows
         private System.Timers.Timer clockTimer;
         private double playbackLength;
         private int playbackPosition;
+        private bool disposed = false; 
 
         #endregion
 
@@ -56,9 +58,11 @@ namespace DigitalHomeCinemaManager.Windows
         {
             InitializeComponent();
 
-            this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy").ToLower();
-            this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2");
-            this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2");
+#pragma warning disable CA1308 // Normalize strings to uppercase
+            this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy", CultureInfo.InvariantCulture).ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
+            this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
+            this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
 
             this.clockTimer = new System.Timers.Timer {
                 Interval = 10000
@@ -77,10 +81,10 @@ namespace DigitalHomeCinemaManager.Windows
             if (this.errorLog.Count >= 2) {
                 this.errorLog.RemoveAt(0);
             }
-            this.errorLog.Add(string.Format("{0} - {1}", DateTime.Now.ToString(), message));
+            this.errorLog.Add(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", DateTime.Now, message));
             StringBuilder result = new StringBuilder();
             foreach (string s in this.errorLog) {
-                result.Append(string.Format("{0} \r\n", s));
+                result.Append(string.Format(CultureInfo.InvariantCulture, "{0} \r\n", s));
             }
             this.txtLog.Text = result.ToString();
         }
@@ -131,10 +135,10 @@ namespace DigitalHomeCinemaManager.Windows
                 (e.PropertyName == "MasterVolume"))) {
 
                 this.StatusControl.ProcessorStatus.Content = processor.ControllerStatus.ToString();
-                this.StatusControl.Delay.Content = string.Format("{0}ms", processor.Delay);
+                this.StatusControl.Delay.Content = string.Format(CultureInfo.InvariantCulture, "{0}ms", processor.Delay);
                 this.MasterVolume.Text = (processor.MasterVolume <= -80m)? "--dB" :
-                    (processor.MasterVolume > 0)? string.Format("+{0}dB", processor.MasterVolume) : 
-                     string.Format("{0}dB", processor.MasterVolume);
+                    (processor.MasterVolume > 0)? string.Format(CultureInfo.InvariantCulture, "+{0}dB", processor.MasterVolume) : 
+                     string.Format(CultureInfo.InvariantCulture, "{0}dB", processor.MasterVolume);
 
                 if (processor.MasterVolume <= -80) {
                     this.MasterVolume.Foreground = new SolidColorBrush(Colors.Aqua);
@@ -157,7 +161,8 @@ namespace DigitalHomeCinemaManager.Windows
 
                 this.StatusControl.ProjectorStatus.Content = display.ControllerStatus.ToString();
                 this.StatusControl.Lamp.Content = display.LampStatus.GetDescription();
-                this.StatusControl.LampTime.Content = (display.LampTimer >= 0)? string.Format("{0}h", display.LampTimer) : string.Empty;
+                this.StatusControl.LampTime.Content = (display.LampTimer >= 0)? 
+                    string.Format(CultureInfo.InvariantCulture, "{0}h", display.LampTimer) : string.Empty;
             }
         }
 
@@ -177,7 +182,7 @@ namespace DigitalHomeCinemaManager.Windows
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SetImageSource(Image image, string source)
+        private static void SetImageSource(Image image, string source)
         {
             if (string.IsNullOrEmpty(source)) {
                 image.Source = new BitmapImage();
@@ -228,9 +233,11 @@ namespace DigitalHomeCinemaManager.Windows
         private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             this.Dispatcher.BeginInvoke((Action)(() => {
-                this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy").ToLower();
-                this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2");
-                this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2");
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy", CultureInfo.InvariantCulture).ToLowerInvariant();
+#pragma warning restore CA1308 // Normalize strings to uppercase
+                this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
+                this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
             }));
         }
 
@@ -263,9 +270,8 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
-            var window = new PlaylistSelectionWindow() {
+            var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
                 Owner = this,
-                Playlist = new List<string>(this.Playlist.PrerollPlaylist),
                 Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
             };
 
@@ -283,9 +289,8 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonTrailersClick(object sender, RoutedEventArgs e)
         {
-            var window = new PlaylistSelectionWindow() {
+            var window = new PlaylistSelectionWindow(this.Playlist.TrailerPlaylist) {
                 Owner = this,
-                Playlist = new List<string>(this.Playlist.TrailerPlaylist),
                 Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
             };
 
@@ -359,6 +364,26 @@ namespace DigitalHomeCinemaManager.Windows
 
             this.Playlist.CommercialEnabled = (this.CommercialEnabled.IsChecked == true) ? true : false;
             this.Playlist.CreatePlaylist();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    if (this.clockTimer != null) {
+                        this.clockTimer.Dispose();
+                    }
+                }
+
+                this.clockTimer = null;
+
+                this.disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
 
         #endregion

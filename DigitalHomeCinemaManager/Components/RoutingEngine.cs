@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -28,7 +29,7 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    public class RoutingEngine : IDisposable
+    internal sealed class RoutingEngine : IDisposable
     {
 
         #region Members
@@ -88,7 +89,10 @@ namespace DigitalHomeCinemaManager.Components
 
             Debug.Assert(controllers != null);
 
+#pragma warning disable CA1062 // Validate arguments of public methods
             foreach (var controller in controllers) {
+#pragma warning restore CA1062 // Validate arguments of public methods
+
                 if (controller is IRoutingSource source) {
                     source.RouteData += QueueData;
                     this.Sources.Add(source.Name, source.MatchType);
@@ -108,9 +112,15 @@ namespace DigitalHomeCinemaManager.Components
             List<MatchAction> ruleList;
 
             try {
+
+#pragma warning disable CA3075 // Insecure DTD processing in XML
+#pragma warning disable CA5369 // Use XmlReader For Deserialize
                 ruleList = (List<MatchAction>)serializer.Deserialize(stream);
+#pragma warning restore CA5369 // Use XmlReader For Deserialize
+#pragma warning restore CA3075 // Insecure DTD processing in XML
+
             } catch {
-                OnRuleProcessed("Failed to parse rules!");
+                OnRuleProcessed(Properties.Resources.MSG_PARSE_RULES_ERROR);
                 return;
             } finally {
                 stream.Dispose();
@@ -128,7 +138,7 @@ namespace DigitalHomeCinemaManager.Components
                             } catch { }
                         } else {
                             try {
-                                Convert.ChangeType(item.Match, t);
+                                Convert.ChangeType(item.Match, t, CultureInfo.InvariantCulture);
                             } catch { }
                         }
                     }
@@ -144,7 +154,7 @@ namespace DigitalHomeCinemaManager.Components
                             } catch { }
                         } else {
                             try {
-                                Convert.ChangeType(item.Args, t);
+                                Convert.ChangeType(item.Args, t, CultureInfo.InvariantCulture);
                             } catch { }
                         }
                     }
@@ -202,14 +212,14 @@ namespace DigitalHomeCinemaManager.Components
                         string result = this.routes[rule.ActionDestination].RouteAction(rule.Action, rule.Args);
                         OnRuleProcessed(result);
                     } catch {
-                        OnRuleProcessed("Rule processing failed!");
+                        OnRuleProcessed(Properties.Resources.MSG_ROUTING_ERROR);
                     }
                 }
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnRuleProcessed(string message)
+        private void OnRuleProcessed(string message)
         {
             if ((this.dispatcher != null) && !this.dispatcher.CheckAccess()) {
                 this.dispatcher.BeginInvoke((Action)(() => {
@@ -220,7 +230,7 @@ namespace DigitalHomeCinemaManager.Components
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!this.disposed) {
                 if (disposing) {

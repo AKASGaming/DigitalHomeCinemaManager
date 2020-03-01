@@ -12,29 +12,19 @@
  *
  */
 
-#pragma warning disable CA0507
-#pragma warning disable CA1001
-
-namespace DigitalHomeCinemaManager
+namespace DigitalHomeCinemaManager.Components
 {
-    using System.Windows;
-    using DigitalHomeCinemaManager.Components;
 
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    internal struct PlaylistEntry
     {
-        private DigitalCinemaManager cinemaManager;
-
-        private void Main(object sender, StartupEventArgs e) 
+        public PlaylistEntry(PlaylistType playlistType, string filename)
         {
-            this.cinemaManager = new DigitalCinemaManager();
-            this.cinemaManager.Run();
+            this.PlaylistType = playlistType;
+            this.FileName = filename;
         }
 
+        public PlaylistType PlaylistType { get; private set; }
+        public string FileName { get; private set; }
     }
 
 }
-
-#pragma warning restore CA1001

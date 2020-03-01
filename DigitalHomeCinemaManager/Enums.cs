@@ -12,29 +12,31 @@
  *
  */
 
-#pragma warning disable CA0507
-#pragma warning disable CA1001
-
 namespace DigitalHomeCinemaManager
 {
-    using System.Windows;
-    using DigitalHomeCinemaManager.Components;
 
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public enum PlaylistType
     {
-        private DigitalCinemaManager cinemaManager;
+        Preroll,
+        Trailer,
+        Commercial,
+        Feature
+    }
 
-        private void Main(object sender, StartupEventArgs e) 
-        {
-            this.cinemaManager = new DigitalCinemaManager();
-            this.cinemaManager.Run();
-        }
+    public enum VideoFormat
+    {
+        Unknown,
+        SD,
+        HD,
+        UHD,
+    }
 
+    public enum AudioFormat
+    {
+        Unknown,
+        Atmos,
+        DTS,
+        Dolby,
     }
 
 }
-
-#pragma warning restore CA1001

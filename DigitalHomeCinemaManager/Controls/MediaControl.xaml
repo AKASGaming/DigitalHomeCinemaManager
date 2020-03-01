@@ -9,7 +9,7 @@
     <Grid>
         <Border Grid.Row="3" Background="#282627" Height="47" Width="500" HorizontalAlignment="Left">
             <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
-                <Button x:Name="btnPlay" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnPlay_Click">
+                <Button x:Name="ButtonPlay" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonPlayClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -31,7 +31,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_play_arrow_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnPause" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnPause_Click">
+                <Button x:Name="ButtonPause" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonPauseClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -53,7 +53,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_pause_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnStop" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnStop_Click">
+                <Button x:Name="ButtonStop" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonStopClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -75,7 +75,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_stop_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnPrev" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="btnPrev_Click">
+                <Button x:Name="ButtonPrev" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="ButtonPrevClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -97,7 +97,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_skip_previous_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnSkipBack" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnSkipBack_Click">
+                <Button x:Name="ButtonSkipBack" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonSkipBackClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -119,7 +119,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_fast_rewind_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnSkipForward" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnSkipForward_Click">
+                <Button x:Name="ButtonSkipForward" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonSkipForwardClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -141,7 +141,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_fast_forward_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnNext" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="btnNext_Click">
+                <Button x:Name="ButtonNext" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonNextClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -163,7 +163,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_skip_next_white_36dp.png" />
                 </Button>
-                <Button x:Name="btnSubtitle" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="btnSubtitle_Click">
+                <Button x:Name="ButtonSubtitle" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="ButtonSubtitleClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>
@@ -185,7 +185,7 @@
                     </Button.Style>
                     <Image Height="26" Width="26" Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_subtitles_black_36dp.png" />
                 </Button>
-                <Button x:Name="btnMute" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="btnMute_Click">
+                <Button x:Name="ButtonMute" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Margin="5,0,0,0" Click="ButtonMuteClick">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#20201F"/>

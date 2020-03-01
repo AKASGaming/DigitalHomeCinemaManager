@@ -17,7 +17,6 @@ namespace DigitalHomeCinemaManager.Controls
     using System;
     using System.Collections;
     using System.Windows.Controls;
-    using System.Windows.Input;
 
     /// <summary>
     /// Interaction logic for RoutingControl.xaml

@@ -44,13 +44,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
-            this.Close();
+            Close();
         }
 
         private void ButtonCancelClick(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            this.Close();
+            Close();
         }
 
         public string Key
@@ -58,10 +58,12 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             get { return this.key.Text; }
         }
 
+#pragma warning disable CA1721
         public string Value
         {
             get { return this.value.Text; }
         }
+#pragma warning restore CA1721
 
         #endregion
 

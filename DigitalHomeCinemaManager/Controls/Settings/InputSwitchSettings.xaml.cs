@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
@@ -47,7 +48,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Provider.SelectedValue = Properties.Settings.Default.InputSwitchDevice;
             }
             this.Host.Text = Properties.DeviceSettings.Default.InputSwitch_Host;
-            this.Port.Text = Properties.DeviceSettings.Default.InputSwitch_Port.ToString();
+            this.Port.Text = Properties.DeviceSettings.Default.InputSwitch_Port.ToString(CultureInfo.InvariantCulture);
 
             if (Properties.DeviceSettings.Default.InputSwitch_CustomInputs != null) {
                 this.customInputs = Properties.DeviceSettings.Default.InputSwitch_CustomInputs.ToObservableCollection();
@@ -137,7 +138,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void InputsDeleteClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            var selected = this.Inputs.SelectedIndex;
+            int selected = this.Inputs.SelectedIndex;
             if (selected < 0) { return; }
 
             this.customInputs.RemoveAt(selected);

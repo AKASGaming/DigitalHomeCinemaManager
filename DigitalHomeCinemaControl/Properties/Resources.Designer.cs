@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DigitalHomeCinemaManager.Properties {
+namespace DigitalHomeCinemaControl.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DigitalHomeCinemaManager.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DigitalHomeCinemaManager.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DigitalHomeCinemaControl.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,51 +57,6 @@ namespace DigitalHomeCinemaManager.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Media Drive Ejected!.
-        /// </summary>
-        internal static string MSG_DRIVE_EJECTED {
-            get {
-                return ResourceManager.GetString("MSG_DRIVE_EJECTED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Media Drive Inserted..
-        /// </summary>
-        internal static string MSG_DRIVE_INSERTED {
-            get {
-                return ResourceManager.GetString("MSG_DRIVE_INSERTED", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Initialization complete..
-        /// </summary>
-        internal static string MSG_INIT_COMPLETE {
-            get {
-                return ResourceManager.GetString("MSG_INIT_COMPLETE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to parse rules!.
-        /// </summary>
-        internal static string MSG_PARSE_RULES_ERROR {
-            get {
-                return ResourceManager.GetString("MSG_PARSE_RULES_ERROR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rule processing failed!.
-        /// </summary>
-        internal static string MSG_ROUTING_ERROR {
-            get {
-                return ResourceManager.GetString("MSG_ROUTING_ERROR", resourceCulture);
             }
         }
     }

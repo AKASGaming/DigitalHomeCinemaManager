@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Diagnostics;
+    using System.Globalization;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Threading;
@@ -27,7 +28,7 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaControl.Controls;
     using DigitalHomeCinemaControl.Devices;
 
-    public class DeviceManager : IDisposable
+    internal sealed class DeviceManager : IDisposable
     {
 
         #region Members
@@ -89,35 +90,45 @@ namespace DigitalHomeCinemaManager.Components
         {
             foreach (var controller in this.Controllers) {
                 new Task(async () => {
-                    await Task.Delay(100);
+                    await Task.Delay(100).ConfigureAwait(false);
                     controller.Connect();
                 }).Start();
             }
         }
 
-        public void LoadDeviceSettings(IDevice device)
+        public static void LoadDeviceSettings(IDevice device)
         {
             Debug.Assert(device != null);
 
+#pragma warning disable CA1062 // Validate arguments of public methods
             string deviceType = GetDeviceType(device);
+#pragma warning restore CA1062 // Validate arguments of public methods
 
             Debug.Assert(!string.IsNullOrEmpty(deviceType));
 
             foreach (SettingsProperty setting in Properties.DeviceSettings.Default.Properties) {
-                if (!setting.Name.StartsWith(deviceType)) { continue; }
+                if (!setting.Name.StartsWith(deviceType, StringComparison.Ordinal)) { continue; }
 
                 string[] settingName = setting.Name.Split('_');
                 if (settingName.Length != 2) { continue; }
 
                 object valueObject = Properties.DeviceSettings.Default[setting.Name];
                 if (setting.PropertyType.IsEnum) {
+
+#pragma warning disable IDE0008 // Use explicit type
                     var value = Enum.Parse(setting.PropertyType, valueObject.ToString());
+#pragma warning restore IDE0008 // Use explicit type
+
                     device.Controller.Setting(value, settingName[1]);
                 } else if (setting.PropertyType == typeof(StringCollection)) {
                     var value = (StringCollection)valueObject;
                     device.Controller.Setting(value.ToNameValueCollection(), settingName[1]);
                 } else {
-                    var value = Convert.ChangeType(valueObject, setting.PropertyType);
+
+#pragma warning disable IDE0008 // Use explicit type
+                    var value = Convert.ChangeType(valueObject, setting.PropertyType, CultureInfo.InvariantCulture);
+#pragma warning restore IDE0008 // Use explicit type
+                    
                     device.Controller.Setting(value, settingName[1]);
                 }
             } // foreach 
@@ -173,7 +184,7 @@ namespace DigitalHomeCinemaManager.Components
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private string GetDeviceType(IDevice device)
+        private static string GetDeviceType(IDevice device)
         {
             Debug.Assert(device != null);
 
@@ -186,7 +197,7 @@ namespace DigitalHomeCinemaManager.Components
             ControllerError?.Invoke(sender, message);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!this.disposed) {
                 if (disposing) {
@@ -199,7 +210,7 @@ namespace DigitalHomeCinemaManager.Components
             }
         }
 
-         ~DeviceManager()
+        ~DeviceManager()
         {
             Dispose(false);
         }

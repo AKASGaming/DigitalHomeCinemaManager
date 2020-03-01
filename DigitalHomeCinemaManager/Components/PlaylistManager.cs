@@ -17,63 +17,12 @@ namespace DigitalHomeCinemaManager.Components
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Text;
 
-    #region PlaylistType
-
-    public enum PlaylistType
-    {
-        Preroll,
-        Trailer,
-        Commercial,
-        Feature
-    }
-
-    #endregion
-
-    #region PlaylistEntry
-
-    public struct PlaylistEntry
-    {
-        public PlaylistEntry(PlaylistType playlistType, string filename)
-        {
-            this.PlaylistType = playlistType;
-            this.FileName = filename;
-        }
-
-        public PlaylistType PlaylistType { get; private set; }
-        public string FileName { get; private set; }
-    }
-
-    #endregion
-
-    #region VideoFormat
-
-    public enum VideoFormat
-    {
-        Unknown,
-        SD,
-        HD,
-        UHD,
-    }
-
-    #endregion
-
-    #region AudioFormat
-
-    public enum AudioFormat
-    {
-        Unknown,
-        Atmos,
-        DTS,
-        Dolby,
-    }
-
-    #endregion
-
-    public class PlaylistManager
+    internal sealed class PlaylistManager
     {
 
         #region Members
@@ -114,11 +63,11 @@ namespace DigitalHomeCinemaManager.Components
                 while ((line = reader.ReadLine()) != null) {
                     if (line.Contains(this.trailerPath)) {
                         hasTrailer = true;
-                        this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",") + 1));
-                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",") + 1)));
+                        this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
                         this.TrailersEnabled = true;
                     } else if (line.Contains(this.mediaPath)) {
-                        this.Feature = line.Substring(line.LastIndexOf(",") + 1);
+                        this.Feature = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
                         if (!File.Exists(this.Feature)) {
                             this.Feature = string.Empty;
                         } else {
@@ -126,12 +75,12 @@ namespace DigitalHomeCinemaManager.Components
                         }
                     } else if (line.Contains(this.prerollPath)) {
                         if (hasTrailer) {
-                            this.Commercial = line.Substring(line.LastIndexOf(",") + 1);
+                            this.Commercial = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
                             this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
                             this.CommercialEnabled = true;
                         } else {
-                            this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",") + 1));
-                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",") + 1)));
+                            this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
                             this.PrerollEnabled = true;
                         }
                     }
@@ -152,29 +101,29 @@ namespace DigitalHomeCinemaManager.Components
                 if (this.PrerollEnabled == true) {
                     foreach (string s in this.PrerollPlaylist) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
-                        writer.WriteLine(i.ToString() + ",type,0");
-                        writer.WriteLine(i.ToString() + ",filename," + s);
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, s));
                         i++;
                     }
                 }
                 if (this.TrailersEnabled == true) {
                     foreach (string s in this.TrailerPlaylist) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
-                        writer.WriteLine(i.ToString() + ",type,0");
-                        writer.WriteLine(i.ToString() + ",filename," + s);
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0",  i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, s));
                         i++;
                     }
                 }
                 if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
                     this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
-                    writer.WriteLine(i.ToString() + ",type,0");
-                    writer.WriteLine(i.ToString() + ",filename," + this.Commercial);
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, this.Commercial));
                     i++;
                 }
                 if (!string.IsNullOrEmpty(this.Feature)) {
                     this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
-                    writer.WriteLine(i.ToString() + ",type,0");
-                    writer.WriteLine(i.ToString() + ",filename," + this.Feature);
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, this.Feature));
                 }
                 writer.Flush();
             }
@@ -187,7 +136,7 @@ namespace DigitalHomeCinemaManager.Components
         /// Not marshalled to UI thread.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnPlaylistChanged()
+        private void OnPlaylistChanged()
         {
             PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
         }
@@ -202,8 +151,8 @@ namespace DigitalHomeCinemaManager.Components
 
             bool isYearPart = false;
             bool isExInfoPart = false;
-            int len = this.Feature.LastIndexOf("_");
-            int start = this.Feature.LastIndexOf("\\") + 1;
+            int len = this.Feature.LastIndexOf("_", StringComparison.Ordinal);
+            int start = this.Feature.LastIndexOf("\\", StringComparison.Ordinal) + 1;
             int lastSpace = 0;
             var title = new StringBuilder(len - start);
             var year = new StringBuilder(4);
@@ -257,8 +206,8 @@ namespace DigitalHomeCinemaManager.Components
 
             if (string.IsNullOrEmpty(this.Feature)) { return; }
 
-            int start = this.Feature.LastIndexOf("_") + 1;
-            int len = this.Feature.LastIndexOf(".");
+            int start = this.Feature.LastIndexOf("_", StringComparison.Ordinal) + 1;
+            int len = this.Feature.LastIndexOf(".", StringComparison.Ordinal);
             bool isAudioFormat = false;
 
             var videoFormat = new StringBuilder(3);
@@ -269,13 +218,13 @@ namespace DigitalHomeCinemaManager.Components
                     if (this.Feature[i] == '.') {
                         isAudioFormat = false;
                     } else {
-                        audioFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i]));
+                        audioFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i], CultureInfo.InvariantCulture));
                     }
                 } else {
                     switch (this.Feature[i]) {
                         case '-': isAudioFormat = true; break;
                         default:
-                            videoFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i]));
+                            videoFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i], CultureInfo.InvariantCulture));
                             break;
                     }
                 }

@@ -15,11 +15,11 @@
 namespace DigitalHomeCinemaManager.Controls.Settings
 {
     using System;
+    using System.Globalization;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
     using Microsoft.Win32;
-
 
     /// <summary>
     /// Interaction logic for SourceSettings.xaml
@@ -42,7 +42,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
 
             this.Path.Text = Properties.DeviceSettings.Default.Source_Path;
-            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString();
+            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
         }
 
         #endregion

@@ -48,49 +48,52 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonMediaClick(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            if (Directory.Exists(this.MediaPath.Text)) {
-                fbd.SelectedPath = this.MediaPath.Text;
-            } else {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-            }
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
+                if (Directory.Exists(this.MediaPath.Text)) {
+                    fbd.SelectedPath = this.MediaPath.Text;
+                } else {
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                }
 
-            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                this.MediaPath.Text = fbd.SelectedPath;
-                OnItemChanged();
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
+                    this.MediaPath.Text = fbd.SelectedPath;
+                    OnItemChanged();
+                }
             }
         }
 
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            if (Directory.Exists(this.PrerollPath.Text)) {
-                fbd.SelectedPath = this.PrerollPath.Text;
-            } else {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-            }
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
+                if (Directory.Exists(this.PrerollPath.Text)) {
+                    fbd.SelectedPath = this.PrerollPath.Text;
+                } else {
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                }
 
-            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                this.PrerollPath.Text = fbd.SelectedPath;
-                OnItemChanged();
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
+                    this.PrerollPath.Text = fbd.SelectedPath;
+                    OnItemChanged();
+                }
             }
         }
 
         private void ButtonTrailerClick(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            if (Directory.Exists(this.TrailerPath.Text)) {
-                fbd.SelectedPath = this.TrailerPath.Text;
-            } else {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-            }
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
+                if (Directory.Exists(this.TrailerPath.Text)) {
+                    fbd.SelectedPath = this.TrailerPath.Text;
+                } else {
+                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                }
 
-            System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                this.TrailerPath.Text = fbd.SelectedPath;
-                OnItemChanged();
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
+                    this.TrailerPath.Text = fbd.SelectedPath;
+                    OnItemChanged();
+                }
             }
         }
 

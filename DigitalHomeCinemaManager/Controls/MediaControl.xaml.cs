@@ -25,74 +25,92 @@ namespace DigitalHomeCinemaManager.Controls
     /// </summary>
     public partial class MediaControl : UserControl
     {
+
+        #region Members
+
         private bool subtitlesEnabled = false;
         private bool muted = false;
+
+        #endregion
+
+        #region Constructor
 
         public MediaControl()
         {
             InitializeComponent();
         }
 
-        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Methods
+
+        private void ButtonPlayClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Play();
         }
 
-        private void btnPause_Click(object sender, RoutedEventArgs e)
+        private void ButtonPauseClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Pause();
         }
 
-        private void btnStop_Click(object sender, RoutedEventArgs e)
+        private void ButtonStopClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Stop();
         }
 
-        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        private void ButtonPrevClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Previous();
         }
 
-        private void btnSkipBack_Click(object sender, RoutedEventArgs e)
+        private void ButtonSkipBackClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Rewind();
         }
 
-        private void btnSkipForward_Click(object sender, RoutedEventArgs e)
+        private void ButtonSkipForwardClick(object sender, RoutedEventArgs e)
         {
             this.Controller.FastForward();
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
+        private void ButtonNextClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Next();
         }
 
-        private void btnSubtitle_Click(object sender, RoutedEventArgs e)
+        private void ButtonSubtitleClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Subtitles();
             if (this.subtitlesEnabled) {
                 this.subtitlesEnabled = false;
-                ((Image)this.btnSubtitle.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_subtitles_black_36dp.png"));
+                ((Image)this.ButtonSubtitle.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_subtitles_black_36dp.png"));
             } else {
                 this.subtitlesEnabled = true;
-                ((Image)this.btnSubtitle.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_subtitles_white_36dp.png"));
+                ((Image)this.ButtonSubtitle.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_subtitles_white_36dp.png"));
             }
         }
 
-        private void btnMute_Click(object sender, RoutedEventArgs e)
+        private void ButtonMuteClick(object sender, RoutedEventArgs e)
         {
             this.Controller.Mute();
             if (this.muted) {
                 this.muted = false;
-                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_up_white_36dp.png"));
+                ((Image)this.ButtonMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_up_white_36dp.png"));
             } else {
                 this.muted = true;
-                ((Image)this.btnMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_off_white_36dp.png"));
+                ((Image)this.ButtonMute.Content).Source = new BitmapImage(new Uri("pack://application:,,/Resources/Icons/baseline_volume_off_white_36dp.png"));
             }
         }
 
+        #endregion
+
+        #region Properties
+
         public ISourceController Controller { get; set; }
 
+        #endregion
+
     }
+
 }

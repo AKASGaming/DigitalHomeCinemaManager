@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MSG_DRIVE_EJECTED" xml:space="preserve">
-    <value>Media Drive Ejected!</value>
-  </data>
-  <data name="MSG_DRIVE_INSERTED" xml:space="preserve">
-    <value>Media Drive Inserted.</value>
-  </data>
-  <data name="MSG_INIT_COMPLETE" xml:space="preserve">
-    <value>Initialization complete.</value>
-  </data>
-  <data name="MSG_PARSE_RULES_ERROR" xml:space="preserve">
-    <value>Failed to parse rules!</value>
-  </data>
-  <data name="MSG_ROUTING_ERROR" xml:space="preserve">
-    <value>Rule processing failed!</value>
-  </data>
 </root>
