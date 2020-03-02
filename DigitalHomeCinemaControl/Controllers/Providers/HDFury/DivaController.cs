@@ -64,8 +64,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                 { "Input Tx 1", typeof(Rx) },
             };
 
-            this.CustomNameTypes = new List<Type> {
-                typeof(Rx)
+            this.CustomNameTypes = new Dictionary<string, Type> {
+                { "Input", typeof(Rx) },
             };
 
         }
@@ -317,7 +317,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
         public bool IsConnected { get; private set; }
 
-        public List<Type> CustomNameTypes { get; private set; }
+        public Dictionary<string, Type> CustomNameTypes { get; private set; }
 
         #endregion
 

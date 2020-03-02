@@ -85,10 +85,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 { "Input", typeof(Input) }
             };
 
-            this.CustomNameTypes = new List<Type> {
-                typeof(ColorSpace),
-                typeof(GammaCorrection),
-                typeof(ColorTemp)
+            this.CustomNameTypes = new Dictionary<string, Type> {
+                { "ColorSpace", typeof(ColorSpace) },
+                { "Gamma", typeof(GammaCorrection) },
+                { "ColorTemp", typeof(ColorTemp) }
             };
 
         }
@@ -182,7 +182,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 this.ControllerStatus = ControllerStatus.Error;
                 OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
             } finally {
-                if (!this.timer.Enabled) {
+                if ((this.timer != null) && !this.timer.Enabled) {
                     if (this.running) {
                         this.timer.Start();
                     }
@@ -435,7 +435,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             private set { Setting<NameValueCollection>(value); }
         }
 
-        public List<Type> CustomNameTypes { get; private set; }
+        public Dictionary<string, Type> CustomNameTypes { get; private set; }
 
         #endregion
 

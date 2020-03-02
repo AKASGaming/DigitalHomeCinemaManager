@@ -17,10 +17,10 @@ namespace DigitalHomeCinemaControl.Controllers
     using System;
     using System.Collections.Generic;
 
-    public interface ISupportCustomNames
+    public interface ISupportCustomNames : IController
     {
 
-        List<Type> CustomNameTypes { get; }
+        Dictionary<string, Type> CustomNameTypes { get; }
 
     }
 
