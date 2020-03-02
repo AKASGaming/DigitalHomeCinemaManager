@@ -142,49 +142,49 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         private void ClientPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName) {
-                case "Power":
+                case nameof(this.avr.Power):
                     this.ControllerStatus = this.avr.Power.ToControllerStatus();
                     break;
-                case "Delay":
+                case nameof(this.avr.Delay):
                     this.Delay = this.avr.Delay;
                     break;
-                case "MasterVolume":
+                case nameof(this.avr.MasterVolume):
                     this.MasterVolume = RelativeToAbsoluteVolume(VOLUME_SCALE, this.avr.MasterVolume);
                     break;
-                case "Surround":
+                case nameof(this.avr.Surround):
                     UpdateDataSource<string>(SURROUNDMODE, this.avr.Surround.GetDescription());
                     break;
-                case "ToneControl":
+                case nameof(this.avr.ToneControl):
                     string toneControl = (this.avr.ToneControl == null) ? "---" : ((bool)this.avr.ToneControl == true) ? "On" : "Off";
                     UpdateDataSource<string>(TONECNT, toneControl);
                     break;
-                case "LoudnessManagement":
+                case nameof(this.avr.LoudnessManagement):
                     string loudness = (this.avr.LoudnessManagement == null) ? "---" : ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
                     UpdateDataSource<string>(LOUDMGMT, loudness);
                     break;
-                case "InputMode":
+                case nameof(this.avr.InputMode):
                     UpdateDataSource<string>(INPUTMODE, this.avr.InputMode.GetDescription());
                     break;
-                case "DynamicCompression":
+                case nameof(this.avr.DynamicCompression):
                     UpdateDataSource<string>(DYNCOMP, this.avr.DynamicCompression.GetDescription());
                     break;
-                case "DialogueEnhancer":
+                case nameof(this.avr.DialogueEnhancer):
                     UpdateDataSource<string>(DIAENH, this.avr.DialogueEnhancer.GetDescription());
                     break;
-                case "AudioRestorer":
+                case nameof(this.avr.AudioRestorer):
                     UpdateDataSource<string>(AUDRSTR, this.avr.AudioRestorer.GetDescription());
                     break;
-                case "MultEq":
+                case nameof(this.avr.MultEq):
                     UpdateDataSource<string>(MULTEQ, this.avr.MultEq.GetDescription());
                     break;
-                case "DynEq":
+                case nameof(this.avr.DynEq):
                     string dyneq = (this.avr.DynEq == null) ? "---" : ((bool)this.avr.DynEq == true) ? "On" : "Off";
                     UpdateDataSource<string>(DYNEQ, dyneq);
                     break;
-                case "DynamicVolume":
+                case nameof(this.avr.DynamicVolume):
                     UpdateDataSource<string>(DYNVOL, this.avr.DynamicVolume.GetDescription());
                     break;
-                case "Input":
+                case nameof(this.avr.Input):
                     string inputName = this.avr.Input.ToString();
                     if (this.avr.InputNames.ContainsKey(inputName.ToUpperInvariant())) {
                         UpdateDataSource<string>(INPUTSOURCE, this.avr.InputNames[inputName.ToUpperInvariant()]);
@@ -192,10 +192,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                         UpdateDataSource<string>(INPUTSOURCE, this.avr.Input.GetDescription());
                     }
                     break;   
-                case "ChannelStatus":
+                case nameof(this.avr.ChannelStatus):
                     SetActiveSpeakers();
                     break;  
-                case "SpeakerConfig":
+                case nameof(this.avr.SpeakerConfig):
                     SetAvailableSpeakers();
                     break;
             }
