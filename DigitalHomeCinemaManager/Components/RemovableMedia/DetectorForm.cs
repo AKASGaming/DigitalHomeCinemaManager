@@ -15,6 +15,7 @@
 namespace DigitalHomeCinemaManager.Components.RemovableMedia
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Windows.Forms;
 
     /// <summary>
@@ -69,6 +70,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
             this.detector?.WndProc(ref m);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();

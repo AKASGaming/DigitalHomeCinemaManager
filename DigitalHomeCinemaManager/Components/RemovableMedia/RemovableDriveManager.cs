@@ -23,6 +23,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
 {
     using System;
     using System.IO;
+    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;   // required for Marshal
     using System.Windows.Forms;             // required for Message
     using Microsoft.Win32.SafeHandles;
@@ -87,6 +88,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         /// init the DriveDetector object
         /// </summary>
         /// <param name="intPtr"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void Initialize(Control control, string fileToOpen)
         {
             this.fileToOpen = fileToOpen;
@@ -147,6 +149,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnDeviceArrived(DEV_BROADCAST_VOLUME volume)
         {
             // Get the drive letter 
@@ -168,6 +171,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual bool OnQueryRemove()
         {
             var e = new RemovableMediaEventArgs() {
@@ -178,13 +182,14 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
             return e.Cancel;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected virtual void OnDeviceRemoved(DEV_BROADCAST_VOLUME volume)
         {
             char c = DriveMaskToLetter(volume.dbcv_unitmask);
             var e = new RemovableMediaEventArgs() {
                 Drive = c + ":\\",
             };
-            DeviceRemoved?.Invoke(this, e);
+            DeviceRemoved?.BeginInvoke(this, e, null, null);
         }
 
         /// <summary>
@@ -347,6 +352,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         /// </summary>
         /// <param name="mask"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static char DriveMaskToLetter(int mask)
         {
             char letter;
