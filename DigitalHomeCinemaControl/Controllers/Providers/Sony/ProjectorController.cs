@@ -124,7 +124,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
             }
 
-            this.timer.Start();
+            this.timer?.Start();
         }
     
         public override void Disconnect()
