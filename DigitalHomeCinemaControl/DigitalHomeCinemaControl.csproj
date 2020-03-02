@@ -122,6 +122,7 @@
     <Compile Include="Controllers\IProcessorController.cs" />
     <Compile Include="Controllers\ISerialController.cs" />
     <Compile Include="Controllers\ISourceController.cs" />
+    <Compile Include="Controllers\ISupportCustomNames.cs" />
     <Compile Include="Controllers\ISwitchController.cs" />
     <Compile Include="Controllers\Providers\Denon\Avr\AvrClient.cs" />
     <Compile Include="Controllers\Providers\Denon\AvrController.cs" />

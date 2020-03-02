@@ -29,7 +29,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    public sealed class ProjectorController : DisplayController, IRoutingDestination, IDisposable
+    public sealed class ProjectorController : DisplayController, IRoutingDestination, ISupportCustomNames, IDisposable
     {
 
         #region Members
@@ -83,6 +83,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 { "HDR", typeof(HDR) },
                 { "AspectRatio", typeof(AspectRatio) },
                 { "Input", typeof(Input) }
+            };
+
+            this.CustomNameTypes = new List<Type> {
+                typeof(ColorSpace),
+                typeof(GammaCorrection),
+                typeof(ColorTemp)
             };
 
         }
@@ -429,9 +435,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             private set { Setting<NameValueCollection>(value); }
         }
 
-        #region IDisposable Support
-        
-        #endregion
+        public List<Type> CustomNameTypes { get; private set; }
 
         #endregion
 

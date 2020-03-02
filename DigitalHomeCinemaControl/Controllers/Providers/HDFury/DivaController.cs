@@ -26,7 +26,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    public sealed class DivaController : DeviceController, ISwitchController, IRoutingDestination, IDisposable
+    public sealed class DivaController : DeviceController, ISwitchController, IRoutingDestination, ISupportCustomNames, IDisposable
     {
 
         #region Members
@@ -62,6 +62,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                 { "Input", typeof(Rx) },
                 { "Input Tx 0", typeof(Rx) },
                 { "Input Tx 1", typeof(Rx) },
+            };
+
+            this.CustomNameTypes = new List<Type> {
+                typeof(Rx)
             };
 
         }
@@ -312,6 +316,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         }
 
         public bool IsConnected { get; private set; }
+
+        public List<Type> CustomNameTypes { get; private set; }
 
         #endregion
 
