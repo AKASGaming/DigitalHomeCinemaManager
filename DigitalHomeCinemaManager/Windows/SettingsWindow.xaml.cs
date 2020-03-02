@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaManager.Windows
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -49,6 +50,7 @@ namespace DigitalHomeCinemaManager.Windows
         {
             InitializeComponent();
 
+            this.Version.Content = "Version: " + Assembly.GetExecutingAssembly().GetName().Version;
             this.categories = CreateCategories();
 
             var genSettings = new GeneralSettings();
