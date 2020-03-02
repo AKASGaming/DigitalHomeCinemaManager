@@ -30,6 +30,15 @@ namespace DigitalHomeCinemaManager.Components
         private static string PLAYLIST = "\\Show_Playlist.mpcpl";
         private static string VIDEO_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
+        private const string MPCPLAYLIST = "MPCPLAYLIST";
+        private const string MPC_FORMAT_TYPE = "{0},type,0";
+        private const string MPC_FORMAT_FILE = "{0},filename,{1}";
+        private const string SD = "SD";
+        private const string HD = "HD";
+        private const string UHD = "UHD";
+        private const string ATMOS = "ATMOS";
+        private const string DTS = "DTS";
+
         private string prerollPath = Properties.Settings.Default.PrerollPath;
         private string trailerPath = Properties.Settings.Default.TrailerPath;
         private string mediaPath = Properties.Settings.Default.MediaPath;
@@ -96,34 +105,34 @@ namespace DigitalHomeCinemaManager.Components
 
             using (var writer = new StreamWriter(path, false)) {
                 this.playlist.Clear();
-                writer.WriteLine("MPCPLAYLIST");
+                writer.WriteLine(MPCPLAYLIST);
                 int i = 1;
                 if (this.PrerollEnabled == true) {
                     foreach (string s in this.PrerollPlaylist) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, s));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
                         i++;
                     }
                 }
                 if (this.TrailersEnabled == true) {
                     foreach (string s in this.TrailerPlaylist) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0",  i));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, s));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE,  i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
                         i++;
                     }
                 }
                 if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
                     this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, this.Commercial));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Commercial));
                     i++;
                 }
                 if (!string.IsNullOrEmpty(this.Feature)) {
                     this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},type,0", i));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, "{0},filename,{1}", i, this.Feature));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Feature));
                 }
                 writer.Flush();
             }
@@ -231,15 +240,15 @@ namespace DigitalHomeCinemaManager.Components
             }
 
             switch (videoFormat.ToString()) {
-                case "SD": this.FeatureVideoFormat = VideoFormat.SD; break;
-                case "HD": this.FeatureVideoFormat = VideoFormat.HD; break;
-                case "UHD": this.FeatureVideoFormat = VideoFormat.UHD; break;
+                case SD: this.FeatureVideoFormat = VideoFormat.SD; break;
+                case HD: this.FeatureVideoFormat = VideoFormat.HD; break;
+                case UHD: this.FeatureVideoFormat = VideoFormat.UHD; break;
                 default: this.FeatureVideoFormat = VideoFormat.Unknown; break;
             }
 
             switch (audioFormat.ToString()) {
-                case "ATMOS": this.FeatureAudioFormat = AudioFormat.Atmos; break;
-                case "DTS": this.FeatureAudioFormat = AudioFormat.DTS; break;
+                case ATMOS: this.FeatureAudioFormat = AudioFormat.Atmos; break;
+                case DTS: this.FeatureAudioFormat = AudioFormat.DTS; break;
                 default: this.FeatureAudioFormat = AudioFormat.Dolby; break;
             }
         }
