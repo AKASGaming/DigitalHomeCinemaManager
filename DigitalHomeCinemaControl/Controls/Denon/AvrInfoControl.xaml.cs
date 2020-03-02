@@ -24,13 +24,6 @@ namespace DigitalHomeCinemaControl.Controls.Denon
     public partial class AvrInfoControl : DeviceControl
     {
 
-        #region Members
-
-        //private readonly string[] statusIgnore = { "Output", "Surround Mode", "Input Source", "MultEQ", "Dyn EQ", "Dyn Vol" };
-        //private readonly string[] audysseyInclude = { "MultEQ", "Dyn EQ", "Dyn Vol" };
-
-        #endregion
-
         #region Constructor
 
         public AvrInfoControl()
