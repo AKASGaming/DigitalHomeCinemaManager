@@ -21,6 +21,9 @@
                 <Trigger Property="Content" Value="Error">
                     <Setter Property="Foreground" Value="DarkRed"/>
                 </Trigger>
+                <Trigger Property="Content" Value="Disabled">
+                    <Setter Property="Foreground" Value="DarkSlateGray"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>

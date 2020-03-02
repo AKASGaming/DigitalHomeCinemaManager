@@ -125,6 +125,16 @@ namespace DigitalHomeCinemaManager.Windows
                 this.InputSwitcher.Visibility = Visibility.Hidden;
                 this.ShowPlaylist.Height = 442;
             }
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.ProcessorDevice)) {
+                this.StatusControl.ProcessorStatus.Content = "Disabled";
+            }
+            if (string.IsNullOrEmpty(Properties.Settings.Default.DisplayDevice)) {
+                this.StatusControl.ProjectorStatus.Content = "Disabled";
+            }
+            if (string.IsNullOrEmpty(Properties.Settings.Default.SerialDevice)) {
+                this.StatusControl.SerialStatus.Content = "Disabled";
+            }
         }
 
         private void ProcessorControllerPropertyChanged(object sender, PropertyChangedEventArgs e)
