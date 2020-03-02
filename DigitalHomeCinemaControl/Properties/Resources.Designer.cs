@@ -79,6 +79,15 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HDFURY ERROR: {0}.
+        /// </summary>
+        internal static string FMT_HDFURY_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_HDFURY_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network timeout connecting to {0}.
         /// </summary>
         internal static string FMT_NETWORK_TIMEOUT {
@@ -106,6 +115,24 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string MSG_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HD Fury failed to set input..
+        /// </summary>
+        internal static string MSG_HDFURY_FAIL_INPUT_SELECT {
+            get {
+                return ResourceManager.GetString("MSG_HDFURY_FAIL_INPUT_SELECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Action!.
         /// </summary>
         internal static string MSG_INVALID_ACTION {
@@ -129,6 +156,15 @@ namespace DigitalHomeCinemaControl.Properties {
         internal static string MSG_INVALID_HOST {
             get {
                 return ResourceManager.GetString("MSG_INVALID_HOST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IO Error!.
+        /// </summary>
+        internal static string MSG_IO_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_IO_ERROR", resourceCulture);
             }
         }
         

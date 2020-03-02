@@ -45,9 +45,9 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
         {
             var changedItem = this.DataSource[e.NewIndex];
             switch (changedItem.Name) {
-                case "Tx0 Sink": this.TX0.Text = changedItem.Value.ToString(); break;
-                case "Tx0 Output": this.OutputTx0.Text = changedItem.Value.ToString(); break;
-                case "Input":
+                case DivaController.TX0SINK: this.TX0.Text = changedItem.Value.ToString(); break;
+                case DivaController.TX0OUT: this.OutputTx0.Text = changedItem.Value.ToString(); break;
+                case DivaController.INPUT:
                     var input = (Rx)changedItem.Value;
                     this.Source.Text = input.GetDescription() + ":";
                     SetCurrentInput(input);
@@ -110,7 +110,7 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
             if (!hdFury.IsConnected) { return; }
 
             if (!hdFury.SetInput(newInput)) {
-                MessageBox.Show("HD Fury failed to set input.", "", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show(Properties.Resources.MSG_HDFURY_FAIL_INPUT_SELECT, Properties.Resources.MSG_ERROR, MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
 

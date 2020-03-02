@@ -34,6 +34,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         private const int DEFAULT_PORT = 2210;
         private const int UPDATE_INTERVAL = 1000;
 
+        public const string TX0SINK = "Tx0 Sink";
+        public const string TX0OUT = "Tx0 Output";
+        public const string INPUT = "Input";
+
+        private const string INPUTTX0 = "Input Tx 0";
+        private const string INPUTTX1 = "Input Tx 1";
+
         private IDictionary<string, Type> actions;
         private TcpClient client;
         private NetworkStream networkStream;
@@ -54,18 +61,18 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             this.CustomInputs = new NameValueCollection();
 
-            this.DataSource.Add(new BindingItem<string>("Tx0 Sink"));
-            this.DataSource.Add(new BindingItem<string>("Tx0 Output"));
-            this.DataSource.Add(new BindingItem<Rx>("Input", Rx.Unknown));
+            this.DataSource.Add(new BindingItem<string>(TX0SINK));
+            this.DataSource.Add(new BindingItem<string>(TX0OUT));
+            this.DataSource.Add(new BindingItem<Rx>(INPUT, Rx.Unknown));
 
             this.actions = new Dictionary<string, Type> {
-                { "Input", typeof(Rx) },
-                { "Input Tx 0", typeof(Rx) },
-                { "Input Tx 1", typeof(Rx) },
+                { INPUT, typeof(Rx) },
+                { INPUTTX0, typeof(Rx) },
+                { INPUTTX1, typeof(Rx) },
             };
 
             this.CustomNameTypes = new Dictionary<string, Type> {
-                { "Input", typeof(Rx) },
+                { INPUT, typeof(Rx) },
             };
 
         }
@@ -139,21 +146,27 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
         public string RouteAction(string action, object args)
         {
+            if (string.IsNullOrEmpty(action)) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_HDFURY_ERROR, Properties.Resources.MSG_INVALID_ACTION);
+            }
+            if (args == null) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_HDFURY_ERROR, Properties.Resources.MSG_INVALID_ARGS);
+            }
             if (!this.IsConnected) {
-                return "HD FURY: Not Connected!";
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_HDFURY_ERROR, Properties.Resources.MSG_NOT_CONNECTED);
             }
 
             string command;
 
             switch (action) {
-                case "Input": command = string.Format(CultureInfo.InvariantCulture, "set insel {0} 4", (int)args); break;
-                case "Input Tx 0": command = string.Format(CultureInfo.InvariantCulture, "set inseltx0 {0}", (int)args); break;
-                case "Input Tx 1": command = string.Format(CultureInfo.InvariantCulture, "set inseltx1 {0}", (int)args); break;
+                case INPUT: command = string.Format(CultureInfo.InvariantCulture, "set insel {0} 4", (int)args); break;
+                case INPUTTX0: command = string.Format(CultureInfo.InvariantCulture, "set inseltx0 {0}", (int)args); break;
+                case INPUTTX1: command = string.Format(CultureInfo.InvariantCulture, "set inseltx1 {0}", (int)args); break;
                 default: command = string.Empty; break;
             }
 
             if (string.IsNullOrEmpty(command)) {
-                return "HD FURY: Invalid Action!";
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_HDFURY_ERROR, Properties.Resources.MSG_INVALID_ACTION);
             }
 
             if (this.writer != null) {
@@ -161,11 +174,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                     this.writer.WriteLine(command);
                     this.writer.Flush();
                 } catch {
-                    return "HD Fury: IO Error!";
+                    return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_HDFURY_ERROR, Properties.Resources.MSG_IO_ERROR);
                 }
             }
 
-            return "HD FURY: Ok.";
+            return string.Format(CultureInfo.InvariantCulture, "HDFURY {0}", Properties.Resources.MSG_OK);
         }
 
         internal bool SetInput(Rx input)
@@ -195,14 +208,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
             switch (dataParts[0].ToUpperInvariant()) {
                 case "TX0:":
-                    UpdateDataSource<string>("Tx0 Output", dataParts[1].Trim());
+                    UpdateDataSource<string>(TX0OUT, dataParts[1].Trim());
                     break;
                 case "TX0SINK:": 
-                    UpdateDataSource<string>("Tx0 Sink", dataParts[1].Trim());
+                    UpdateDataSource<string>(TX0SINK, dataParts[1].Trim());
                     break;
                 case "INSELTX0": 
                     if (int.TryParse(dataParts[1], out int i)) {
-                        UpdateDataSource<Rx>("Input", (Rx)i);
+                        UpdateDataSource<Rx>(INPUT, (Rx)i);
                     }
                     break;
             }

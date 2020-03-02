@@ -123,6 +123,9 @@
   <data name="FMT_DISCONNECTED" xml:space="preserve">
     <value>Disconnected from {0}</value>
   </data>
+  <data name="FMT_HDFURY_ERROR" xml:space="preserve">
+    <value>HDFURY ERROR: {0}</value>
+  </data>
   <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
     <value>Network timeout connecting to {0}</value>
   </data>
@@ -132,6 +135,12 @@
   <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
     <value>Connection Closed</value>
   </data>
+  <data name="MSG_ERROR" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MSG_HDFURY_FAIL_INPUT_SELECT" xml:space="preserve">
+    <value>HD Fury failed to set input.</value>
+  </data>
   <data name="MSG_INVALID_ACTION" xml:space="preserve">
     <value>Invalid Action!</value>
   </data>
@@ -140,6 +149,9 @@
   </data>
   <data name="MSG_INVALID_HOST" xml:space="preserve">
     <value>Invalid Host</value>
+  </data>
+  <data name="MSG_IO_ERROR" xml:space="preserve">
+    <value>IO Error!</value>
   </data>
   <data name="MSG_MPC_MAX_ERRORS" xml:space="preserve">
     <value>MPC: Max errors exceeded, Exiting.</value>
