@@ -79,38 +79,38 @@ namespace DigitalHomeCinemaManager.Windows
 
 #pragma warning disable IDE0008 // Use explicit type
             foreach (var t in Enum.GetValues(typeof(DeviceType))) {
-#pragma warning restore IDE0008 // Use explicit type
+#pragma warning restore IDE0008
 
                 string name = t.ToString();
                 CategoryItem category = new CategoryItem() { Category = "Devices", Name = name, };
 
                 switch (name) {
-                    case "Display":
+                    case nameof(DeviceType.Display):
                         var dui = new DisplaySettings();
                         dui.ItemChanged += SettingsItemChanged;
                         category.UIElement = dui;
                         break;
-                    case "InputSwitch":
+                    case nameof(DeviceType.InputSwitch):
                         var iui = new InputSwitchSettings();
                         iui.ItemChanged += SettingsItemChanged;
                         category.UIElement = iui;
                         break;
-                    case "MediaInfo":
+                    case nameof(DeviceType.MediaInfo):
                         var mui = new MediaInfoSettings();
                         mui.ItemChanged += SettingsItemChanged;
                         category.UIElement = mui;
                         break;
-                    case "Processor":
+                    case nameof(DeviceType.Processor):
                         var pui = new ProcessorSettings();
                         pui.ItemChanged += SettingsItemChanged;
                         category.UIElement = pui;
                         break;
-                    case "Serial":
+                    case nameof(DeviceType.Serial):
                         var sui = new SerialSettings();
                         sui.ItemChanged += SettingsItemChanged;
                         category.UIElement = sui;
                         break;
-                    case "Source":
+                    case nameof(DeviceType.Source):
                         var srui = new SourceSettings();
                         srui.ItemChanged += SettingsItemChanged;
                         category.UIElement = srui;

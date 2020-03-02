@@ -101,7 +101,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private void ButtonPathClick(object sender, System.Windows.RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog() {
-                Filter = "Programs (*.exe)|*.exe|All Files (*.*)|*.*",
+                Filter = Properties.Resources.FILTER_PROGRAMS,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
             };
 

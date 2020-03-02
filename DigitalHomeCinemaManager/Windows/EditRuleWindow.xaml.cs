@@ -69,7 +69,7 @@ namespace DigitalHomeCinemaManager.Windows
                 }
                 this.CheckEnabled.IsChecked = rule.Enabled;
             } else {
-                this.Title = "New Rule";
+                this.Title = Properties.Resources.NEW_RULE;
                 this.rule = new MatchAction();
                 this.matchBorder.IsEnabled = false;
                 this.cmbAction.IsEnabled = false;

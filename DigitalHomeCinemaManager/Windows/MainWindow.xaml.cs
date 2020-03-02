@@ -28,6 +28,7 @@ namespace DigitalHomeCinemaManager.Windows
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers;
+    using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Devices;
     using DigitalHomeCinemaManager.Components;
     using DigitalHomeCinemaManager.Controls;
@@ -59,7 +60,7 @@ namespace DigitalHomeCinemaManager.Windows
             InitializeComponent();
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
-            this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy", CultureInfo.InvariantCulture).ToLowerInvariant();
+            this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
             this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
             this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
@@ -140,15 +141,15 @@ namespace DigitalHomeCinemaManager.Windows
         private void ProcessorControllerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((sender is IProcessorController processor) &&
-                ((e.PropertyName == "ControllerStatus") || 
-                (e.PropertyName == "Delay") ||
-                (e.PropertyName == "MasterVolume"))) {
+                ((e.PropertyName == nameof(processor.ControllerStatus)) || 
+                 (e.PropertyName == nameof(processor.Delay)) ||
+                 (e.PropertyName == nameof(processor.MasterVolume)))) {
 
                 this.StatusControl.ProcessorStatus.Content = processor.ControllerStatus.ToString();
-                this.StatusControl.Delay.Content = string.Format(CultureInfo.InvariantCulture, "{0}ms", processor.Delay);
-                this.MasterVolume.Text = (processor.MasterVolume <= -80m)? "--dB" :
-                    (processor.MasterVolume > 0)? string.Format(CultureInfo.InvariantCulture, "+{0}dB", processor.MasterVolume) : 
-                     string.Format(CultureInfo.InvariantCulture, "{0}dB", processor.MasterVolume);
+                this.StatusControl.Delay.Content = string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DELAY, processor.Delay);
+                this.MasterVolume.Text = (processor.MasterVolume <= -80m)? Properties.Resources.DB_MUTE :
+                    (processor.MasterVolume > 0)? string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB_PLUS, processor.MasterVolume) : 
+                     string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB, processor.MasterVolume);
 
                 if (processor.MasterVolume <= -80) {
                     this.MasterVolume.Foreground = new SolidColorBrush(Colors.Aqua);
@@ -165,20 +166,20 @@ namespace DigitalHomeCinemaManager.Windows
         private void DisplayControllerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if ((sender is IDisplayController display) &&
-                ((e.PropertyName == "ControllerStatus") ||
-                (e.PropertyName  == "LampStatus") ||
-                (e.PropertyName  == "LampTimer"))) { 
+                ((e.PropertyName == nameof(display.ControllerStatus)) ||
+                 (e.PropertyName  == nameof(display.LampStatus)) ||
+                  (e.PropertyName  == nameof(display.LampTimer)))) { 
 
                 this.StatusControl.ProjectorStatus.Content = display.ControllerStatus.ToString();
                 this.StatusControl.Lamp.Content = display.LampStatus.GetDescription();
                 this.StatusControl.LampTime.Content = (display.LampTimer >= 0)? 
-                    string.Format(CultureInfo.InvariantCulture, "{0}h", display.LampTimer) : string.Empty;
+                    string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_LAMP_HOUS, display.LampTimer) : string.Empty;
             }
         }
 
         private void SerialControllerPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == "ControllerStatus") && (sender is ISerialController serial)) {
+            if ((sender is ISerialController serial) && (e.PropertyName == nameof(serial.ControllerStatus))) {
                 this.StatusControl.SerialStatus.Content = serial.ControllerStatus.ToString();
                 this.StatusControl.SerialPort.Content = serial.CommPort;
             }
@@ -207,13 +208,13 @@ namespace DigitalHomeCinemaManager.Windows
                 case VideoFormat.SD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/dvd.jpg"); break;
                 case VideoFormat.HD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/hd.jpg"); break;
                 case VideoFormat.UHD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/uhd.jpg"); break;
-                case VideoFormat.Unknown: SetImageSource(this.imgResolution, ""); break;
+                case VideoFormat.Unknown: SetImageSource(this.imgResolution, string.Empty); break;
             }
             switch (this.Playlist.FeatureAudioFormat) {
                 case AudioFormat.Atmos: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/atmos.png"); break;
                 case AudioFormat.DTS: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dts.jpg"); break;
                 case AudioFormat.Dolby: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dd.png"); break;
-                case AudioFormat.Unknown: SetImageSource(this.imgAudio, ""); break;
+                case AudioFormat.Unknown: SetImageSource(this.imgAudio, string.Empty); break;
             }
         }
 
@@ -235,7 +236,7 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void SourcePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == "State") && (sender is ISourceController source)) {
+            if ((sender is ISourceController source) && (e.PropertyName == nameof(source.State))) {
                 PlaybackStateChanged(source.State);
             }
         }
@@ -244,7 +245,7 @@ namespace DigitalHomeCinemaManager.Windows
         {
             this.Dispatcher.BeginInvoke((Action)(() => {
 #pragma warning disable CA1308 // Normalize strings to uppercase
-                this.txtDate.Text = DateTime.Now.Date.ToString("dddd | MMM dd yyyy", CultureInfo.InvariantCulture).ToLowerInvariant();
+                this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToLowerInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
                 this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
                 this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
@@ -256,7 +257,7 @@ namespace DigitalHomeCinemaManager.Windows
             if (e.ListChangedType == ListChangedType.ItemChanged) {
                 IBindingItem item = this.SourceData[e.NewIndex];
                 switch (item.Name) {
-                    case "Length":
+                    case nameof(SourceController.LENGTH):
                         int i = (int)item.Value;
                         if (i > 0) {
                             this.playbackLength = 1d / (int)item.Value;
@@ -265,7 +266,7 @@ namespace DigitalHomeCinemaManager.Windows
                         }
                         this.TaskbarItemInfo.ProgressValue = 0;
                         break;
-                    case "CurrentPosition":
+                    case nameof(SourceController.CURRENTPOSITION):
                         this.playbackPosition = (int)item.Value;
                         this.TaskbarItemInfo.ProgressValue = this.playbackPosition * this.playbackLength;
                         break;
@@ -282,7 +283,7 @@ namespace DigitalHomeCinemaManager.Windows
         {
             var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
                 Owner = this,
-                Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
+                Filter = Properties.Resources.FILTER_VIDEOS
             };
 
             if (Directory.Exists(Properties.Settings.Default.PrerollPath)) {
@@ -301,7 +302,7 @@ namespace DigitalHomeCinemaManager.Windows
         {
             var window = new PlaylistSelectionWindow(this.Playlist.TrailerPlaylist) {
                 Owner = this,
-                Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
+                Filter = Properties.Resources.FILTER_VIDEOS
             };
 
             if (Directory.Exists(Properties.Settings.Default.TrailerPath)) {
@@ -319,7 +320,7 @@ namespace DigitalHomeCinemaManager.Windows
         private void ButtonCommercialClick(object sender, RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog() {
-                Filter = "Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*"
+                Filter = Properties.Resources.FILTER_VIDEOS
             };
 
             if (Directory.Exists(Properties.Settings.Default.PrerollPath)) {
@@ -337,7 +338,7 @@ namespace DigitalHomeCinemaManager.Windows
         private void ButtonFeatureClick(object sender, RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog() {
-                Filter = "Movies (*.mkv)|*.mkv|All Files (*.*)|*.*"
+                Filter = Properties.Resources.FILTER_MOVIES
             };
 
             if (Directory.Exists(Properties.Settings.Default.MediaPath)) {
