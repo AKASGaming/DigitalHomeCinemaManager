@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System.ComponentModel;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controls;
 
     /// <summary>
@@ -43,22 +44,22 @@ namespace DigitalHomeCinemaControl.Controls.Common
             if (e.ListChangedType == ListChangedType.ItemChanged) {
                 IBindingItem item = this.DataSource[e.NewIndex];
                 switch (item.Name) {
-                    case "CurrentFile":
+                    case SourceController.CURRENTFILE:
                         this.txtNowPlaying.Text = (string)item.Value;
                         break;
-                    case "FileSize":
+                    case SourceController.FILESIZE:
                         this.txtFileSize.Text = (string)item.Value;
                         break;
-                    case "Position":
+                    case SourceController.POSITION:
                         this.txtPostion.Text = (string)item.Value;
                         break;
-                    case "Duration":
+                    case SourceController.DURATION:
                         this.txtDuration.Text = (string)item.Value;
                         break;
-                    case "CurrentPosition":
+                    case SourceController.CURRENTPOSITION:
                         this.fileProgress.Value = (int)item.Value;
                         break;
-                    case "Length":
+                    case SourceController.LENGTH:
                         this.fileProgress.Maximum = (int)item.Value;
                         break;
                 }

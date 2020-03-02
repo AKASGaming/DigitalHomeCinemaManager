@@ -24,6 +24,13 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         #region Members
 
+        public const string CURRENTFILE = "CurrentFile";
+        public const string FILESIZE = "FileSize";
+        public const string POSITION = "Position";
+        public const string DURATION = "Duration";
+        public const string CURRENTPOSITION = "CurrentPosition";
+        public const string LENGTH = "Length";
+
         private PlaybackState state;
 
         #endregion

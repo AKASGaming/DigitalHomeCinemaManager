@@ -49,7 +49,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         private Timer statsTimer;
         private static readonly HttpClient client = new HttpClient();
-        private string feature = "";
+        private string feature = string.Empty;
         private int errorCount = 0;
         private bool disposed = false;
 
@@ -86,7 +86,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         public override void Disconnect()
         {
-            Process[] mpcProcs = Process.GetProcessesByName(MpcController.PROCESS_NAME);
+            Process[] mpcProcs = Process.GetProcessesByName(PROCESS_NAME);
 
             if ((this.statsTimer != null) && this.statsTimer.Enabled) {
                 this.statsTimer.Stop();
@@ -114,7 +114,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             try {
                 response = (HttpWebResponse)request.GetResponse();
             } catch (WebException ex) {
-                OnError(string.Format(CultureInfo.InvariantCulture, "Failed to connect to MPC: {0}", ex.Status));
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_MPC_CONNECT_ERROR, ex.Status));
                 this.errorCount++;
                 if (this.errorCount > MAX_ERROR_COUNT) {
                     OnError(Properties.Resources.MSG_MPC_MAX_ERRORS);
@@ -150,16 +150,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
                 OnDataReceived(s);
             }
 
-            UpdateDataSource<string>("CurrentFile", currentFile);
-            UpdateDataSource<string>("FileSize", doc.GetElementbyId("size").InnerText);
-            UpdateDataSource<string>("Position", doc.GetElementbyId("positionstring").InnerText);
-            UpdateDataSource<string>("Duration", doc.GetElementbyId("durationstring").InnerText);
+            UpdateDataSource<string>(CURRENTFILE, currentFile);
+            UpdateDataSource<string>(FILESIZE, doc.GetElementbyId("size").InnerText);
+            UpdateDataSource<string>(POSITION, doc.GetElementbyId("positionstring").InnerText);
+            UpdateDataSource<string>(DURATION, doc.GetElementbyId("durationstring").InnerText);
 
             if (int.TryParse(doc.GetElementbyId("position").InnerText, out int p)) {
-                UpdateDataSource<int>("CurrentPosition", p);
+                UpdateDataSource<int>(CURRENTPOSITION, p);
             }
             if (int.TryParse(doc.GetElementbyId("duration").InnerText, out int l)) {
-                UpdateDataSource<int>("Length", l);
+                UpdateDataSource<int>(LENGTH, l);
             }
         }
 

@@ -126,6 +126,9 @@
   <data name="FMT_HDFURY_ERROR" xml:space="preserve">
     <value>HDFURY ERROR: {0}</value>
   </data>
+  <data name="FMT_MPC_CONNECT_ERROR" xml:space="preserve">
+    <value>Failed to connect to MPC: {0}</value>
+  </data>
   <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
     <value>Network timeout connecting to {0}</value>
   </data>
