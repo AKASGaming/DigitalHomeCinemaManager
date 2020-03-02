@@ -144,11 +144,11 @@ namespace DigitalHomeCinemaControl.Controls.Common
         private void ItemsSourcePropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName) {
-                case "HideUnusedChannels":
-                case "AvailableChannels":
+                case nameof(this.itemsSource.ChannelStatus.HideUnusedChannels):
+                case nameof(this.itemsSource.ChannelStatus.AvailableChannels):
                     UpdateAvailableChannels();
                     break;
-                case "ActiveChannels":
+                case nameof(this.itemsSource.ChannelStatus.ActiveChannels):
                     UpdateActiveChannels();
                     break;
                 default: // update everything

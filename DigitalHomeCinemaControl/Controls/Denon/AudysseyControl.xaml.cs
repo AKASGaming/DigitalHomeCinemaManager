@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
     using System.ComponentModel;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Controllers.Providers.Denon;
 
     /// <summary>
     /// Interaction logic for AudysseyControl.xaml
@@ -45,9 +46,9 @@ namespace DigitalHomeCinemaControl.Controls.Denon
         {
             var changedItem = this.ItemsSource[e.NewIndex];
             switch (changedItem.Name) {
-                case "MultEQ": this.MultEq.Text = changedItem.Value.ToString(); break;
-                case "Dyn EQ": this.DynEq.Text = changedItem.Value.ToString(); break;
-                case "Dyn Vol": this.DynVol.Text = changedItem.Value.ToString(); break;
+                case AvrController.MULTEQ: this.MultEq.Text = changedItem.Value.ToString(); break;
+                case AvrController.DYNEQ: this.DynEq.Text = changedItem.Value.ToString(); break;
+                case AvrController.DYNVOL: this.DynVol.Text = changedItem.Value.ToString(); break;
             }
         }
 

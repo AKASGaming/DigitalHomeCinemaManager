@@ -28,11 +28,10 @@ namespace DigitalHomeCinemaControl.Properties {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-#pragma warning disable CA1811 // Avoid uncalled private code
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-#pragma warning restore CA1811
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -58,6 +57,15 @@ namespace DigitalHomeCinemaControl.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AVR ERROR: {0}.
+        /// </summary>
+        internal static string FMT_AVR_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_AVR_ERROR", resourceCulture);
             }
         }
         
@@ -98,6 +106,24 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Action!.
+        /// </summary>
+        internal static string MSG_INVALID_ACTION {
+            get {
+                return ResourceManager.GetString("MSG_INVALID_ACTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid arguments!.
+        /// </summary>
+        internal static string MSG_INVALID_ARGS {
+            get {
+                return ResourceManager.GetString("MSG_INVALID_ARGS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Host.
         /// </summary>
         internal static string MSG_INVALID_HOST {
@@ -125,7 +151,7 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Connected.
+        ///   Looks up a localized string similar to Not Connected!.
         /// </summary>
         internal static string MSG_NOT_CONNECTED {
             get {
@@ -148,6 +174,15 @@ namespace DigitalHomeCinemaControl.Properties {
         internal static string MSG_OBJECT_NULL {
             get {
                 return ResourceManager.GetString("MSG_OBJECT_NULL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK..
+        /// </summary>
+        internal static string MSG_OK {
+            get {
+                return ResourceManager.GetString("MSG_OK", resourceCulture);
             }
         }
         

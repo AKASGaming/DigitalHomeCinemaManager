@@ -32,6 +32,26 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         private const int DEFAULT_PORT = 23;
         private const int VOLUME_SCALE = 80;
 
+        public const string CHANNELS = "Channels";
+        public const string OUTPUT = "Output";
+        public const string AUDYSSEY = "Audyssey";
+        public const string STATUS = "Status";
+        public const string MULTEQ = "MultEQ";
+        public const string DYNEQ = "Dyn EQ";
+        public const string DYNVOL = "Dyn Vol";
+        public const string INPUTMODE = "Input Mode";
+        public const string DYNCOMP = "Dynamic Compression";
+        public const string DIAENH = "Dialogue Enhancer";
+        public const string AUDRSTR = "Audio Restorer";
+        public const string TONECNT = "Tone Control";
+        public const string LOUDMGMT = "Loudness Management";
+        public const string SURROUNDMODE = "Surround Mode";
+        public const string INPUTSOURCE = "Input Source";
+
+        private const string QUICK = "QuickSelect";
+        private const string MV = "MasterVolume";
+        private const string DEL = "Delay";
+
         private AvrClient avr;
         private ChannelBinding channelBinding;
         private IDictionary<string, Type> actions;
@@ -47,7 +67,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             // The ChannelBinding is a specialied implementation of the IBindingItem interface
             // which allows for the PropertyChanged event to be externally reset.
             // Keep a reference to the binding locally and add it to the DataSource collection.
-            this.channelBinding = new ChannelBinding("Channels", this.Dispatcher) {
+            this.channelBinding = new ChannelBinding(CHANNELS, this.Dispatcher) {
                 ChannelStatus = new ChannelStatus()
             };
 
@@ -60,18 +80,18 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             // Since our UIElement is a container for multiple other controls, group our data
             // logically into a MultiplexedBindingList rather than the standard DispatchedBindingList
             var dataSource = new MultiplexedBindingList<IBindingItem> {
-                { "Output", this.channelBinding },
-                { "Audyssey", new BindingItem<string>("MultEQ") },
-                { "Audyssey", new BindingItem<string>("Dyn EQ") },
-                { "Audyssey", new BindingItem<string>("Dyn Vol") },
-                { "Status", new BindingItem<string>("Input Mode") },
-                { "Status", new BindingItem<string>("Dynamic Compression") },
-                { "Status", new BindingItem<string>("Dialogue Enhancer") },
-                { "Status", new BindingItem<string>("Audio Restorer") },
-                { "Status", new BindingItem<string>("Tone Control") },
-                { "Status", new BindingItem<string>("Loudness Management") },
-                new BindingItem<string>("Surround Mode"),
-                new BindingItem<string>("Input Source")
+                { OUTPUT, this.channelBinding },
+                { AUDYSSEY, new BindingItem<string>(MULTEQ) },
+                { AUDYSSEY, new BindingItem<string>(DYNEQ) },
+                { AUDYSSEY, new BindingItem<string>(DYNVOL) },
+                { STATUS, new BindingItem<string>(INPUTMODE) },
+                { STATUS, new BindingItem<string>(DYNCOMP) },
+                { STATUS, new BindingItem<string>(DIAENH) },
+                { STATUS, new BindingItem<string>(AUDRSTR) },
+                { STATUS, new BindingItem<string>(TONECNT) },
+                { STATUS, new BindingItem<string>(LOUDMGMT) },
+                new BindingItem<string>(SURROUNDMODE),
+                new BindingItem<string>(INPUTSOURCE)
             };
 
             this.DataSource = dataSource;
@@ -79,9 +99,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             // Only a small number of the AvrClient properties currently support external changes.
             // More can be added if needed.
             this.actions = new Dictionary<string, Type> {
-                { "QuickSelect", typeof(QuickSelect) },
-                { "MasterVolume", typeof(decimal) },
-                { "Delay", typeof(int) },
+                { QUICK, typeof(QuickSelect) },
+                { MV, typeof(decimal) },
+                { DEL, typeof(int) },
             };
         }
 
@@ -132,44 +152,44 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     this.MasterVolume = RelativeToAbsoluteVolume(VOLUME_SCALE, this.avr.MasterVolume);
                     break;
                 case "Surround":
-                    UpdateDataSource<string>("Surround Mode", this.avr.Surround.GetDescription());
+                    UpdateDataSource<string>(SURROUNDMODE, this.avr.Surround.GetDescription());
                     break;
                 case "ToneControl":
                     string toneControl = (this.avr.ToneControl == null) ? "---" : ((bool)this.avr.ToneControl == true) ? "On" : "Off";
-                    UpdateDataSource<string>("Tone Control", toneControl);
+                    UpdateDataSource<string>(TONECNT, toneControl);
                     break;
                 case "LoudnessManagement":
                     string loudness = (this.avr.LoudnessManagement == null) ? "---" : ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
-                    UpdateDataSource<string>("Loudness Management", loudness);
+                    UpdateDataSource<string>(LOUDMGMT, loudness);
                     break;
                 case "InputMode":
-                    UpdateDataSource<string>("Input Mode", this.avr.InputMode.GetDescription());
+                    UpdateDataSource<string>(INPUTMODE, this.avr.InputMode.GetDescription());
                     break;
                 case "DynamicCompression":
-                    UpdateDataSource<string>("Dynamic Compression", this.avr.DynamicCompression.GetDescription());
+                    UpdateDataSource<string>(DYNCOMP, this.avr.DynamicCompression.GetDescription());
                     break;
                 case "DialogueEnhancer":
-                    UpdateDataSource<string>("Dialogue Enhancer", this.avr.DialogueEnhancer.GetDescription());
+                    UpdateDataSource<string>(DIAENH, this.avr.DialogueEnhancer.GetDescription());
                     break;
                 case "AudioRestorer":
-                    UpdateDataSource<string>("Audio Restorer", this.avr.AudioRestorer.GetDescription());
+                    UpdateDataSource<string>(AUDRSTR, this.avr.AudioRestorer.GetDescription());
                     break;
                 case "MultEq":
-                    UpdateDataSource<string>("MultEQ", this.avr.MultEq.GetDescription());
+                    UpdateDataSource<string>(MULTEQ, this.avr.MultEq.GetDescription());
                     break;
                 case "DynEq":
                     string dyneq = (this.avr.DynEq == null) ? "---" : ((bool)this.avr.DynEq == true) ? "On" : "Off";
-                    UpdateDataSource<string>("Dyn EQ", dyneq);
+                    UpdateDataSource<string>(DYNEQ, dyneq);
                     break;
                 case "DynamicVolume":
-                    UpdateDataSource<string>("Dyn Vol", this.avr.DynamicVolume.GetDescription());
+                    UpdateDataSource<string>(DYNVOL, this.avr.DynamicVolume.GetDescription());
                     break;
                 case "Input":
                     string inputName = this.avr.Input.ToString();
                     if (this.avr.InputNames.ContainsKey(inputName.ToUpperInvariant())) {
-                        UpdateDataSource<string>("Input Source", this.avr.InputNames[inputName.ToUpperInvariant()]);
+                        UpdateDataSource<string>(INPUTSOURCE, this.avr.InputNames[inputName.ToUpperInvariant()]);
                     } else {
-                        UpdateDataSource<string>("Input Source", this.avr.Input.GetDescription());
+                        UpdateDataSource<string>(INPUTSOURCE, this.avr.Input.GetDescription());
                     }
                     break;   
                 case "ChannelStatus":
@@ -287,7 +307,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     break;
             }
 
-            this.channelBinding.Reset("AvailableChannels");
+            this.channelBinding.Reset(nameof(this.channelBinding.ChannelStatus.AvailableChannels));
         }
 
         private void SetActiveSpeakers()
@@ -313,7 +333,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 }
             }
 
-            this.channelBinding.Reset("ActiveChannels");
+            this.channelBinding.Reset(nameof(this.channelBinding.ChannelStatus.ActiveChannels));
         }
 
         private void ClientDisconnected(object sender, EventArgs e)
@@ -330,38 +350,44 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
 
         protected override void OnSettingChanged(string name)
         {
-            if (!string.IsNullOrEmpty(name) && (name == "HideUnusedOutputs")) {
+            if (!string.IsNullOrEmpty(name) && (name == nameof(this.HideUnusedOutputs))) {
                 Debug.Assert(this.channelBinding != null);
 
                 this.channelBinding.ChannelStatus.HideUnusedChannels = this.HideUnusedOutputs;
-                this.channelBinding.Reset("HideUnusedChannels");
+                this.channelBinding.Reset(nameof(this.HideUnusedOutputs));
             }
         }
 
         public string RouteAction(string action, object args)
         {
-            if (string.IsNullOrEmpty(action)) { return "AVR ERROR: Invalid Action!"; }
-            if (!this.avr.IsConnected) { return "AVR ERROR: Not connected!"; }
-            if (args == null) { return "AVR ERROR: Invalid arguments!"; }
+            if (string.IsNullOrEmpty(action)) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_INVALID_ACTION);
+            }
+            if (!this.avr.IsConnected) { 
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_NOT_CONNECTED);
+            }
+            if (args == null) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_INVALID_ARGS);
+            }
 
             switch (action) {
-                case "QuickSelect":
+                case QUICK:
                     if (Enum.TryParse(args.ToString(), out QuickSelect qs)) {
                         if (qs != QuickSelect.Unknown) {
                             this.avr.QuickSelect = qs;
                         }
                     }
                     break;
-                case "MasterVolume":
+                case MV:
                     int mv = AbsoluteToRelativeVolume(VOLUME_SCALE, (decimal)args);
                     this.avr.MasterVolume = mv;
                     break;
-                case "Delay":
+                case DEL:
                     this.avr.Delay = (int)args;
                     break;
             }
 
-            return "AVR OK.";
+            return string.Format(CultureInfo.InvariantCulture, "AVR {0}", Properties.Resources.MSG_OK);
         }
 
         private void Dispose(bool disposing)

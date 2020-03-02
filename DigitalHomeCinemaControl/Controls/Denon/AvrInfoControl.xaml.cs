@@ -16,6 +16,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
 {
     using System.ComponentModel;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Controllers.Providers.Denon;
 
     /// <summary>
     /// Interaction logic for AvrInfoControl.xaml
@@ -48,13 +49,13 @@ namespace DigitalHomeCinemaControl.Controls.Denon
             // DataSource. If our sub-controls aren't bound yet, do that now
             if (this.DataSource is MultiplexedBindingList<IBindingItem> mList) {
                 if (this.StatusList.ItemsSource == null) {
-                    this.StatusList.ItemsSource = mList.GetMultiplexedList("Status");
+                    this.StatusList.ItemsSource = mList.GetMultiplexedList(AvrController.STATUS);
                 }
                 if (this.Audyssey.ItemsSource == null) {
-                    this.Audyssey.ItemsSource = mList.GetMultiplexedList("Audyssey");
+                    this.Audyssey.ItemsSource = mList.GetMultiplexedList(AvrController.AUDYSSEY);
                 }
                 if (this.SpeakerOutput.ItemsSource == null) {
-                    var bindingList = mList.GetMultiplexedList("Output");
+                    var bindingList = mList.GetMultiplexedList(AvrController.OUTPUT);
                     if (bindingList[0] is ChannelBinding binding) {
                         this.SpeakerOutput.ItemsSource = binding;
                     }
@@ -66,8 +67,8 @@ namespace DigitalHomeCinemaControl.Controls.Denon
             // handle local items
             var changedItem = (IBindingItem)this.DataSource[e.NewIndex];
             switch (changedItem.Name) {
-                case "Surround Mode": this.SurroundMode.Text = changedItem.Value.ToString(); break;
-                case "Input Source": this.Source.Text = changedItem.Value.ToString(); break;
+                case AvrController.SURROUNDMODE: this.SurroundMode.Text = changedItem.Value.ToString(); break;
+                case AvrController.INPUTSOURCE: this.Source.Text = changedItem.Value.ToString(); break;
             }
         }
 #pragma warning restore CA1062

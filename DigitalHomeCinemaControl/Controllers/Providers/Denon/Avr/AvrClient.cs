@@ -655,8 +655,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                     case "INFASP": // output channel bitmap
                         this.ChannelStatus.Clear();
                         for (int i = 0; i < 32; i++) {
-                            string b = s[1].Substring(i, 1);
-                            bool val = (b == "2") ? true : false;
+                            char c = s[1][i];
+                            bool val = (c == '2')? true : false;
                             Channel channel;
 
                             if (Enum.IsDefined(typeof(Channel), i)) {
