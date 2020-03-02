@@ -143,7 +143,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             string currentFile = doc.GetElementbyId("file").InnerText;
 
             if (Enum.TryParse<PlaybackState>(doc.GetElementbyId("statestring").InnerText, out PlaybackState s)) {
-                if ((s == PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(currentFile)) {
+                if ((s >= PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(currentFile)) {
                     s = PlaybackState.PlayingFeature;
                 }
                 this.State = s;
