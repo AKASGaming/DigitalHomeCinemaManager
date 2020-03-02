@@ -61,6 +61,87 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to --dB.
+        /// </summary>
+        internal static string DB_MUTE {
+            get {
+                return ResourceManager.GetString("DB_MUTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Movies (*.mkv)|*.mkv|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string FILTER_MOVIES {
+            get {
+                return ResourceManager.GetString("FILTER_MOVIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Programs (*.exe)|*.exe|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string FILTER_PROGRAMS {
+            get {
+                return ResourceManager.GetString("FILTER_PROGRAMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Videos (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*.
+        /// </summary>
+        internal static string FILTER_VIDEOS {
+            get {
+                return ResourceManager.GetString("FILTER_VIDEOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to dddd | MMM dd yyyy.
+        /// </summary>
+        internal static string FMT_DATE {
+            get {
+                return ResourceManager.GetString("FMT_DATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}dB.
+        /// </summary>
+        internal static string FMT_DB {
+            get {
+                return ResourceManager.GetString("FMT_DB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +{0}dB.
+        /// </summary>
+        internal static string FMT_DB_PLUS {
+            get {
+                return ResourceManager.GetString("FMT_DB_PLUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}ms.
+        /// </summary>
+        internal static string FMT_DELAY {
+            get {
+                return ResourceManager.GetString("FMT_DELAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}h.
+        /// </summary>
+        internal static string FMT_LAMP_HOUS {
+            get {
+                return ResourceManager.GetString("FMT_LAMP_HOUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rule match: {0}.
         /// </summary>
         internal static string FMT_ROUTING_OK {
@@ -120,6 +201,15 @@ namespace DigitalHomeCinemaManager.Properties {
         internal static string MSG_ROUTING_ERROR {
             get {
                 return ResourceManager.GetString("MSG_ROUTING_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Rule.
+        /// </summary>
+        internal static string NEW_RULE {
+            get {
+                return ResourceManager.GetString("NEW_RULE", resourceCulture);
             }
         }
     }

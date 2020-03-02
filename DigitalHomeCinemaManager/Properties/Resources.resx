@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DB_MUTE" xml:space="preserve">
+    <value>--dB</value>
+  </data>
+  <data name="FILTER_MOVIES" xml:space="preserve">
+    <value>Movies (*.mkv)|*.mkv|All Files (*.*)|*.*</value>
+  </data>
+  <data name="FILTER_PROGRAMS" xml:space="preserve">
+    <value>Programs (*.exe)|*.exe|All Files (*.*)|*.*</value>
+  </data>
+  <data name="FILTER_VIDEOS" xml:space="preserve">
+    <value>Videos (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*</value>
+  </data>
+  <data name="FMT_DATE" xml:space="preserve">
+    <value>dddd | MMM dd yyyy</value>
+  </data>
+  <data name="FMT_DB" xml:space="preserve">
+    <value>{0}dB</value>
+  </data>
+  <data name="FMT_DB_PLUS" xml:space="preserve">
+    <value>+{0}dB</value>
+  </data>
+  <data name="FMT_DELAY" xml:space="preserve">
+    <value>{0}ms</value>
+  </data>
+  <data name="FMT_LAMP_HOUS" xml:space="preserve">
+    <value>{0}h</value>
+  </data>
   <data name="FMT_ROUTING_OK" xml:space="preserve">
     <value>Rule match: {0}</value>
   </data>
@@ -137,5 +164,8 @@
   </data>
   <data name="MSG_ROUTING_ERROR" xml:space="preserve">
     <value>Rule processing failed!</value>
+  </data>
+  <data name="NEW_RULE" xml:space="preserve">
+    <value>New Rule</value>
   </data>
 </root>
