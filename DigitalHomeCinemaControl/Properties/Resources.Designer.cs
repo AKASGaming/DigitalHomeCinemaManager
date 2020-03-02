@@ -106,11 +106,29 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SDCP ERROR: {0}.
+        /// </summary>
+        internal static string FMT_SDCP_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_SDCP_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to open serial connection on {0}.
         /// </summary>
         internal static string FMT_SERIAL_ERROR {
             get {
                 return ResourceManager.GetString("FMT_SERIAL_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TMDB failed to find result for {0}.
+        /// </summary>
+        internal static string FMT_TMDB_NO_RESULT {
+            get {
+                return ResourceManager.GetString("FMT_TMDB_NO_RESULT", resourceCulture);
             }
         }
         
@@ -255,6 +273,15 @@ namespace DigitalHomeCinemaControl.Properties {
         internal static string MSG_SDCP_ERROR_COMMUNITY_LEN {
             get {
                 return ResourceManager.GetString("MSG_SDCP_ERROR_COMMUNITY_LEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SDCP OK..
+        /// </summary>
+        internal static string MSG_SDCP_OK {
+            get {
+                return ResourceManager.GetString("MSG_SDCP_OK", resourceCulture);
             }
         }
         

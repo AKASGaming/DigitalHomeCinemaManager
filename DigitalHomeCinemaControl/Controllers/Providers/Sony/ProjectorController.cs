@@ -34,6 +34,15 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 
         #region Members
 
+        private const string MODEL = "Model";
+        private const string PRESET = "Calibration Preset";
+        private const string COLORSPACE = "Color Space";
+        private const string ASPECT = "Aspect Ratio";
+        private const string GAMMA = "Gamma";
+        private const string MOTIONFLOW = "Motion Flow";
+        private const string REALITYCREATION = "Reality Creation";
+        private const string COLORTEMP = "Color Temperature";
+
         private const int DEFAULT_PORT = 53484;
         private const int COMMAND_DELAY = 100;
         private const int IDLE_INTERVAL = 5000;
@@ -66,29 +75,29 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             this.DisplayType = DisplayType.Projector;
             this.LampStatus = LampStatus.Unknown;
 
-            this.DataSource.Add(new BindingItem<string>("Model"));
-            this.DataSource.Add(new BindingItem<string>("Calibration Preset"));
-            this.DataSource.Add(new BindingItem<string>("Color Space"));
-            this.DataSource.Add(new BindingItem<string>("Aspect Ratio"));
-            this.DataSource.Add(new BindingItem<string>("Gamma"));
-            this.DataSource.Add(new BindingItem<string>("Motion Flow"));
-            this.DataSource.Add(new BindingItem<string>("Reality Creation"));
+            this.DataSource.Add(new BindingItem<string>(MODEL));
+            this.DataSource.Add(new BindingItem<string>(PRESET));
+            this.DataSource.Add(new BindingItem<string>(COLORSPACE));
+            this.DataSource.Add(new BindingItem<string>(ASPECT));
+            this.DataSource.Add(new BindingItem<string>(GAMMA));
+            this.DataSource.Add(new BindingItem<string>(MOTIONFLOW));
+            this.DataSource.Add(new BindingItem<string>(REALITYCREATION));
 
             this.actions = new Dictionary<string, Type> {
-                { "CalibrationPreset", typeof(CalibrationPreset) },
-                { "LampControl", typeof(LampControl) },
-                { "GammaCorrection", typeof(GammaCorrection) },
-                { "ColorSpace", typeof(ColorSpace) },
-                { "MotionFlow", typeof(MotionFlow) },
-                { "HDR", typeof(HDR) },
-                { "AspectRatio", typeof(AspectRatio) },
-                { "Input", typeof(Input) }
+                { nameof(CalibrationPreset), typeof(CalibrationPreset) },
+                { nameof(LampControl), typeof(LampControl) },
+                { nameof(GammaCorrection), typeof(GammaCorrection) },
+                { nameof(ColorSpace), typeof(ColorSpace) },
+                { nameof(MotionFlow), typeof(MotionFlow) },
+                { nameof(HDR), typeof(HDR) },
+                { nameof(AspectRatio), typeof(AspectRatio) },
+                { nameof(Input), typeof(Input) }
             };
 
             this.CustomNameTypes = new Dictionary<string, Type> {
-                { "ColorSpace", typeof(ColorSpace) },
-                { "Gamma", typeof(GammaCorrection) },
-                { "ColorTemp", typeof(ColorTemp) }
+                { COLORSPACE, typeof(ColorSpace) },
+                { GAMMA, typeof(GammaCorrection) },
+                { COLORTEMP, typeof(ColorTemp) }
             };
 
         }
@@ -145,7 +154,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 
         public string RouteAction(string action, object args)
         {
-            if (string.IsNullOrEmpty(action)) { return "SDCP ERROR: Invalid Action!"; }
+            if (string.IsNullOrEmpty(action)) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_SDCP_ERROR, Properties.Resources.MSG_INVALID_ACTION);
+            }
 
             if (Enum.TryParse(action, out CommandItem item)) {
                 SdcpRequest request = new SdcpRequest("SONY", RequestType.Set) {
@@ -160,12 +171,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 }
 
                 if (response.Result == SdcpResult.OK) {
-                    return "SDCP OK.";
+                    return Properties.Resources.MSG_SDCP_OK;
                 } else {
-                    return string.Format(CultureInfo.InvariantCulture, "SDCP ERROR: {0}", response.Error.ToString("G"));
+                    return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_SDCP_ERROR, response.Error.ToString("G"));
                 }
             } else {
-                return "SDCP ERROR: Invalid Action!";
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_SDCP_ERROR, Properties.Resources.MSG_INVALID_ACTION);
             }
         }
 
@@ -323,12 +334,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 this.timer.Interval = IDLE_INTERVAL;
                 this.LampStatus = LampStatus.Off;
 
-                UpdateDataSource<string>("Calibration Preset", "");
-                UpdateDataSource<string>("Color Space", "");
-                UpdateDataSource<string>("Aspect Ratio", "");
-                UpdateDataSource<string>("Gamma", "");
-                UpdateDataSource<string>("Motion Flow", "");
-                UpdateDataSource<string>("Reality Creation", "");
+                UpdateDataSource<string>(PRESET, string.Empty);
+                UpdateDataSource<string>(COLORSPACE, string.Empty);
+                UpdateDataSource<string>(ASPECT, string.Empty);
+                UpdateDataSource<string>(GAMMA, string.Empty);
+                UpdateDataSource<string>(MOTIONFLOW, string.Empty);
+                UpdateDataSource<string>(REALITYCREATION, string.Empty);
 
                 this.timer.Start();
                 return;
@@ -348,22 +359,22 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             }
 
             // update DataSource
-            GetItemAndUpdate<CalibrationPreset>("Calibration Preset", CommandItem.CalibrationPreset);
-            GetItemAndUpdate<ColorSpace>("Color Space", CommandItem.ColorSpace, this.CustomColorSpace);
-            GetItemAndUpdate<AspectRatio>("Aspect Ratio", CommandItem.AspectRatio);
-            GetItemAndUpdate<GammaCorrection>("Gamma", CommandItem.GammaCorrection, this.CustomGamma);
-            GetItemAndUpdate<MotionFlow>("Motion Flow", CommandItem.MotionFlow);
+            GetItemAndUpdate<CalibrationPreset>(PRESET, CommandItem.CalibrationPreset);
+            GetItemAndUpdate<ColorSpace>(COLORSPACE, CommandItem.ColorSpace, this.CustomColorSpace);
+            GetItemAndUpdate<AspectRatio>(ASPECT, CommandItem.AspectRatio);
+            GetItemAndUpdate<GammaCorrection>(GAMMA, CommandItem.GammaCorrection, this.CustomGamma);
+            GetItemAndUpdate<MotionFlow>(MOTIONFLOW, CommandItem.MotionFlow);
 
             var rc = GetItem<RealityCreation>(CommandItem.RealityCreation);
             if (rc == RealityCreation.On) {
                 var rcd = GetItem<RealityCreationDatabase>(CommandItem.RealityCreationDatabase);
                 if (rcd == RealityCreationDatabase.Unknown) {
-                    UpdateDataSource("Reality Creation", rc.GetDescription());
+                    UpdateDataSource(REALITYCREATION, rc.GetDescription());
                 } else {
-                    UpdateDataSource("Reality Creation", string.Format(CultureInfo.InvariantCulture, "{0} - {1}", rc.GetDescription(), rcd.GetDescription()));
+                    UpdateDataSource(REALITYCREATION, string.Format(CultureInfo.InvariantCulture, "{0} - {1}", rc.GetDescription(), rcd.GetDescription()));
                 }
             } else {
-                UpdateDataSource("Reality Creation", rc.GetDescription());
+                UpdateDataSource(REALITYCREATION, rc.GetDescription());
             }
 
             this.timer.Start();

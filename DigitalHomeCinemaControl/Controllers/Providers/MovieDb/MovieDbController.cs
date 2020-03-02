@@ -27,6 +27,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
 
         #region Members
 
+        private const string POSTERPATH = "PosterPath";
+        private const string DESCRIPTION = "Description";
+
         private const string POSTER_URL = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         private TMDbClient movieApi;
         private bool disposed = false;
@@ -44,8 +47,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                 RaiseListChangedEvents = true
             };
 
-            this.DataSource.Add(new BindingItem<string>("PosterPath"));
-            this.DataSource.Add(new BindingItem<string>("Description"));
+            this.DataSource.Add(new BindingItem<string>(POSTERPATH));
+            this.DataSource.Add(new BindingItem<string>(DESCRIPTION));
         }
 
         #endregion
@@ -84,8 +87,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
         public void GetFeatureInfo(string title, string year = "")
         {
             if (string.IsNullOrEmpty(title)) {
-                UpdateDataSource<string>("PosterPath", string.Empty);
-                UpdateDataSource<string>("Description", string.Empty);
+                UpdateDataSource<string>(POSTERPATH, string.Empty);
+                UpdateDataSource<string>(DESCRIPTION, string.Empty);
                 return;
             }
 
@@ -93,28 +96,28 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
                 SearchContainer<SearchMovie> results = this.movieApi.SearchMovieAsync(title).Result;
 
                 if (results.Results.Count == 0) {
-                    OnError(string.Format(CultureInfo.InvariantCulture, "TMDB failed to find result for {0}", title));
-                    UpdateDataSource<string>("PosterPath", string.Empty);
-                    UpdateDataSource<string>("Description", string.Empty);
+                    OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_TMDB_NO_RESULT, title));
+                    UpdateDataSource<string>(POSTERPATH, string.Empty);
+                    UpdateDataSource<string>(DESCRIPTION, string.Empty);
                     return;
                 }
 
                 foreach (var result in results.Results) {
                     if (string.IsNullOrEmpty(year) && (!string.IsNullOrEmpty(result.PosterPath))) {
-                        UpdateDataSource<string>("PosterPath", POSTER_URL + result.PosterPath);
-                        UpdateDataSource<string>("Description", result.Overview);
+                        UpdateDataSource<string>(POSTERPATH, POSTER_URL + result.PosterPath);
+                        UpdateDataSource<string>(DESCRIPTION, result.Overview);
                         break;
                     } else if ((title == result.Title) && (result.ReleaseDate?.Year.ToString(CultureInfo.InvariantCulture) == year) &&
                         (!string.IsNullOrEmpty(result.PosterPath))) {
-                        UpdateDataSource<string>("PosterPath", POSTER_URL + result.PosterPath);
-                        UpdateDataSource<string>("Description", result.Overview);
+                        UpdateDataSource<string>(POSTERPATH, POSTER_URL + result.PosterPath);
+                        UpdateDataSource<string>(DESCRIPTION, result.Overview);
                         break;
                     }
                 }
             } catch {
-                OnError(string.Format(CultureInfo.InvariantCulture, "TMDB failed to find result for {0}", title));
-                UpdateDataSource<string>("PosterPath", string.Empty);
-                UpdateDataSource<string>("Description", string.Empty);
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_TMDB_NO_RESULT, title));
+                UpdateDataSource<string>(POSTERPATH, string.Empty);
+                UpdateDataSource<string>(DESCRIPTION, string.Empty);
             }
         }
 

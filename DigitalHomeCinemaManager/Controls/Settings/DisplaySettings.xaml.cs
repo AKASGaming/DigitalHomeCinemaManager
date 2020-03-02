@@ -37,7 +37,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private bool initialized = false;
         private Type customColorSpaceType;
         private Type customGammaType;
+#pragma warning disable IDE0052 // Remove unread private members
         private Type customColorTempType;
+#pragma warning restore IDE0052
         private ObservableCollection<KeyValuePair<string, string>> customColorSpace;
         private ObservableCollection<KeyValuePair<string, string>> customGamma;
         private ObservableCollection<KeyValuePair<string, string>> customColorTemp;
@@ -152,9 +154,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             if (controller is ISupportCustomNames customNameController) {
                 foreach (var customType in customNameController.CustomNameTypes) {
                     switch (customType.Key) {
-                        case "ColorSpace": this.customColorSpaceType = customType.Value; break;
+                        case "Color Space": this.customColorSpaceType = customType.Value; break;
                         case "Gamma": this.customGammaType = customType.Value; break;
-                        case "ColorTemp": this.customColorTempType = customType.Value; break;
+                        case "Color Temperature": this.customColorTempType = customType.Value; break;
                     }
                 } // foreach
 

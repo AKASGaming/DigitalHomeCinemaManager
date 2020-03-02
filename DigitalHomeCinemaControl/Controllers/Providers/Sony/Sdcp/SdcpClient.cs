@@ -221,8 +221,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         {
             get { return this.commandDelay; }
             set {
-                if (value < 30) { throw new ArgumentOutOfRangeException("CommandDelay", Properties.Resources.MSG_SDCP_DELAY_LESS_30); }
-                if (value > 3200) { throw new ArgumentOutOfRangeException("CommandDelay", Properties.Resources.MSG_SDCP_DELAY_MORE_3200); }
+                if (value < 30) { throw new ArgumentOutOfRangeException(nameof(this.CommandDelay), Properties.Resources.MSG_SDCP_DELAY_LESS_30); }
+                if (value > 3200) { throw new ArgumentOutOfRangeException(nameof(this.CommandDelay), Properties.Resources.MSG_SDCP_DELAY_MORE_3200); }
 
                 this.commandDelay = value;
             }

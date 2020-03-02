@@ -132,8 +132,14 @@
   <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
     <value>Network timeout connecting to {0}</value>
   </data>
+  <data name="FMT_SDCP_ERROR" xml:space="preserve">
+    <value>SDCP ERROR: {0}</value>
+  </data>
   <data name="FMT_SERIAL_ERROR" xml:space="preserve">
     <value>Failed to open serial connection on {0}</value>
+  </data>
+  <data name="FMT_TMDB_NO_RESULT" xml:space="preserve">
+    <value>TMDB failed to find result for {0}</value>
   </data>
   <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
     <value>Connection Closed</value>
@@ -182,6 +188,9 @@
   </data>
   <data name="MSG_SDCP_ERROR_COMMUNITY_LEN" xml:space="preserve">
     <value>value length must be equal to 4 characters</value>
+  </data>
+  <data name="MSG_SDCP_OK" xml:space="preserve">
+    <value>SDCP OK.</value>
   </data>
   <data name="MSG_STREAM_ERROR" xml:space="preserve">
     <value>Stream not readable or writable</value>
