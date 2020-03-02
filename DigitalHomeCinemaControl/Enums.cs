@@ -68,11 +68,11 @@ namespace DigitalHomeCinemaControl
     /// </summary>
     public enum PlaybackState
     {
-        Unknown,
-        Playing,
-        PlayingFeature,
-        Paused,
-        Stopped,
+        Unknown = -1,
+        Stopped = 0,
+        Paused = 1,
+        Playing = 10,
+        PlayingFeature = 11,
     }
 
     /// <summary>
