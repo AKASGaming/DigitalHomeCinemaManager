@@ -30,6 +30,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
+    // TODO: IDisposable
     [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
     public class ProjectorController : DisplayController, IRoutingDestination
     {

@@ -114,11 +114,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         {
             try {
                 Dispose(true);
-            } catch { 
+            } catch {
             } finally {
                 OnDisconnected();
             }
-            
         }
 
         private void ClientPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -381,10 +380,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             }
         }
 
+        ~AvrController()
+        {
+            Dispose(false);
+        }
+
         [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
         void IDisposable.Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

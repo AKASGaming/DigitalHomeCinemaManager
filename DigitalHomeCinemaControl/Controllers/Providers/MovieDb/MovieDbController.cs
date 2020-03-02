@@ -14,6 +14,7 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
@@ -22,14 +23,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
     using TMDbLib.Objects.General;
     using TMDbLib.Objects.Search;
 
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class MovieDbController : DeviceController, IMediaInfoController
+    public sealed class MovieDbController : DeviceController, IMediaInfoController, IDisposable
     {
 
         #region Members
 
         private const string POSTER_URL = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         private TMDbClient movieApi;
+        private bool disposed = false;
 
         #endregion
 
@@ -51,6 +52,35 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
         #endregion
 
         #region Methods
+
+        public override void Connect()
+        {
+            if (string.IsNullOrEmpty(this.ApiKey)) {
+                this.ControllerStatus = ControllerStatus.Error;
+                OnError(Properties.Resources.MSG_TMDB_API_KEY_ERROR);
+                return;
+            }
+
+            this.disposed = false;
+
+            try {
+                this.movieApi = new TMDbClient(this.ApiKey, false);
+                OnConnected();
+            } catch {
+                this.ControllerStatus = ControllerStatus.Error;
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "TMDB"));
+            }  
+        }
+
+        public override void Disconnect()
+        {
+            try {
+                Dispose(true);
+            } catch {
+            } finally {
+                OnDisconnected();
+            }            
+        }
 
         public void GetFeatureInfo(string title, string year = "")
         {
@@ -89,25 +119,29 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
             }
         }
 
-        public override void Connect()
+        private void Dispose(bool disposing)
         {
-            if (this.movieApi != null) { return; }
+            if (!this.disposed) {
+                if (disposing) {
+                    this.movieApi?.Dispose();
+                }
 
-            if (string.IsNullOrEmpty(this.ApiKey)) {
-                OnError(Properties.Resources.MSG_TMDB_API_KEY_ERROR);
-            } else {
-                this.movieApi = new TMDbClient(this.ApiKey, false);
-                OnConnected();
+                this.disposed = true;
+
+                this.movieApi = null;
             }
         }
 
-        public override void Disconnect()
+        ~MovieDbController()
         {
-            if (this.movieApi != null) {
-                this.movieApi.Dispose();
-                this.movieApi = null;
-            }
-            OnDisconnected();
+            Dispose(false);
+        }
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

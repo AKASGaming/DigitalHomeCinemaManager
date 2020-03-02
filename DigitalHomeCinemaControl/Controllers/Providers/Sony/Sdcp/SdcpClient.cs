@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
     using System.Net.Sockets;
     using System.Threading;
 
+    // TODO: Clean up IDisposable
     public class SdcpClient : IDisposable
     {
 

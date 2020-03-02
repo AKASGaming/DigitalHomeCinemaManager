@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.IO.Ports;
     using System.Runtime.CompilerServices;
     using System.Threading;
@@ -27,8 +28,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
     /// <summary>
     /// Generic Serial Device Controller
     /// </summary>
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class SerialController : DeviceController, ISerialController, IRoutingSource
+    public class SerialController : DeviceController, ISerialController, IRoutingSource, IDisposable
     {
 
         #region Members
@@ -41,6 +41,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
 
         private SerialPort serialPort;
         private AutoResetEvent waitHandle;
+        private bool disposed = false; 
 
         #endregion
 
@@ -49,8 +50,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         public SerialController()
             : base()
         {
-            this.waitHandle = new AutoResetEvent(false);
-
             this.Port = string.Empty;
             this.ReadDelay = READ_DELAY;
             this.BaudRate = BAUD_RATE;
@@ -64,16 +63,18 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         #region  Methods
 
         public override void Connect()
-        {
-            if (this.waitHandle == null) {
-                this.waitHandle = new AutoResetEvent(false);
-            }
-            this.waitHandle.Reset();
-
+        { 
+            this.disposed = false;
+            
             if (string.IsNullOrEmpty(this.Port)) {
                 this.ControllerStatus = ControllerStatus.Error;
                 return;
             }
+
+            if (this.waitHandle == null) {
+                this.waitHandle = new AutoResetEvent(false);
+            }
+            this.waitHandle.Reset();
 
             this.serialPort = new SerialPort(this.Port) {
                 BaudRate = this.BaudRate,
@@ -89,14 +90,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
                 OnConnected();
             } catch {
                 this.ControllerStatus = ControllerStatus.Error;
-                OnError("Failed to open serial connection on " + this.Port);
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_SERIAL_ERROR, this.Port));
             }
         }
 
         private void SerialPort_Disposed(object sender, EventArgs e)
         {
-            this.serialPort = null;
-            OnDisconnected();
+            OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DISCONNECTED, this.Port));
+            this.ControllerStatus = ControllerStatus.Disconnected;
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -111,25 +112,47 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
 
         public override void Disconnect()
         {
-            if (this.waitHandle != null) {
-                this.waitHandle.Set();
-                this.waitHandle.Dispose();
+            this.waitHandle?.Set();
+
+            try {
+                Dispose(true);
+            } catch { 
+            } finally {
+                OnDisconnected();
             }
-
-            if (this.serialPort != null) {
-                this.serialPort.Close();
-            }
-
-            this.serialPort = null;
-            this.waitHandle = null;
-
-            OnDisconnected();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDataReceived(string data)
         {
             RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    this.waitHandle?.Dispose();
+                    this.serialPort?.Dispose();
+                }
+
+                this.disposed = true;
+
+                this.serialPort = null;
+                this.waitHandle = null;
+            }
+        }
+
+        ~SerialController()
+        {
+            Dispose(false);
+        }
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

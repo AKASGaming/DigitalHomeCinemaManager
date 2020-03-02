@@ -123,6 +123,9 @@
   <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
     <value>Network timeout connecting to {0}</value>
   </data>
+  <data name="FMT_SERIAL_ERROR" xml:space="preserve">
+    <value>Failed to open serial connection on {0}</value>
+  </data>
   <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
     <value>Connection Closed</value>
   </data>

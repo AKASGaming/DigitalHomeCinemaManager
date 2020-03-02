@@ -79,6 +79,15 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to open serial connection on {0}.
+        /// </summary>
+        internal static string FMT_SERIAL_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_SERIAL_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection Closed.
         /// </summary>
         internal static string MSG_CONNECTION_CLOSED {

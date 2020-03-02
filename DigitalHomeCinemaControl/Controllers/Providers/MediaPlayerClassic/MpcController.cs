@@ -33,8 +33,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     /// <summary>
     /// Media Player Classic - Home Cinema controller.
     /// </summary>
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class MpcController : SourceController, ISourceController, IRoutingSource
+    public sealed class MpcController : SourceController, ISourceController, IRoutingSource, IDisposable
     {
 
         #region Members
@@ -53,6 +52,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         private static readonly HttpClient client = new HttpClient();
         private string feature = "";
         private int errorCount = 0;
+        private bool disposed = false;
 
         #endregion
 
@@ -61,17 +61,49 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         public MpcController()
             : base()
         {
-            this.statsTimer = new System.Timers.Timer {
-                Interval = STATUS_INTERVAL
-            };
-            this.statsTimer.Elapsed += StatsTimerElapsed;
-            this.statsTimer.AutoReset = true;
             this.State = PlaybackState.Unknown;
         }
 
         #endregion
 
         #region Methods
+
+        public override void Connect()
+        {
+            if (client == null) {
+                throw new InvalidOperationException();
+            }
+            this.disposed = false;
+
+            this.statsTimer = new System.Timers.Timer {
+                Interval = STATUS_INTERVAL,
+                AutoReset = true
+            };
+            this.statsTimer.Elapsed += StatsTimerElapsed;
+            this.statsTimer.Start();
+
+            OnConnected();
+        }
+
+        public override void Disconnect()
+        {
+            Process[] mpcProcs = Process.GetProcessesByName(MpcController.PROCESS_NAME);
+
+            if ((this.statsTimer != null) && this.statsTimer.Enabled) {
+                this.statsTimer.Stop();
+            }
+
+            try {
+                foreach (var p in mpcProcs) {
+                    p.Kill();
+                }
+
+                Dispose(true);
+            } catch { 
+            } finally {
+                OnDisconnected();
+            }
+        }
 
         private void StatsTimerElapsed(object sender, ElapsedEventArgs e)
         {
@@ -83,7 +115,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             try {
                 response = (HttpWebResponse)request.GetResponse();
             } catch (WebException ex) {
-                OnError(string.Format(CultureInfo.InvariantCulture ,"Failed to connect to MPC: {0}", ex.Status));
+                OnError(string.Format(CultureInfo.InvariantCulture, "Failed to connect to MPC: {0}", ex.Status));
                 this.errorCount++;
                 if (this.errorCount > MAX_ERROR_COUNT) {
                     OnError(Properties.Resources.MSG_MPC_MAX_ERRORS);
@@ -129,31 +161,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             }
             if (int.TryParse(doc.GetElementbyId("duration").InnerText, out int l)) {
                 UpdateDataSource<int>("Length", l);
-            }
-        }
-
-        public override void Connect()
-        {
-            if (this.Dispatcher == null) {
-                throw new InvalidOperationException();
-            }
-
-            this.statsTimer.Start();
-            OnConnected();
-        }
-
-        public override void Disconnect()
-        {
-            Process[] mpcProcs = Process.GetProcessesByName(MpcController.PROCESS_NAME);
-
-            try {
-                this.statsTimer.Stop();
-
-                foreach (var p in mpcProcs) {
-                    p.Kill();
-                }
-            } catch { } finally {
-                OnDisconnected();
             }
         }
 
@@ -245,9 +252,34 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             } catch { }
         }
 
-        protected void OnDataReceived(PlaybackState data)
+        private void OnDataReceived(PlaybackState data)
         {
             RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    this.statsTimer?.Dispose();
+                }
+
+                this.disposed = true;
+                this.statsTimer = null;
+            }
+        }
+
+        ~MpcController()
+        {
+            Dispose(false);
+            client?.Dispose();
+        }
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

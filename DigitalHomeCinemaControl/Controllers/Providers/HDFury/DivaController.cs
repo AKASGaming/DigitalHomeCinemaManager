@@ -27,8 +27,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class DivaController : DeviceController, ISwitchController, IRoutingDestination
+    public sealed class DivaController : DeviceController, ISwitchController, IRoutingDestination, IDisposable
     {
 
         #region Members
@@ -42,6 +41,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         private StreamReader reader;
         private StreamWriter writer;
         private Timer timer;
+        private bool disposed = false;
 
         #endregion
 
@@ -73,7 +73,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
 
         public override void Connect()
         {
-            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException(Properties.Resources.MSG_OBJECT_DISPOSED); }
+            if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException(Properties.Resources.MSG_INVALID_HOST); }
+            this.disposed = false;
 
             this.client = new TcpClient() {
                 NoDelay = true,
@@ -114,31 +115,23 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             }
 
             try {
-                this.client.Close();
+                Dispose(true);
             } catch {
             } finally {
-                if (this.reader != null) {
-                    this.reader.Dispose();
-                }
-                if (this.writer != null) {
-                    this.writer.Dispose();
-                }
-                if (this.networkStream != null) {
-                    this.networkStream.Dispose();
-                }
-                if (this.timer != null) {
-                    this.timer.Dispose();
-                }
+                OnDisconnected();
             }
+        }
 
-            this.client = null;
-            this.reader = null;
-            this.writer = null;
-            this.networkStream = null;
-            this.timer = null;
-
+        private void ClientDisconnected()
+        {
             OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DISCONNECTED, "HDFury"));
-            OnDisconnected();
+            this.ControllerStatus = ControllerStatus.Error;
+
+            try {
+                this.client?.Close();
+            } catch { }
+
+            // TODO: reconnect?
         }
 
         public string RouteAction(string action, object args)
@@ -234,12 +227,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if ((this.client == null) || !this.client.Connected) {
-                Disconnect();    
+                ClientDisconnected();    
                 return; 
             }
 
             if (!this.networkStream.CanRead || !this.networkStream.CanWrite) {
-                Disconnect();
+                ClientDisconnected();
                 return;
             }
 
@@ -251,6 +244,39 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
                     this.timer.Start();
                 }
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    this.client?.Close();
+                    this.reader?.Dispose();
+                    this.writer?.Dispose();
+                    this.networkStream?.Dispose();
+                    this.timer?.Dispose();
+                }
+
+                this.disposed = true;
+
+                this.client = null;
+                this.reader = null;
+                this.writer = null;
+                this.networkStream = null;
+                this.timer = null;
+            }
+        }
+
+        ~DivaController()
+        {
+            Dispose(false);
+        }
+
+        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion
