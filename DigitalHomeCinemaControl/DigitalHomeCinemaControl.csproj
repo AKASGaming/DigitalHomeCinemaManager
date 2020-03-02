@@ -141,6 +141,7 @@
     <Compile Include="Controllers\Routing\IRoutingDestination.cs" />
     <Compile Include="Controllers\Routing\IRoutingSource.cs" />
     <Compile Include="Controllers\Routing\MatchAction.cs" />
+    <Compile Include="Controllers\Routing\RoutingDataEventArgs.cs" />
     <Compile Include="Controllers\Routing\RoutingItem.cs" />
     <Compile Include="Controls\Common\MediaInfoControl.xaml.cs">
       <DependentUpon>MediaInfoControl.xaml</DependentUpon>

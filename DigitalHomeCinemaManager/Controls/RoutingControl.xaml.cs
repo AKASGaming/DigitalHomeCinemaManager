@@ -38,12 +38,12 @@ namespace DigitalHomeCinemaManager.Controls
         private void ListMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             
-            ListDoubleClick?.Invoke(sender, this.lstRules.SelectedItem);
+            ListDoubleClick?.Invoke(sender, new SelectedItemChangedEventArgs(this.lstRules.SelectedItem));
         }
 
         private void RulesAddClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            ListAddClick?.Invoke(sender, null);
+            ListAddClick?.Invoke(sender, new SelectedItemChangedEventArgs(null));
         }
 
         private void RulesDeleteClick(object sender, System.Windows.RoutedEventArgs e)
@@ -51,20 +51,18 @@ namespace DigitalHomeCinemaManager.Controls
             
             if (this.lstRules.SelectedIndex < 0) { return; }
 
-            ListRemoveClick?.Invoke(sender, this.lstRules.SelectedItem);
+            ListRemoveClick?.Invoke(sender, new SelectedItemChangedEventArgs(this.lstRules.SelectedItem));
         }
 
         #endregion
 
         #region Events
         
-#pragma warning disable CA1009 // Declare second parameter of event as EventArgs
-        public event EventHandler<object> ListDoubleClick;
+        public event EventHandler<SelectedItemChangedEventArgs> ListDoubleClick;
 
-        public event EventHandler<object> ListAddClick;
+        public event EventHandler<SelectedItemChangedEventArgs> ListAddClick;
 
-        public event EventHandler<object> ListRemoveClick;
-#pragma warning restore CA1009
+        public event EventHandler<SelectedItemChangedEventArgs> ListRemoveClick;
 
         #endregion
 

@@ -24,6 +24,7 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Routing;
     using DigitalHomeCinemaManager.Components.Include;
+    using DigitalHomeCinemaManager.Controls;
     using DigitalHomeCinemaManager.Windows;
 
     internal sealed class DigitalCinemaManager : IDisposable
@@ -163,9 +164,9 @@ namespace DigitalHomeCinemaManager.Components
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RoutingControlListDoubleClick(object sender, object e)
+        private void RoutingControlListDoubleClick(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e is MatchAction rule) {
+            if (e.SelectedItem is MatchAction rule) {
                 var window = new EditRuleWindow(this.router, rule) {
                     Owner = this.mainWindow,
                 };
@@ -183,9 +184,9 @@ namespace DigitalHomeCinemaManager.Components
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RoutingControlListRemoveClick(object sender, object e)
+        private void RoutingControlListRemoveClick(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e is MatchAction rule) {
+            if (e.SelectedItem is MatchAction rule) {
                 this.router.Rules.Remove(rule);
                 this.router.SaveRules();
             }
@@ -199,7 +200,7 @@ namespace DigitalHomeCinemaManager.Components
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void RoutingControlListAddClick(object sender, object e)
+        private void RoutingControlListAddClick(object sender, SelectedItemChangedEventArgs e)
         {
             var window = new EditRuleWindow(this.router, null) {
                 Owner = this.mainWindow,

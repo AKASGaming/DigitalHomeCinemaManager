@@ -59,7 +59,7 @@ namespace DigitalHomeCinemaControl.Controllers
         /// Raised when the controller encounters an error.
         /// </summary>
 #pragma warning disable CA1716 // Identifiers should not match keywords
-        event EventHandler<string> Error;
+        event EventHandler<ControllerErrorEventArgs> Error;
 #pragma warning restore CA1716
 
         /// <summary>

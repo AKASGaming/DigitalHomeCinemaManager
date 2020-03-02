@@ -192,9 +192,9 @@ namespace DigitalHomeCinemaManager.Components
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnControllerError(object sender, string message)
+        private void OnControllerError(object sender, ControllerErrorEventArgs e)
         {
-            ControllerError?.Invoke(sender, message);
+            ControllerError?.Invoke(sender, e.Message);
         }
 
         private void Dispose(bool disposing)

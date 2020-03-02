@@ -164,7 +164,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(string message)
         {
-            Error?.Invoke(this, message);
+            Error?.Invoke(this, new ControllerErrorEventArgs(message));
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// <summary>
         /// Raised whenever the controller encouters an error with the device.
         /// </summary>
-        public event EventHandler<string> Error;
+        public event EventHandler<ControllerErrorEventArgs> Error;
 
         /// <summary>
         /// Raised whenever a controller property has changed.

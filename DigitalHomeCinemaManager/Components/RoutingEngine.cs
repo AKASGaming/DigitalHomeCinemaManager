@@ -175,11 +175,11 @@ namespace DigitalHomeCinemaManager.Components
             }
         }
 
-        public void QueueData(object sender, RoutingItem e)
+        public void QueueData(object sender, RoutingDataEventArgs e)
         {
             if (!this.running) { return; }
 
-            this.queue.Enqueue(e);
+            this.queue.Enqueue(e.Item);
             this.notifier.Set();
         }
 

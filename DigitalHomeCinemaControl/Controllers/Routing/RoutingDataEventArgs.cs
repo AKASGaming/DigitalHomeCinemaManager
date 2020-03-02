@@ -16,26 +16,16 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
 {
     using System;
 
-    /// <summary>
-    /// Sends data to a routing engine for processing and distribution to IRoutingDestinations.
-    /// </summary>
-    public interface IRoutingSource
+    public class RoutingDataEventArgs : EventArgs
     {
 
-        /// <summary>
-        /// Notifies the routing engine of new data to process.
-        /// </summary>
-        event EventHandler<RoutingDataEventArgs> RouteData;
+        public RoutingDataEventArgs(RoutingItem item)
+            : base()
+        {
+            this.Item = item;
+        }
 
-        /// <summary>
-        /// Gets the name of the IRoutingSource.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets the Type of the object this source provides.
-        /// </summary>
-        Type MatchType { get; }
+        public RoutingItem Item { get; private set; }
 
     }
 

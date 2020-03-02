@@ -253,7 +253,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         private void OnDataReceived(PlaybackState data)
         {
-            RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(PlaybackState), data));
+            var item = new RoutingItem(this.Name, typeof(PlaybackState), data);
+            RouteData?.Invoke(this, new RoutingDataEventArgs(item));
         }
 
         private void Dispose(bool disposing)
@@ -286,7 +287,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         #region Events
 
-        public event EventHandler<RoutingItem> RouteData;
+        public event EventHandler<RoutingDataEventArgs> RouteData;
 
         #endregion
 

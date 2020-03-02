@@ -124,7 +124,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnDataReceived(string data)
         {
-            RouteData?.Invoke(this, new RoutingItem(this.Name, typeof(string), data));
+            var item = new RoutingItem(this.Name, typeof(string), data);
+            RouteData?.Invoke(this, new RoutingDataEventArgs(item));
         }
 
         protected virtual void Dispose(bool disposing)
@@ -159,7 +160,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
 
         #region Events
 
-        public event EventHandler<RoutingItem> RouteData;
+        public event EventHandler<RoutingDataEventArgs> RouteData;
 
         #endregion
 
