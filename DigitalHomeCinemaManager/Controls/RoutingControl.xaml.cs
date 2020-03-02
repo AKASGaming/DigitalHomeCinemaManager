@@ -37,6 +37,7 @@ namespace DigitalHomeCinemaManager.Controls
 
         private void ListMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            
             ListDoubleClick?.Invoke(sender, this.lstRules.SelectedItem);
         }
 
@@ -56,12 +57,14 @@ namespace DigitalHomeCinemaManager.Controls
         #endregion
 
         #region Events
-
+        
+#pragma warning disable CA1009 // Declare second parameter of event as EventArgs
         public event EventHandler<object> ListDoubleClick;
 
         public event EventHandler<object> ListAddClick;
 
         public event EventHandler<object> ListRemoveClick;
+#pragma warning restore CA1009
 
         #endregion
 

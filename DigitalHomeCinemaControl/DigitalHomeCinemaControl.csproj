@@ -46,6 +46,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -114,6 +115,7 @@
     <Compile Include="Controllers\Base\ProcessorController.cs" />
     <Compile Include="Controllers\Base\SourceController.cs" />
     <Compile Include="Collections\IBindingItem.cs" />
+    <Compile Include="Controllers\ControllerErrorEventArgs.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\IDisplayController.cs" />
     <Compile Include="Controllers\IMediaInfoController.cs" />

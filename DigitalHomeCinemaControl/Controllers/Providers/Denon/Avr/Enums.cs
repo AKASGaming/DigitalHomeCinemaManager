@@ -12,7 +12,7 @@
  *
  */
 
-#pragma warning disable CA1707
+#pragma warning disable CA1707 // Remove underscores from member namess
 
 namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
 {

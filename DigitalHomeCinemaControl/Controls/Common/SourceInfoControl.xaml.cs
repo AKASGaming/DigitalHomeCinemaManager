@@ -15,7 +15,6 @@
 namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controls;
 
@@ -38,7 +37,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 
         #region Methods
 
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
+#pragma warning disable CA1062 // Validate arguments of public methods
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemChanged) {
@@ -65,6 +64,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                 }
             }
         }
+#pragma warning restore CA1062
 
         #endregion
 

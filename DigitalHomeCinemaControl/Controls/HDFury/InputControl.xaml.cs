@@ -16,14 +16,12 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Providers.HDFury;
-
 
     /// <summary>
     /// Interaction logic for InputControl.xaml
@@ -42,7 +40,7 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
 
         #region Methods
 
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
+#pragma warning disable CA1062 // Validate arguments of public methods
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             var changedItem = this.DataSource[e.NewIndex];
@@ -56,6 +54,7 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
                     break;
             }
         }
+#pragma warning restore CA1062
 
         private void SetCurrentInput(Rx input)
         {

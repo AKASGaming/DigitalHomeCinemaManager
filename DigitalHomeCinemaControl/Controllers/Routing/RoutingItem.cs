@@ -90,7 +90,7 @@ namespace DigitalHomeCinemaControl.Controllers.Routing
 
                 int hash = hashingBase;
 
-#pragma warning disable IDE0041
+//#pragma warning disable IDE0041
                 hash = (hash * hashingMultiplier) ^ (!Object.ReferenceEquals(null, this.Source) ? this.Source.GetHashCode() : 0);
                 hash = (hash * hashingMultiplier) ^ (!Object.ReferenceEquals(null, this.DataType) ? this.DataType.GetHashCode() : 0);
                 hash = (hash * hashingMultiplier) ^ (!Object.ReferenceEquals(null, this.Data) ? this.Data.GetHashCode() : 0);

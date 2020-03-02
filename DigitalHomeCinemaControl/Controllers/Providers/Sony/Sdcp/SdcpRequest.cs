@@ -167,7 +167,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
             }
         }
 
-#pragma warning disable CA1819
+//#pragma warning disable CA1819
 
         public byte[] Community
         {

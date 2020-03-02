@@ -91,7 +91,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         public void Connect()
         {
             if (string.IsNullOrEmpty(this.Host)) { throw new InvalidOperationException(Properties.Resources.MSG_INVALID_HOST); }
-            if (this.Closed) { throw new ObjectDisposedException("SdcpClient", Properties.Resources.MSG_OBJECT_DISPOSED); }
+            if (this.Closed) { throw new ObjectDisposedException("AvrClient", Properties.Resources.MSG_OBJECT_DISPOSED); }
 
             this.client.Connect(this.Host, this.Port);
             try {
@@ -721,12 +721,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         {
             if (!this.disposed) {
                 if (disposing) {
-
-                        this.reader?.Dispose();
-                        this.writer?.Dispose();
-                        this.networkStream?.Dispose();
-                        this.timer?.Dispose();
-                        this.client?.Close();
+                    this.reader?.Dispose();
+                    this.writer?.Dispose();
+                    this.networkStream?.Dispose();
+                    this.timer?.Dispose();
+                    this.client?.Close();
                 }
 
                 this.disposed = true;

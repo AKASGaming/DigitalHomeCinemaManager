@@ -15,7 +15,6 @@
 namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
@@ -137,12 +136,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
             Dispose(false);
         }
 
-        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+#pragma warning disable CA1063 // Implement IDisposable Correctly
         void IDisposable.Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+#pragma warning restore CA1063
 
         #endregion
 

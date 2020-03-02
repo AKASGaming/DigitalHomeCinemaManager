@@ -16,7 +16,6 @@ namespace DigitalHomeCinemaControl.Devices
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Source device.
@@ -42,8 +41,7 @@ namespace DigitalHomeCinemaControl.Devices
         /// <summary>
         /// Lists all available SourceDevices.
         /// </summary>
-        [SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
-        public static Dictionary<string, SourceDevice> Items = new Dictionary<string, SourceDevice>();
+        public static Dictionary<string, SourceDevice> Items { get; } = new Dictionary<string, SourceDevice>();
 
         #endregion
 

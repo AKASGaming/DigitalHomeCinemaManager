@@ -12,26 +12,24 @@
  *
  */
 
-#pragma warning disable CA1707
-
 namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
+#pragma warning disable CA1707 // Remove underscores from member names
+#pragma warning disable CA1028 // Enum storage should be Int32
     public enum RequestType : byte
     {
         Set = 0x0,
         Get = 0x1
     }
 
-    [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
     public enum SdcpResult : byte
     {
         OK = 0x1,
         ERROR = 0x0
     }
+#pragma warning restore CA1028
 
     public enum SdcpError
     {
@@ -311,7 +309,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         Unknown = -2
     }
 
-#pragma warning disable CA1724
+#pragma warning disable CA1724 // Name conflicts with namespace System.Windows.Input
     public enum Input
     {
         HDMI1 = 0x0002,
@@ -353,6 +351,5 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         Low = 0x0001
     }
 
-}
-
 #pragma warning restore CA1707
+}

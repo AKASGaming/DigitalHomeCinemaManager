@@ -28,10 +28,11 @@ namespace DigitalHomeCinemaControl.Properties {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+#pragma warning disable CA1811 // Avoid uncalled private code
         internal Resources() {
         }
-        
+#pragma warning restore CA1811
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>

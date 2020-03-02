@@ -14,7 +14,6 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Base
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Text;
 
@@ -41,8 +40,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         #region Methods
 
-        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-        protected decimal RelativeToAbsoluteVolume(int scale, int relativeVolume)
+        protected static decimal RelativeToAbsoluteVolume(int scale, int relativeVolume)
         {
             if (relativeVolume == 0) {
                 return (relativeVolume - scale);
@@ -59,8 +57,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
             return d;
         }
 
-        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
-        protected int AbsoluteToRelativeVolume(int scale, decimal absoluteVolume)
+        protected static int AbsoluteToRelativeVolume(int scale, decimal absoluteVolume)
         {
             decimal d = absoluteVolume + scale;
             var sb = new StringBuilder(d.ToString(CultureInfo.InvariantCulture));

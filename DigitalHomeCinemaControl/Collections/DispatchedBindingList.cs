@@ -16,7 +16,6 @@ namespace DigitalHomeCinemaControl.Collections
 {
     using System;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
 
@@ -26,10 +25,11 @@ namespace DigitalHomeCinemaControl.Collections
     /// Dispatcher to marshall ListChanged events to the UI thread.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
+#pragma warning disable CA1710 // Identifiers should have correct suffix
     public class DispatchedBindingList<T> : BindingList<T>, IDispatchedBindingList<T>
         where T : IBindingItem
     {
+#pragma warning restore CA1710
 
         #region Members
 

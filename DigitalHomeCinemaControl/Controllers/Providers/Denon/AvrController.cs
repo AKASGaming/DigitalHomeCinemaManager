@@ -18,7 +18,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Base;
@@ -339,11 +338,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             }
         }
 
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
         public string RouteAction(string action, object args)
         {
             if (string.IsNullOrEmpty(action)) { return "AVR ERROR: Invalid Action!"; }
             if (!this.avr.IsConnected) { return "AVR ERROR: Not connected!"; }
+            if (args == null) { return "AVR ERROR: Invalid arguments!"; }
 
             switch (action) {
                 case "QuickSelect":
@@ -369,9 +368,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         {
             if (!this.disposed) {
                 if (disposing) {
-                    if (this.avr != null) {
-                        this.avr.Dispose();
-                    }
+                    this.avr?.Close();
                 }
 
                 this.avr = null;
@@ -385,12 +382,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
             Dispose(false);
         }
 
-        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+#pragma warning disable CA1063 // Implement IDisposable Correctly
         void IDisposable.Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+#pragma warning restore CA1063
 
         #endregion
 

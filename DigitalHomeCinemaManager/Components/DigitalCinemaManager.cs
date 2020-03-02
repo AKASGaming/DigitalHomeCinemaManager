@@ -153,7 +153,7 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowClosed(object sender, System.EventArgs e)
         {
-            this.router.Stop();
+            this.router?.Stop();
             Dispose(true);
             Environment.Exit(0);
         }
@@ -302,14 +302,17 @@ namespace DigitalHomeCinemaManager.Components
                     this.mainWindow.Dispose();
                 }
 
-                this.driveDetector.Dispose();
-
-                this.deviceManager = null;
-                this.router = null;
-                this.driveDetector = null;
-                this.mainWindow = null;
-
                 this.disposed = true;
+
+                try {
+                    this.driveDetector.Dispose();
+                } catch {
+                } finally { 
+                    this.deviceManager = null;
+                    this.router = null;
+                    this.driveDetector = null;
+                    this.mainWindow = null;
+                }
             }
         }
 

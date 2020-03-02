@@ -17,7 +17,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Net.Sockets;
@@ -272,12 +271,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
             Dispose(false);
         }
 
-        [SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>")]
+#pragma warning disable CA1063 // Implement IDisposable Correctly
         void IDisposable.Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+#pragma warning restore CA1063
 
         #endregion
 

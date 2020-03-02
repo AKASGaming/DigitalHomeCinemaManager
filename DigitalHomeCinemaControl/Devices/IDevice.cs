@@ -14,7 +14,6 @@
 
 namespace DigitalHomeCinemaControl.Devices
 {
-    using System.Diagnostics.CodeAnalysis;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controls;
 
@@ -38,12 +37,12 @@ namespace DigitalHomeCinemaControl.Devices
         /// <returns>The device controller as type T.</returns>
         T GetController<T>() where T : IController;
 
-
         /// <summary>
         /// Gets the device controller.
         /// </summary>
-        [SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "<Pending>")]
+#pragma warning disable CA1721 // Property names should not match get methods
         IController Controller { get; }
+#pragma warning restore CA1721
 
         /// <summary>
         /// Gets the device UI Element.

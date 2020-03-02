@@ -117,7 +117,7 @@ namespace DigitalHomeCinemaManager.Components
 
 #pragma warning disable IDE0008 // Use explicit type
                     var value = Enum.Parse(setting.PropertyType, valueObject.ToString());
-#pragma warning restore IDE0008 // Use explicit type
+#pragma warning restore IDE0008
 
                     device.Controller.Setting(value, settingName[1]);
                 } else if (setting.PropertyType == typeof(StringCollection)) {
@@ -127,7 +127,7 @@ namespace DigitalHomeCinemaManager.Components
 
 #pragma warning disable IDE0008 // Use explicit type
                     var value = Convert.ChangeType(valueObject, setting.PropertyType, CultureInfo.InvariantCulture);
-#pragma warning restore IDE0008 // Use explicit type
+#pragma warning restore IDE0008 
                     
                     device.Controller.Setting(value, settingName[1]);
                 }

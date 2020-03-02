@@ -15,17 +15,18 @@
 namespace DigitalHomeCinemaControl.Collections
 {
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Interface for IBindingList derived classes which also marshall events to the UI thread.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
-    [SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "<Pending>")]
+#pragma warning disable CA1710 // Identifiers should have correct suffix
+#pragma warning disable CA1010 // Collections should implement generic interface
     public interface IDispatchedBindingList<T> : IBindingList, IDispatchEvents
         where T : IBindingItem
     {
+#pragma warning restore CA1010
+#pragma warning restore CA1710
 
         /// <summary>
         /// Gets or Sets the item at the specified index.

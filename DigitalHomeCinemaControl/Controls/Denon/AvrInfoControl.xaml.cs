@@ -15,7 +15,6 @@
 namespace DigitalHomeCinemaControl.Controls.Denon
 {
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using DigitalHomeCinemaControl.Collections;
 
     /// <summary>
@@ -42,7 +41,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
 
         #region Methods
 
-        [SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
+#pragma warning disable CA1062 // Validate arguments of public methods
         protected override void DataSourceListChanged(object sender, ListChangedEventArgs e)
         {
             // The controller for this UI Element uses a MultiplexedBindingList as it's 
@@ -71,6 +70,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
                 case "Input Source": this.Source.Text = changedItem.Value.ToString(); break;
             }
         }
+#pragma warning restore CA1062
 
         #endregion
 

@@ -12,15 +12,14 @@
  *
  */
 
- // TODO: need to decide to remove model # display in favor of color temp
- // alternatively we could combine color space / temp into a single item
- // ex. "BT2020 DCI-P3" "BT709 D65"
+// TODO: need to decide to remove model # display in favor of color temp
+// alternatively we could combine color space / temp into a single item
+// ex. "BT2020 DCI-P3" "BT709 D65"
 namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -30,9 +29,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-    // TODO: IDisposable
-    [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>")]
-    public class ProjectorController : DisplayController, IRoutingDestination
+    public sealed class ProjectorController : DisplayController, IRoutingDestination, IDisposable
     {
 
         #region Members
@@ -50,6 +47,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         private Timer timer;
         private bool running;
         private SdcpClient client;
+        private bool disposed = false;
 
         #endregion
 
@@ -95,6 +93,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 
         public override void Connect()
         {
+            this.disposed = false;
             this.running = true;
             this.timer = new Timer() {
                 Interval = INTERVAL,
@@ -126,13 +125,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         {
             this.running = false;
 
-            if (this.client != null) {
-                try {
-                    this.client.Close();
-                } catch { }
+            if ((this.timer != null) && this.timer.Enabled) {
+                this.timer.Stop();
             }
 
-            OnDisconnected();
+            try {
+                Dispose(true);
+            } catch {
+            } finally {
+                OnDisconnected();
+            }
         }
 
         public string RouteAction(string action, object args)
@@ -171,6 +173,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                     this.client.Close();
                 }
             } catch {
+                this.ControllerStatus = ControllerStatus.Error;
                 OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
             } finally {
                 if (!this.timer.Enabled) {
@@ -360,6 +363,34 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             this.timer.Start();
         }
 
+        private void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    this.client?.Close();
+                    this.timer?.Dispose();
+                }
+
+                this.disposed = true;
+
+                this.client = null;
+                this.timer = null;
+            }
+        }
+
+        ~ProjectorController()
+        {
+            Dispose(false);
+        }
+
+#pragma warning disable CA1063 // Implement IDisposable Correctly
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+#pragma warning restore CA1063
+
         #endregion
 
         #region Properties
@@ -397,6 +428,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
             get { return GetSetting<NameValueCollection>(); }
             private set { Setting<NameValueCollection>(value); }
         }
+
+        #region IDisposable Support
+        
+        #endregion
 
         #endregion
 

@@ -18,7 +18,6 @@ namespace DigitalHomeCinemaControl.Controllers.Base
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl.Collections;
@@ -249,12 +248,12 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         /// </summary>
         public Dictionary<string, SettingItem<object>> Settings { get; private set; }
 
-
         /// <summary>
         /// Gets a BindingList collection that can be bound to UI control elements.
         /// </summary>
-        [SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>")]
+#pragma warning disable CA2227 // Collection properties should be readonly
         public IDispatchedBindingList<IBindingItem> DataSource { get; protected set; }
+#pragma warning restore CA2227
 
         #endregion
 

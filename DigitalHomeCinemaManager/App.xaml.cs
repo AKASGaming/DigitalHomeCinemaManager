@@ -12,20 +12,19 @@
  *
  */
 
-#pragma warning disable CA0507
-#pragma warning disable CA1001
-
 namespace DigitalHomeCinemaManager
 {
+    using System;
     using System.Windows;
     using DigitalHomeCinemaManager.Components;
 
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, IDisposable
     {
         private DigitalCinemaManager cinemaManager;
+        private bool disposed = false; 
 
         private void Main(object sender, StartupEventArgs e) 
         {
@@ -33,8 +32,30 @@ namespace DigitalHomeCinemaManager
             this.cinemaManager.Run();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed) {
+                if (disposing) {
+                    this.cinemaManager?.Dispose();
+                }
+
+                this.disposed = true;
+                this.cinemaManager = null;
+            }
+        }
+
+        ~App()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
     }
 
 }
 
-#pragma warning restore CA1001

@@ -58,7 +58,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             get { return this.key.Text; }
         }
 
-#pragma warning disable CA1721
+//#pragma warning disable CA1721
         public string Value
         {
             get { return this.value.Text; }

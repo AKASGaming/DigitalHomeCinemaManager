@@ -18,7 +18,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
     using System.Net.Sockets;
     using System.Threading;
 
-    // TODO: Clean up IDisposable
     public class SdcpClient : IDisposable
     {
 
@@ -159,22 +158,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         public void Close()
         {
             lock (this.lockObject) {
-                if (this.waitHandle != null) {
-                    this.waitHandle.Set();
-                }
+                this.waitHandle?.Set();
             }
 
             try {
-                if (this.client != null) {
-                    this.client.Close();
-                }
-                if (this.stream != null) {
-                    this.stream.Close();
-                }
+                Dispose(true);
             } catch { 
             } finally {
                 this.Closed = true;
-                Dispose(true);
             }
 
         }
@@ -183,26 +174,22 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         {
             if (!this.disposed) {
                 if (disposing) {
-                    try {
-                        if (this.waitHandle != null) {
-                            this.waitHandle.Dispose();
-                        }
-                        if (this.client != null) {
-                            this.client.Close();
-                        }
-                        if (this.stream != null) {
-                            this.stream.Dispose();
-                        }
-                    } finally {
-                        this.waitHandle = null;
-                        this.client = null;
-                        this.stream = null;
-                    }
+                    this.waitHandle?.Dispose();
+                    this.stream?.Dispose();
+                    this.client?.Close();
                 }
 
-                this.Closed = true;
                 this.disposed = true;
+                this.Closed = true;
+                this.waitHandle = null;
+                this.client = null;
+                this.stream = null;
             }
+        }
+
+        ~SdcpClient()
+        {
+            Dispose(false);
         }
 
         public void Dispose()

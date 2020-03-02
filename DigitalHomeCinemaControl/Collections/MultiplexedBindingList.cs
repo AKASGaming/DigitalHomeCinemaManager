@@ -17,7 +17,6 @@ namespace DigitalHomeCinemaControl.Collections
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
 
@@ -26,10 +25,11 @@ namespace DigitalHomeCinemaControl.Collections
     /// which is a Dictionary of DispatchedBindingList.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "<Pending>")]
+#pragma warning disable CA1710 // Identifiers should have correct suffix
     public sealed class MultiplexedBindingList<T> : BindingList<T>, IDispatchedBindingList<T>
         where T : IBindingItem
     {
+#pragma warning restore CA1710
 
         #region Members
 

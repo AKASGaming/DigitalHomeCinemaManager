@@ -16,7 +16,6 @@ namespace DigitalHomeCinemaControl.Devices
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     public sealed class MediaInfoDevice : Device
     {
@@ -39,8 +38,7 @@ namespace DigitalHomeCinemaControl.Devices
         /// <summary>
         /// Lists all available MediaInfoDevices.
         /// </summary>
-        [SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
-        public static Dictionary<string, MediaInfoDevice> Items = new Dictionary<string, MediaInfoDevice>();
+        public static Dictionary<string, MediaInfoDevice> Items { get; } = new Dictionary<string, MediaInfoDevice>();
 
         #endregion
 

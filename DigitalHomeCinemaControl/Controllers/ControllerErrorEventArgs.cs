@@ -12,22 +12,20 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controls
+namespace DigitalHomeCinemaControl.Controllers
 {
-    using DigitalHomeCinemaControl.Collections;
+    using System;
 
-    /// <summary>
-    /// Provides a DataSource that controls can bind to.
-    /// </summary>
-    public interface IDeviceControl
+    public class ControllerErrorEventArgs : EventArgs
     {
 
-        /// <summary>
-        /// Gets or Sets a generic collection that supports data binding.
-        /// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
-        IDispatchedBindingList<IBindingItem> DataSource { get; set; }
-#pragma warning restore CA2227
+        public ControllerErrorEventArgs(string messsage)
+            :base()
+        {
+            this.Message = messsage;
+        }
+
+        public string Message { get; private set; }
 
     }
 
