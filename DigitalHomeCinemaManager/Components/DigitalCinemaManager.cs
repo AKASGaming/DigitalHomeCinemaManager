@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaManager.Components
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl;
@@ -227,6 +228,12 @@ namespace DigitalHomeCinemaManager.Components
             if (window.ShowDialog() == true) {
                 Properties.Settings.Default.Save();
                 Properties.DeviceSettings.Default.Save();
+
+                var result = MessageBox.Show(Properties.Resources.SETTINGS_CHANGED, Properties.Resources.APP_RESTART, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes) { 
+                    Process.Start(Application.ResourceAssembly.Location);
+                    Application.Current.Shutdown();
+                }
             }
         }
 

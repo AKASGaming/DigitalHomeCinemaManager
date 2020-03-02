@@ -61,6 +61,15 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application Restart.
+        /// </summary>
+        internal static string APP_RESTART {
+            get {
+                return ResourceManager.GetString("APP_RESTART", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to --dB.
         /// </summary>
         internal static string DB_MUTE {
@@ -210,6 +219,15 @@ namespace DigitalHomeCinemaManager.Properties {
         internal static string NEW_RULE {
             get {
                 return ResourceManager.GetString("NEW_RULE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your settings have been saved. Digital Home Cinema Manager needs to restart itself for the new settings to take effect. Would you like to restart the applicaiton now?.
+        /// </summary>
+        internal static string SETTINGS_CHANGED {
+            get {
+                return ResourceManager.GetString("SETTINGS_CHANGED", resourceCulture);
             }
         }
     }

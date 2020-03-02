@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="APP_RESTART" xml:space="preserve">
+    <value>Application Restart</value>
+  </data>
   <data name="DB_MUTE" xml:space="preserve">
     <value>--dB</value>
   </data>
@@ -167,5 +170,8 @@
   </data>
   <data name="NEW_RULE" xml:space="preserve">
     <value>New Rule</value>
+  </data>
+  <data name="SETTINGS_CHANGED" xml:space="preserve">
+    <value>Your settings have been saved. Digital Home Cinema Manager needs to restart itself for the new settings to take effect. Would you like to restart the applicaiton now?</value>
   </data>
 </root>
