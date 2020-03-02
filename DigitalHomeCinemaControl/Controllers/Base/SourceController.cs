@@ -46,12 +46,12 @@ namespace DigitalHomeCinemaControl.Controllers.Base
             this.Path = string.Empty;
             this.FullscreenDisplay = -1;
 
-            this.DataSource.Add(new BindingItem<string>("CurrentFile"));
-            this.DataSource.Add(new BindingItem<string>("FileSize"));
-            this.DataSource.Add(new BindingItem<string>("Position"));
-            this.DataSource.Add(new BindingItem<string>("Duration"));
-            this.DataSource.Add(new BindingItem<int>("CurrentPosition"));
-            this.DataSource.Add(new BindingItem<int>("Length"));
+            this.DataSource.Add(new BindingItem<string>(CURRENTFILE));
+            this.DataSource.Add(new BindingItem<string>(FILESIZE));
+            this.DataSource.Add(new BindingItem<string>(POSITION));
+            this.DataSource.Add(new BindingItem<string>(DURATION));
+            this.DataSource.Add(new BindingItem<int>(CURRENTPOSITION));
+            this.DataSource.Add(new BindingItem<int>(LENGTH));
         }
 
         #endregion
