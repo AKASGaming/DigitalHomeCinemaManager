@@ -23,7 +23,7 @@ namespace DigitalHomeCinemaManager.Components
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Routing;
-    using DigitalHomeCinemaManager.Components.Include;
+    using DigitalHomeCinemaManager.Components.RemovableMedia;
     using DigitalHomeCinemaManager.Controls;
     using DigitalHomeCinemaManager.Windows;
 
@@ -38,7 +38,7 @@ namespace DigitalHomeCinemaManager.Components
         private DeviceManager deviceManager;
         private RoutingEngine router;
         private PlaylistManager playlist;
-        private DriveDetector driveDetector;
+        private RemovableDriveManager diskManager;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace DigitalHomeCinemaManager.Components
             this.deviceManager = new DeviceManager(this.dispatcher);
             this.router = new RoutingEngine(this.dispatcher);
             this.playlist = new PlaylistManager();
-            this.driveDetector = new DriveDetector();
+            this.diskManager = new RemovableDriveManager();
 
             // main window needs the PlaylistManager
             this.mainWindow.Playlist = this.playlist;
@@ -79,9 +79,9 @@ namespace DigitalHomeCinemaManager.Components
             this.router.RuleProcessed += RouterRuleProcessed;
             this.playlist.PlaylistChanged += PlaylistChanged;
             this.deviceManager.ControllerError += ControllerError;
-            this.driveDetector.DeviceArrived += DriveDetectorDeviceArrived;
-            this.driveDetector.DeviceRemoved += DriveDetectorDeviceRemoved;
-            this.driveDetector.QueryRemove += DriveDetectorQueryRemove;
+            this.diskManager.DeviceArrived += DiskManagerDeviceArrived;
+            this.diskManager.DeviceRemoved += DiskManagerDeviceRemoved;
+            this.diskManager.QueryRemove += DiskManagerQueryRemove;
 
             // initialize devices
             this.deviceManager.ControllersInit();
@@ -256,33 +256,32 @@ namespace DigitalHomeCinemaManager.Components
 
         #endregion
 
-        #region DriveDetector
+        #region Removable Disk Management
 
-        private void DriveDetectorDeviceArrived(object sender, DriveDetectorEventArgs e)
+        private void DiskManagerDeviceArrived(object sender, RemovableMediaEventArgs e)
         {
             if (Properties.Settings.Default.MediaPath.Contains(e.Drive)) {
                 e.HookQueryRemove = true;
                 SendStatusUpdate(Properties.Resources.MSG_DRIVE_INSERTED);
-                this.playlist.Feature = string.Empty;
-                this.playlist.CreatePlaylist();
+                //this.playlist.Feature = string.Empty;
+                //this.playlist.CreatePlaylist();
             }
         }
 
-        private void DriveDetectorQueryRemove(object sender, DriveDetectorEventArgs e)
+        private void DiskManagerQueryRemove(object sender, RemovableMediaEventArgs e)
         {
             var source = this.deviceManager.SourceDevice.GetController<ISourceController>();
 
-            // we can try and cancel, but if user just pulled disk playback will be interrupted
-            if ((source.State == PlaybackState.Playing) || (source.State == PlaybackState.PlayingFeature)) {
+            // we can try and cancel, but if user just pulled the disk playback will be interrupted
+            if (source.State >= PlaybackState.Playing) {
                 e.Cancel = true;
             } else {
                 e.Cancel = false;
             }
         }
 
-        private void DriveDetectorDeviceRemoved(object sender, DriveDetectorEventArgs e)
+        private void DiskManagerDeviceRemoved(object sender, RemovableMediaEventArgs e)
         {
-
             if (Properties.Settings.Default.MediaPath.Contains(e.Drive)) {
                 SendStatusUpdate(Properties.Resources.MSG_DRIVE_EJECTED);
                 this.playlist.Feature = string.Empty;
@@ -306,12 +305,12 @@ namespace DigitalHomeCinemaManager.Components
                 this.disposed = true;
 
                 try {
-                    this.driveDetector.Dispose();
+                    this.diskManager.Dispose();
                 } catch {
                 } finally { 
                     this.deviceManager = null;
                     this.router = null;
-                    this.driveDetector = null;
+                    this.diskManager = null;
                     this.mainWindow = null;
                 }
             }

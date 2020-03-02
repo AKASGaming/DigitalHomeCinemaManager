@@ -28,10 +28,9 @@ namespace DigitalHomeCinemaManager.Properties {
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
-#pragma warning disable CA1811 // Avoid Uncalled Private Code
+        [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-#pragma warning restore CA1811
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
@@ -94,6 +93,15 @@ namespace DigitalHomeCinemaManager.Properties {
         internal static string MSG_INIT_COMPLETE {
             get {
                 return ResourceManager.GetString("MSG_INIT_COMPLETE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drive path must be supplied to register for Query remove..
+        /// </summary>
+        internal static string MSG_INVALID_PATH {
+            get {
+                return ResourceManager.GetString("MSG_INVALID_PATH", resourceCulture);
             }
         }
         

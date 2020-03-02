@@ -114,7 +114,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\RemovableMedia\DetectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\RemovableMedia\NativeMethods.cs" />
+    <Compile Include="Components\RemovableMedia\RemovableMediaEventArgs.cs" />
     <Compile Include="Components\PlaylistEntry.cs" />
+    <Compile Include="Components\RemovableMedia\Win32.cs" />
     <Compile Include="Controls\ControllerStatusControl.xaml.cs">
       <DependentUpon>ControllerStatusControl.xaml</DependentUpon>
     </Compile>
@@ -215,9 +221,7 @@
     </Compile>
     <Compile Include="Components\DigitalCinemaManager.cs" />
     <Compile Include="Components\DeviceManager.cs" />
-    <Compile Include="Components\Include\DriveDetector.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Components\RemovableMedia\RemovableDriveManager.cs" />
     <Compile Include="Components\PlaylistManager.cs" />
     <Compile Include="Components\RoutingEngine.cs" />
     <Compile Include="Controls\MediaControl.xaml.cs">

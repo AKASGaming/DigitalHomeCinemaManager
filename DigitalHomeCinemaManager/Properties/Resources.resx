@@ -129,6 +129,9 @@
   <data name="MSG_INIT_COMPLETE" xml:space="preserve">
     <value>Initialization complete.</value>
   </data>
+  <data name="MSG_INVALID_PATH" xml:space="preserve">
+    <value>Drive path must be supplied to register for Query remove.</value>
+  </data>
   <data name="MSG_PARSE_RULES_ERROR" xml:space="preserve">
     <value>Failed to parse rules!</value>
   </data>
