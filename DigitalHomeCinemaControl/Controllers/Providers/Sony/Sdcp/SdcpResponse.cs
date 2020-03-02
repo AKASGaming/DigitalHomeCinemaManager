@@ -53,7 +53,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
             get { return this.error; }
         }
 
-//#pragma warning disable CA1819
+#pragma warning disable CA1819 // Properties should not return arrays
 
         public byte[] Data
         {
