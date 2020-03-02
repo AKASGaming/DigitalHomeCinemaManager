@@ -126,7 +126,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 
             if (connected) {
                 this.ControllerStatus = ControllerStatus.Ok;
-                UpdateDataSource<string>("Model", model);
+                UpdateDataSource<string>(MODEL, model);
                 OnConnected();
             } else {
                 this.ControllerStatus = ControllerStatus.Error;
