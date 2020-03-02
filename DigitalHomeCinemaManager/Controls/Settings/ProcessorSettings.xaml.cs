@@ -25,6 +25,12 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class ProcessorSettings : SettingsControl
     {
 
+        #region Members
+
+        private bool initialized = false;
+
+        #endregion
+
         #region Constructor
 
         public ProcessorSettings()
@@ -46,6 +52,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 this.HideOutputs.SelectedIndex = 1;
             }
+
+            this.initialized = true;
         }
 
         #endregion
@@ -59,7 +67,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 Properties.Settings.Default.ProcessorDevice = string.Empty;
             }
-            Properties.DeviceSettings.Default.Processor_Host = this.Host.Text;
+            if (this.Host.Text.IsIpAddress()) {
+                Properties.DeviceSettings.Default.Processor_Host = this.Host.Text;
+            }
             if (int.TryParse(this.Port.Text, out int i)) {
                 Properties.DeviceSettings.Default.Processor_Port = i;
             }
@@ -86,6 +96,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Port.IsEnabled = false;
                 this.HideOutputs.IsEnabled = false;
             }
+
+            if (this.initialized) {
+                OnItemChanged();
+            }
         }
 
         private void HostTextChanged(object sender, TextChangedEventArgs e)
@@ -96,6 +110,16 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private void PortTextChanged(object sender, TextChangedEventArgs e)
         {
             OnItemChanged();
+        }
+
+        private void HostPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsNumeric();
+        }
+
+        private void PortPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsInteger();
         }
 
         private void HideOutputsSelectionChanged(object sender, SelectionChangedEventArgs e)

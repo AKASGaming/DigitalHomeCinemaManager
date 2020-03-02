@@ -19,15 +19,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Read Delay:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="ReadDelay" Width="150" Height="22" TextChanged="ReadDelayTextChanged"/>
+                <TextBox x:Name="ReadDelay" Width="150" Height="22" TextChanged="ReadDelayTextChanged" PreviewKeyDown="ReadDelayPreviewKeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Baud Rate:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="BaudRate" Width="150" Height="22" TextChanged="BaudRateTextChanged"/>
+                <TextBox x:Name="BaudRate" Width="150" Height="22" TextChanged="BaudRateTextChanged" PreviewKeyDown="BaudRatePreviewKeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Data Bits:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="DataBits" Width="150" Height="22" TextChanged="DataBitsTextChanged"/>
+                <TextBox x:Name="DataBits" Width="150" Height="22" TextChanged="DataBitsTextChanged" PreviewKeyDown="DataBitsPreviewKeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Parity:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>

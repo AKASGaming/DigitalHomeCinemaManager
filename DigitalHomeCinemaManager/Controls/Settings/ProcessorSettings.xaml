@@ -16,11 +16,11 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="IP Address:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="80" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="Host" Width="150" Height="22" TextChanged="HostTextChanged"/>
+                <TextBox x:Name="Host" Width="150" Height="22" TextChanged="HostTextChanged" PreviewKeyDown="HostPreviewKeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Port:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="80" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="Port" Width="150" Height="22" TextChanged="PortTextChanged"/>
+                <TextBox x:Name="Port" Width="150" Height="22" TextChanged="PortTextChanged" PreviewKeyDown="PortPreviewKeyDown"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Hide Outputs:" Width="80" HorizontalAlignment="Left" Margin="0,3,0,0" VerticalAlignment="Top" Foreground="#FF7E7E7E" />

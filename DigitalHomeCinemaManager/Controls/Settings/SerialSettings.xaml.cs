@@ -28,6 +28,12 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class SerialSettings : SettingsControl
     {
 
+        #region Members
+
+        private bool initialized = false;
+
+        #endregion
+
         #region Constructor
 
         public SerialSettings()
@@ -51,6 +57,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.DataBits.Text = Properties.DeviceSettings.Default.Serial_DataBits.ToString(CultureInfo.InvariantCulture);
             this.Parity.SelectedValue = Properties.DeviceSettings.Default.Serial_Parity;
             this.StopBits.SelectedValue = Properties.DeviceSettings.Default.Serial_StopBits;
+
+            this.initialized = true;
         }
 
         #endregion
@@ -115,6 +123,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Parity.IsEnabled = false;
                 this.StopBits.IsEnabled = false;
             }
+
+            if (this.initialized) {
+                OnItemChanged();
+            }
         }
 
         private void PortSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -135,6 +147,21 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private void DataBitsTextChanged(object sender, TextChangedEventArgs e)
         {
             OnItemChanged();
+        }
+
+        private void ReadDelayPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsInteger();
+        }
+
+        private void BaudRatePreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsInteger();
+        }
+
+        private void DataBitsPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsInteger();
         }
 
         private void ParitySelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -27,6 +27,12 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class SourceSettings : SettingsControl
     {
 
+        #region Members
+
+        private bool initialized = false;
+
+        #endregion
+
         #region Constructor
 
         public SourceSettings()
@@ -43,6 +49,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
             this.Path.Text = Properties.DeviceSettings.Default.Source_Path;
             this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+
+            this.initialized = true;
         }
 
         #endregion
@@ -79,6 +87,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Path.IsEnabled = false;
                 this.Display.IsEnabled = false;
             }
+
+            if (this.initialized) {
+                OnItemChanged();
+            }
         }
 
         private void PathTextChanged(object sender, TextChangedEventArgs e)
@@ -102,6 +114,11 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         private void DisplayTextChanged(object sender, TextChangedEventArgs e)
         {
             OnItemChanged();
+        }
+
+        private void DisplayPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !(e.Key.IsInteger() || e.Key == System.Windows.Input.Key.Subtract || e.Key == System.Windows.Input.Key.OemMinus);
         }
 
         #endregion

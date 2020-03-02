@@ -14,6 +14,9 @@
 
 namespace DigitalHomeCinemaManager.Controls.Settings
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Windows;
 
     /// <summary>
@@ -22,14 +25,29 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class KeyValueEditor : Window
     {
 
+        #region Members
+
+        private Type keyType;
+
+        #endregion
+
         #region Constructor
 
-        public KeyValueEditor(string name, string value)
+        public KeyValueEditor(Type type, string name, string value)
         {
+#pragma warning disable CA1062 // Validate arguments of public methods
+            Debug.Assert(type != null);
+            Debug.Assert(type.IsEnum);
+#pragma warning restore CA1062
+
             InitializeComponent();
 
+            this.keyType = type;
+
+            this.key.ItemsSource = GetEnumValues(this.keyType);
+
             if (!string.IsNullOrEmpty(name)) {
-                this.key.Text = name;
+                this.key.SelectedValue = name;
             }
             if (!string.IsNullOrEmpty(value)) {
                 this.value.Text = value;
@@ -37,9 +55,28 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         }
 
+        public KeyValueEditor(Type type)
+            : this(type, null, null)
+        { }
+
         #endregion
 
         #region Methods
+
+        private List<string> GetEnumValues(Type type)
+        {
+            var result = new List<string>();
+
+            string[] names = Enum.GetNames(type);
+            foreach (string s in names) {
+                if (s.Equals("Unknown", StringComparison.OrdinalIgnoreCase) ||
+                    s.Equals("NotApplicable", StringComparison.OrdinalIgnoreCase)) { continue; }
+
+                result.Add(s);
+            }
+
+            return result;
+        }
 
         private void ButtonOkClick(object sender, RoutedEventArgs e)
         {
@@ -55,7 +92,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         public string Key
         {
-            get { return this.key.Text; }
+            get { return (this.key.SelectedValue != null)? this.key.SelectedValue.ToString() : string.Empty; }
         }
 
 #pragma warning disable CA1721 // Property name confusing given GetValue method

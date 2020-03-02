@@ -14,12 +14,16 @@
 
 namespace DigitalHomeCinemaManager.Controls.Settings
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
+    using DigitalHomeCinemaControl.Controllers;
+    using DigitalHomeCinemaControl.Devices;
     using DigitalHomeCinemaManager.Components;
 
     /// <summary>
@@ -30,6 +34,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #region Members
 
+        private bool initialized = false;
+        private Type customInputType;
         private ObservableCollection<KeyValuePair<string, string>> customInputs;
 
         #endregion
@@ -46,6 +52,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 this.Enabled.IsChecked = true;
                 this.Provider.SelectedValue = Properties.Settings.Default.InputSwitchDevice;
+                GetCustomTypes();
             }
             this.Host.Text = Properties.DeviceSettings.Default.InputSwitch_Host;
             this.Port.Text = Properties.DeviceSettings.Default.InputSwitch_Port.ToString(CultureInfo.InvariantCulture);
@@ -56,6 +63,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.customInputs = new ObservableCollection<KeyValuePair<string, string>>();
             }
             this.Inputs.ItemsSource = this.customInputs;
+            this.initialized = true;
         }
 
         #endregion
@@ -69,16 +77,42 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 Properties.Settings.Default.InputSwitchDevice = string.Empty;
             }
-            Properties.DeviceSettings.Default.InputSwitch_Host = this.Host.Text;
+            if (this.Host.Text.IsIpAddress()) {
+                Properties.DeviceSettings.Default.InputSwitch_Host = this.Host.Text;
+            }
             if (int.TryParse(this.Port.Text, out int i)) {
                 Properties.DeviceSettings.Default.InputSwitch_Port = i;
             }
             Properties.DeviceSettings.Default.InputSwitch_CustomInputs = this.customInputs.ToStringCollection();
         }
 
+        private void GetCustomTypes()
+        {
+            string providerName = this.Provider.SelectedValue.ToString();
+            if (string.IsNullOrEmpty(providerName)) { return; }
+
+            Debug.Assert(SwitchDevice.Items.ContainsKey(providerName));
+
+            var controller = SwitchDevice.Items[providerName].Controller;
+            if (controller is ISupportCustomNames customNameController) {
+                foreach (var customType in customNameController.CustomNameTypes) {
+                    switch (customType.Key) {
+                        case "Input": this.customInputType = customType.Value; break;
+                    }
+                } // foreach
+
+                this.Inputs.IsEnabled = true;
+            } else {
+                this.Inputs.IsEnabled = false;
+            }
+        }
+
         private void ProviderSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (this.Provider.SelectedValue == null) { return; }
+
             OnItemChanged();
+            GetCustomTypes();
         }
 
         private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
@@ -87,12 +121,18 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 this.Provider.IsEnabled = true;
                 this.Host.IsEnabled = true;
                 this.Port.IsEnabled = true;
-                this.Inputs.IsEnabled = true;
+                if (this.customInputType != null) {
+                    this.Inputs.IsEnabled = true;
+                }
             } else {
                 this.Provider.IsEnabled = false;
                 this.Host.IsEnabled = false;
                 this.Port.IsEnabled = false;
                 this.Inputs.IsEnabled = false;
+            }
+
+            if (this.initialized) {
+                OnItemChanged();
             }
         }
 
@@ -106,33 +146,54 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             OnItemChanged();
         }
 
+        private void HostPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsNumeric();
+        }
+
+        private void PortPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            e.Handled = !e.Key.IsInteger();
+        }
+
         private void InputsMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (this.Inputs.SelectedValue == null) { return; }
 
             var kvp = (KeyValuePair<string, string>)this.Inputs.SelectedValue;
-            KeyValueEditor editor = new KeyValueEditor(kvp.Key, kvp.Value) {
+            var editor = new KeyValueEditor(this.customInputType, kvp.Key, kvp.Value) {
                 Owner = Window.GetWindow(this),
                 Title = "Edit Custom Input"
             };
 
             if (editor.ShowDialog() == true) {
-                this.customInputs.RemoveAt(this.Inputs.SelectedIndex);
-                this.customInputs.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
-                OnItemChanged();
+                if (!string.IsNullOrEmpty(editor.Key) && !string.IsNullOrEmpty(editor.Value)) {
+                    var newKvp = new KeyValuePair<string, string>(editor.Key, editor.Value);
+                    if (!this.customInputs.ContainsKey(newKvp.Key)) {
+                        this.customInputs.RemoveAt(this.Inputs.SelectedIndex);
+                        this.customInputs.Add(newKvp);
+                        OnItemChanged();
+                    }
+                    
+                }
             }
         }
 
         private void InputsAddClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            KeyValueEditor editor = new KeyValueEditor(null, null) {
+            var editor = new KeyValueEditor(this.customInputType) {
                 Owner = Window.GetWindow(this),
                 Title = "New Custom Input"
             };
 
             if (editor.ShowDialog() == true) {
-                this.customInputs.Add(new KeyValuePair<string, string>(editor.Key, editor.Value));
-                OnItemChanged();
+                if (!string.IsNullOrEmpty(editor.Key) && !string.IsNullOrEmpty(editor.Value)) {
+                    var kvp = new KeyValuePair<string, string>(editor.Key, editor.Value);
+                    if (!this.customInputs.ContainsKey(kvp.Key)) {
+                        this.customInputs.Add(kvp);
+                        OnItemChanged();
+                    }
+                }
             }
         }
 

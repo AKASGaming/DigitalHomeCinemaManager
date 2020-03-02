@@ -24,6 +24,12 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     public partial class MediaInfoSettings : SettingsControl
     {
 
+        #region Members
+
+        private bool initialized = false;
+
+        #endregion
+
         #region Constructor
 
         public MediaInfoSettings()
@@ -39,6 +45,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
 
             this.ApiKey.Text = Properties.DeviceSettings.Default.MediaInfo_ApiKey;
+            this.initialized = true;
         }
 
         #endregion
@@ -73,6 +80,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 this.Provider.IsEnabled = false;
                 this.ApiKey.IsEnabled = false;
+            }
+
+            if (this.initialized) {
+                OnItemChanged();
             }
         }
 
