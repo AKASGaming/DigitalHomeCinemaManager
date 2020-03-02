@@ -112,7 +112,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
 
             lock (this.lockObject) {
                 connected = TryGetItem(CommandItem.ModelName, out model);
-                this.client.Close();
+                this.client?.Close();
             }
 
             if (connected) {
