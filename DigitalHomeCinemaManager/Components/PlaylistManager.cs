@@ -21,6 +21,8 @@ namespace DigitalHomeCinemaManager.Components
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Text;
+    using System.Windows.Data;
+    using System.Windows.Threading;
 
     internal sealed class PlaylistManager
     {
@@ -42,7 +44,9 @@ namespace DigitalHomeCinemaManager.Components
         private string prerollPath = Properties.Settings.Default.PrerollPath;
         private string trailerPath = Properties.Settings.Default.TrailerPath;
         private string mediaPath = Properties.Settings.Default.MediaPath;
+        private Dispatcher dispatcher;
         private ObservableCollection<PlaylistEntry> playlist = new ObservableCollection<PlaylistEntry>();
+        private object playlistLock = new object();
         private string feature;
         
 
@@ -50,8 +54,12 @@ namespace DigitalHomeCinemaManager.Components
 
         #region Constructor
 
-        internal PlaylistManager()
+        internal PlaylistManager(Dispatcher dispatcher)
         {
+            this.dispatcher = dispatcher;
+
+            BindingOperations.EnableCollectionSynchronization(this.Playlist, this.playlistLock);
+
             this.PrerollPlaylist = new List<string>(10);
             this.TrailerPlaylist = new List<string>(5);
         }
@@ -69,28 +77,30 @@ namespace DigitalHomeCinemaManager.Components
             using (var reader = new StreamReader(path)) {
                 string line;
                 bool hasTrailer = false;
-                while ((line = reader.ReadLine()) != null) {
-                    if (line.Contains(this.trailerPath)) {
-                        hasTrailer = true;
-                        this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
-                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
-                        this.TrailersEnabled = true;
-                    } else if (line.Contains(this.mediaPath)) {
-                        this.Feature = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
-                        if (!File.Exists(this.Feature)) {
-                            this.Feature = string.Empty;
-                        } else {
-                            this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
-                        }
-                    } else if (line.Contains(this.prerollPath)) {
-                        if (hasTrailer) {
-                            this.Commercial = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
-                            this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
-                            this.CommercialEnabled = true;
-                        } else {
-                            this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
-                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
-                            this.PrerollEnabled = true;
+                lock (this.playlistLock) {
+                    while ((line = reader.ReadLine()) != null) {
+                        if (line.Contains(this.trailerPath)) {
+                            hasTrailer = true;
+                            this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
+                            this.TrailersEnabled = true;
+                        } else if (line.Contains(this.mediaPath)) {
+                            this.Feature = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
+                            if (!File.Exists(this.Feature)) {
+                                this.Feature = string.Empty;
+                            } else {
+                                this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
+                            }
+                        } else if (line.Contains(this.prerollPath)) {
+                            if (hasTrailer) {
+                                this.Commercial = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
+                                this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
+                                this.CommercialEnabled = true;
+                            } else {
+                                this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
+                                this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
+                                this.PrerollEnabled = true;
+                            }
                         }
                     }
                 }
@@ -104,37 +114,39 @@ namespace DigitalHomeCinemaManager.Components
             string path = VIDEO_PATH + PLAYLIST;
 
             using (var writer = new StreamWriter(path, false)) {
-                this.playlist.Clear();
-                writer.WriteLine(MPCPLAYLIST);
-                int i = 1;
-                if (this.PrerollEnabled == true) {
-                    foreach (string s in this.PrerollPlaylist) {
-                        this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
+                lock (this.playlistLock) {
+                    this.playlist.Clear();
+                    writer.WriteLine(MPCPLAYLIST);
+                    int i = 1;
+                    if (this.PrerollEnabled == true) {
+                        foreach (string s in this.PrerollPlaylist) {
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
+                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
+                            i++;
+                        }
+                    }
+                    if (this.TrailersEnabled == true) {
+                        foreach (string s in this.TrailerPlaylist) {
+                            this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
+                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
+                            i++;
+                        }
+                    }
+                    if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
                         writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Commercial));
                         i++;
                     }
-                }
-                if (this.TrailersEnabled == true) {
-                    foreach (string s in this.TrailerPlaylist) {
-                        this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE,  i));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
-                        i++;
+                    if (!string.IsNullOrEmpty(this.Feature)) {
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Feature));
                     }
+                    writer.Flush();
                 }
-                if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
-                    this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Commercial));
-                    i++;
-                }
-                if (!string.IsNullOrEmpty(this.Feature)) {
-                    this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
-                    writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Feature));
-                }
-                writer.Flush();
             }
 
             OnPlaylistChanged();
@@ -147,7 +159,14 @@ namespace DigitalHomeCinemaManager.Components
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnPlaylistChanged()
         {
-            PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
+            if (this.dispatcher.CheckAccess()) {
+                PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
+            } else {
+                this.dispatcher.BeginInvoke((Action)(() => {
+                    PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
+                }));
+            }
+            
         }
 
         private void ParseFeature()
@@ -163,7 +182,10 @@ namespace DigitalHomeCinemaManager.Components
             int len = this.Feature.LastIndexOf("_", StringComparison.Ordinal);
             int start = this.Feature.LastIndexOf("\\", StringComparison.Ordinal) + 1;
             int lastSpace = 0;
-            var title = new StringBuilder(len - start);
+
+            if (len < 0) { len = this.Feature.LastIndexOf(".", StringComparison.Ordinal); }
+
+            var title = new StringBuilder((len - start < 0)? 0 : len - start);
             var year = new StringBuilder(4);
             var exInfo = new StringBuilder(20);
             
@@ -199,7 +221,7 @@ namespace DigitalHomeCinemaManager.Components
                 }
             }
 
-            if (title.Length == lastSpace) {
+            if ((title.Length > 0) && (title.Length == lastSpace)) {
                 title.Remove(lastSpace - 1, 1);
             }
             

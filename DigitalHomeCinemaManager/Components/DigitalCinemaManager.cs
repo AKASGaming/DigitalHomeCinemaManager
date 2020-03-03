@@ -67,7 +67,7 @@ namespace DigitalHomeCinemaManager.Components
             // create components
             this.deviceManager = new DeviceManager(this.dispatcher);
             this.router = new RoutingEngine(this.dispatcher);
-            this.playlist = new PlaylistManager();
+            this.playlist = new PlaylistManager(this.dispatcher);
             this.diskManager = new RemovableDriveManager();
 
             // main window needs the PlaylistManager
@@ -270,8 +270,8 @@ namespace DigitalHomeCinemaManager.Components
             if (Properties.Settings.Default.MediaPath.Contains(e.Drive)) {
                 e.HookQueryRemove = true;
                 SendStatusUpdate(Properties.Resources.MSG_DRIVE_INSERTED);
-                //this.playlist.Feature = string.Empty;
-                //this.playlist.CreatePlaylist();
+                this.playlist.Feature = string.Empty;
+                this.playlist.CreatePlaylist();
             }
         }
 
