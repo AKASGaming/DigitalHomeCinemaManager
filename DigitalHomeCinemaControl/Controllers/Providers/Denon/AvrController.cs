@@ -47,6 +47,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         public const string LOUDMGMT = "Loudness Management";
         public const string SURROUNDMODE = "Surround Mode";
         public const string INPUTSOURCE = "Input Source";
+        public const string QUICKSELECT = "Quick Select";
 
         private const string QUICK = "QuickSelect";
         private const string MV = "MasterVolume";
@@ -91,7 +92,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 { STATUS, new BindingItem<string>(TONECNT) },
                 { STATUS, new BindingItem<string>(LOUDMGMT) },
                 new BindingItem<string>(SURROUNDMODE),
-                new BindingItem<string>(INPUTSOURCE)
+                new BindingItem<string>(INPUTSOURCE),
+                new BindingItem<string>(QUICKSELECT)
             };
 
             this.DataSource = dataSource;
@@ -191,7 +193,15 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                     } else {
                         UpdateDataSource<string>(INPUTSOURCE, this.avr.Input.GetDescription());
                     }
-                    break;   
+                    break;
+                case nameof(this.avr.QuickSelect):
+                    string quickName = this.avr.QuickSelect.ToString();
+                    if (this.avr.QuickNames.ContainsKey(quickName.ToUpperInvariant())) {
+                        UpdateDataSource<string>(QUICKSELECT, this.avr.QuickNames[quickName.ToUpperInvariant()]);
+                    } else {
+                        UpdateDataSource<string>(QUICKSELECT, this.avr.QuickSelect.GetDescription());
+                    }
+                    break;
                 case nameof(this.avr.ChannelStatus):
                     SetActiveSpeakers();
                     break;  

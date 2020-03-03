@@ -390,13 +390,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         [Description("")]
         Unknown = 0,
         [Description("Quick Select 1")]
-        Quick1 = 1,
+        QS1 = 1,
         [Description("Quick Select 2")]
-        Quick2 = 2,
+        QS2 = 2,
         [Description("Quick Select 3")]
-        Quick3 = 3,
+        QS3 = 3,
         [Description("Quick Select 4")]
-        Quick4 = 4,
+        QS4 = 4,
     }
 
 }

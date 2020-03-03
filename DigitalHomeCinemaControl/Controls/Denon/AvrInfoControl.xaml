@@ -22,7 +22,7 @@
                     <TextBlock x:Name="SurroundMode" Text="" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="#7FFFFFFF" Width="281" Height="26" TextAlignment="Center" FontWeight="SemiBold" FontSize="16" Opacity="0.8"/>
                 </Grid>
                 <Rectangle Width="1" Height="50" Margin="0,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
-                <TextBlock x:Name="Source" Text="" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Foreground="#7FFFFFFF" Height="26" TextAlignment="Center" FontWeight="SemiBold" FontSize="16" Opacity="0.8" />
+                <TextBlock x:Name="Source" Text="CD" HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" VerticalAlignment="Center" Width="240" Foreground="#7FFFFFFF" Height="26" TextAlignment="Center" FontWeight="SemiBold" FontSize="16" Opacity="0.8" />
             </StackPanel>
             <Rectangle Width="550" Height="1" Margin="0,10,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
             <Common:SmallListControl x:Name="StatusList" />

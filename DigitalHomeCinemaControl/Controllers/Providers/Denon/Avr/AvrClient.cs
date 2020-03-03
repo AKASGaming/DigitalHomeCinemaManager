@@ -175,6 +175,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         {
             if (this.IsConnected) {
                 this.writer.WriteLine("OPINFASP ?");
+                //this.writer.WriteLine("MSQUICK ?");
                 this.writer.Flush();
             }
         }
@@ -200,6 +201,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             this.writer.WriteLine("PSDELAY ?");
             this.writer.WriteLine("PSRSTR ?");
             this.writer.WriteLine("OPINFASP ?");
+            //this.writer.WriteLine("MSQUICK ?");
             this.writer.Flush();
         }
 
@@ -241,7 +243,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
                     }
                     break;
                 case "MS": // mode surround
-                    SetSurroundMode(parameter);
+                    if (parameter.StartsWith("QUICK", StringComparison.Ordinal)) {
+                        string s = parameter.Substring(5, 1);
+                        if (Enum.TryParse<QuickSelect>(s, out QuickSelect qs)) {
+                            this.QuickSelect = qs;
+                        }
+                    } else {
+                        SetSurroundMode(parameter);
+                    }
                     break;
                 case "SS": // undocumented commands
                     SetExtendedValues(parameter);

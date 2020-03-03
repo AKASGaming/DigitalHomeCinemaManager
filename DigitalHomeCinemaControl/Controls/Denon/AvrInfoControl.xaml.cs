@@ -24,6 +24,8 @@ namespace DigitalHomeCinemaControl.Controls.Denon
     public partial class AvrInfoControl : DeviceControl
     {
 
+        private string source;
+
         #region Constructor
 
         public AvrInfoControl()
@@ -61,7 +63,18 @@ namespace DigitalHomeCinemaControl.Controls.Denon
             var changedItem = (IBindingItem)this.DataSource[e.NewIndex];
             switch (changedItem.Name) {
                 case AvrController.SURROUNDMODE: this.SurroundMode.Text = changedItem.Value.ToString(); break;
-                case AvrController.INPUTSOURCE: this.Source.Text = changedItem.Value.ToString(); break;
+                case AvrController.INPUTSOURCE: 
+                    this.source = changedItem.Value.ToString();
+                    this.Source.Text = this.source; break;
+                case AvrController.QUICKSELECT:
+                    // Disabled for now. not happy with how this looks in UI
+                    //string quick = changedItem.Value.ToString();
+                    //if (string.IsNullOrEmpty(quick)) {
+                    //    this.Source.Text = this.source;
+                    //} else {
+                    //    this.Source.Text = string.Format("{0} / {1}", this.source, quick);
+                    //}
+                    break;
             }
         }
 #pragma warning restore CA1062
