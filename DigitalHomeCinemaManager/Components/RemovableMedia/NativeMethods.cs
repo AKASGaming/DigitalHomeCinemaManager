@@ -15,7 +15,6 @@
 namespace DigitalHomeCinemaManager.Components.RemovableMedia
 {
     using System;
-    using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
 
     /// <summary>
@@ -34,7 +33,6 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         const uint FILE_FLAG_BACKUP_SEMANTICS = 0x02000000;
         static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         public static bool CloseDirectoryHandle(IntPtr handle)
         {
             return CloseHandle(handle);
@@ -45,7 +43,6 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         /// </summary>
         /// <param name="dirPath">path to the directory, e.g. "C:\\dir"</param>
         /// <returns>handle to the directory. Close it with CloseHandle().</returns>
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         public static IntPtr OpenDirectory(string dirPath)
         {
             // open the existing file for reading          
@@ -65,16 +62,13 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
             }
         }
 
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr RegisterDeviceNotification(IntPtr hRecipient, IntPtr NotificationFilter, uint Flags);
 
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint UnregisterDeviceNotification(IntPtr hHandle);
 
         // should be "static extern unsafe"
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         [DllImport("kernel32", CharSet = CharSet.Unicode, BestFitMapping = false, ThrowOnUnmappableChar = true, SetLastError = true)]
         static extern IntPtr CreateFile(
               [MarshalAs(UnmanagedType.LPTStr)]
@@ -87,7 +81,6 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
               IntPtr hTemplateFile                // handle to template file
         );
 
-        [MethodImpl(MethodImplOptions.Unmanaged)]
         [DllImport("kernel32", SetLastError = true)]
         static extern bool CloseHandle(IntPtr hObject);
 
