@@ -156,14 +156,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 case nameof(this.avr.Surround):
                     UpdateDataSource<string>(SURROUNDMODE, this.avr.Surround.GetDescription());
                     break;
-                case nameof(this.avr.ToneControl):
-                    string toneControl = (this.avr.ToneControl == null) ? "---" : ((bool)this.avr.ToneControl == true) ? "On" : "Off";
-                    UpdateDataSource<string>(TONECNT, toneControl);
-                    break;
-                case nameof(this.avr.LoudnessManagement):
-                    string loudness = (this.avr.LoudnessManagement == null) ? "---" : ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
-                    UpdateDataSource<string>(LOUDMGMT, loudness);
-                    break;
                 case nameof(this.avr.InputMode):
                     UpdateDataSource<string>(INPUTMODE, this.avr.InputMode.GetDescription());
                     break;
@@ -179,12 +171,23 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 case nameof(this.avr.MultEq):
                     UpdateDataSource<string>(MULTEQ, this.avr.MultEq.GetDescription());
                     break;
-                case nameof(this.avr.DynEq):
-                    string dyneq = (this.avr.DynEq == null) ? "---" : ((bool)this.avr.DynEq == true) ? "On" : "Off";
-                    UpdateDataSource<string>(DYNEQ, dyneq);
-                    break;
                 case nameof(this.avr.DynamicVolume):
                     UpdateDataSource<string>(DYNVOL, this.avr.DynamicVolume.GetDescription());
+                    break;
+                case nameof(this.avr.ToneControl):
+                    string toneControl = (this.avr.ToneControl == null) ? "---" : 
+                                         ((bool)this.avr.ToneControl == true) ? "On" : "Off";
+                    UpdateDataSource<string>(TONECNT, toneControl);
+                    break;
+                case nameof(this.avr.LoudnessManagement):
+                    string loudness = (this.avr.LoudnessManagement == null) ? "---" : 
+                                      ((bool)this.avr.LoudnessManagement == true) ? "On" : "Off";
+                    UpdateDataSource<string>(LOUDMGMT, loudness);
+                    break;
+                case nameof(this.avr.DynEq):
+                    string dyneq = (this.avr.DynEq == null) ? "---" : 
+                                   ((bool)this.avr.DynEq == true) ? "On" : "Off";
+                    UpdateDataSource<string>(DYNEQ, dyneq);
                     break;
                 case nameof(this.avr.Input):
                     string inputName = this.avr.Input.ToString();
@@ -371,13 +374,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         public string RouteAction(string action, object args)
         {
             if (string.IsNullOrEmpty(action)) {
-                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_INVALID_ACTION);
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, 
+                    Properties.Resources.MSG_INVALID_ACTION);
             }
             if (!this.avr.IsConnected) { 
-                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_NOT_CONNECTED);
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, 
+                    Properties.Resources.MSG_NOT_CONNECTED);
             }
             if (args == null) {
-                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, Properties.Resources.MSG_INVALID_ARGS);
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_AVR_ERROR, 
+                    Properties.Resources.MSG_INVALID_ARGS);
             }
 
             switch (action) {
