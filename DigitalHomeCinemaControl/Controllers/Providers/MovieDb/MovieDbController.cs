@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
     using System;
     using System.Globalization;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
     using DigitalHomeCinemaControl.Controllers.Base;
     using TMDbLib.Client;
     using TMDbLib.Objects.General;

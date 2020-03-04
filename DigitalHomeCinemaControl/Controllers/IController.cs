@@ -20,6 +20,7 @@ namespace DigitalHomeCinemaControl.Controllers
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Interface for all Device Controllers to implement.

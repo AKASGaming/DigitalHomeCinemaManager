@@ -19,7 +19,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
     using System.IO;
     using System.Net;
     using System.Windows.Media.Imaging;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Interaction logic for MediaInfoControl.xaml

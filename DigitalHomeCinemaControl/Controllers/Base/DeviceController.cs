@@ -21,6 +21,7 @@ namespace DigitalHomeCinemaControl.Controllers.Base
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Abstract Controller class that all controllers should derive from.

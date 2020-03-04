@@ -15,7 +15,9 @@
 namespace DigitalHomeCinemaControl.Controls.Denon
 {
     using System.ComponentModel;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Collections.Specialized;
+    using DigitalHomeCinemaControl.Components;
+    using DigitalHomeCinemaControl.Components.Audio;
     using DigitalHomeCinemaControl.Controllers.Providers.Denon;
 
     /// <summary>

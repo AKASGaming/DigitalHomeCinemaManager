@@ -12,13 +12,14 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Collections
+namespace DigitalHomeCinemaControl.Collections.Specialized
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// The MultiplexedBindingList class is a special implementation of a DispatchedBindingList

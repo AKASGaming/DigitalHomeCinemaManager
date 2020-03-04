@@ -22,7 +22,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
     using System.Net.Sockets;
     using System.Runtime.CompilerServices;
     using System.Timers;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 

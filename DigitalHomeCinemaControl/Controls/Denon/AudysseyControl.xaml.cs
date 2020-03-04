@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaControl.Controls.Denon
     using System.Windows.Controls;
     using DigitalHomeCinemaControl.Collections;
     using DigitalHomeCinemaControl.Controllers.Providers.Denon;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Interaction logic for AudysseyControl.xaml

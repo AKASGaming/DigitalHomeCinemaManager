@@ -14,7 +14,7 @@
 
 namespace DigitalHomeCinemaControl.Controllers.Base
 {
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Abstract SourceController class.

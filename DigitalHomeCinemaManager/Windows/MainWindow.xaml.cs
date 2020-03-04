@@ -27,6 +27,7 @@ namespace DigitalHomeCinemaManager.Windows
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Devices;

@@ -12,23 +12,20 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controls
+namespace DigitalHomeCinemaControl.Components
 {
-    using DigitalHomeCinemaControl.Collections;
-    using DigitalHomeCinemaControl.Components;
+    using System.Windows.Threading;
 
     /// <summary>
-    /// Provides a DataSource that controls can bind to.
+    /// Interface for classes which have a Dispatcher to marshall events to the UI thread.
     /// </summary>
-    public interface IDeviceControl
+    public interface IDispatchEvents
     {
 
         /// <summary>
-        /// Gets or Sets a generic collection that supports data binding.
+        /// Gets or Sets the Dispatcher.
         /// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
-        IDispatchedBindingList<IBindingItem> DataSource { get; set; }
-#pragma warning restore CA2227
+        Dispatcher Dispatcher { get; set; }
 
     }
 

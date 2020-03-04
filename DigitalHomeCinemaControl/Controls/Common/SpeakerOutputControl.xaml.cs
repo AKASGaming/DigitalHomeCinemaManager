@@ -17,7 +17,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components.Audio;
 
     #region Extensions
 

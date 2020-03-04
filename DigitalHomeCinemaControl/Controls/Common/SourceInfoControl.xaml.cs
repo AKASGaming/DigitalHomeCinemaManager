@@ -15,7 +15,7 @@
 namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System.ComponentModel;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controls;
 

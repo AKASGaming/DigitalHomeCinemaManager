@@ -12,20 +12,23 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Collections
+namespace DigitalHomeCinemaControl.Controllers
 {
-    using System.Windows.Threading;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using DigitalHomeCinemaControl.Components.Lighting;
 
-    /// <summary>
-    /// Interface for classes which have a Dispatcher to marshall events to the UI thread.
-    /// </summary>
-    public interface IDispatchEvents
+    public interface ILightingController : IController
     {
 
-        /// <summary>
-        /// Gets or Sets the Dispatcher.
-        /// </summary>
-        Dispatcher Dispatcher { get; set; }
+        void SetScene(string scence, bool state);
+
+        int Index { get; set; }
+
+        Dictionary<string, LightingScene> Scenes { get; }
 
     }
 

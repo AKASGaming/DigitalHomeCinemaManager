@@ -15,6 +15,7 @@
 namespace DigitalHomeCinemaControl.Collections
 {
     using System.ComponentModel;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Interface for IBindingList derived classes which also marshall events to the UI thread.

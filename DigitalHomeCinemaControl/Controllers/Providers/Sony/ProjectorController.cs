@@ -24,7 +24,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
     using System.Runtime.CompilerServices;
     using System.Text;
     using System.Timers;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp;
     using DigitalHomeCinemaControl.Controllers.Routing;

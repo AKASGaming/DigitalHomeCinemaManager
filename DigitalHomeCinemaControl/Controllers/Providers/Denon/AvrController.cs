@@ -19,10 +19,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
-    using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Collections.Specialized;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr;
     using DigitalHomeCinemaControl.Controllers.Routing;
+    using DigitalHomeCinemaControl.Components;
+    using DigitalHomeCinemaControl.Components.Audio;
 
     public sealed class AvrController : ProcessorController, IRoutingDestination, IDisposable
     {

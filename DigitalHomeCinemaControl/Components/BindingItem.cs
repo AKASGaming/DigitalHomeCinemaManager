@@ -12,7 +12,7 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Collections
+namespace DigitalHomeCinemaControl.Components
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;

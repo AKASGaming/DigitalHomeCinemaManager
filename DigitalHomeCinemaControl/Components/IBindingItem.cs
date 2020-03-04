@@ -12,23 +12,25 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controls
+namespace DigitalHomeCinemaControl.Components
 {
-    using DigitalHomeCinemaControl.Collections;
-    using DigitalHomeCinemaControl.Components;
+    using System.ComponentModel;
 
     /// <summary>
-    /// Provides a DataSource that controls can bind to.
+    /// Notifies clients when a value has changed.
     /// </summary>
-    public interface IDeviceControl
+    public interface IBindingItem : INotifyPropertyChanged
     {
 
         /// <summary>
-        /// Gets or Sets a generic collection that supports data binding.
+        /// Gets the Name of the IBindingItem.
         /// </summary>
-#pragma warning disable CA2227 // Collection properties should be read only
-        IDispatchedBindingList<IBindingItem> DataSource { get; set; }
-#pragma warning restore CA2227
+        string Name { get; }
+
+        /// <summary>
+        /// Gets or Sets the Value of the IBindingItem
+        /// </summary>
+        object Value { get; set; }
 
     }
 

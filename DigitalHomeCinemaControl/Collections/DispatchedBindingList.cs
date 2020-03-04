@@ -18,6 +18,7 @@ namespace DigitalHomeCinemaControl.Collections
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows.Threading;
+    using DigitalHomeCinemaControl.Components;
 
 
     /// <summary>

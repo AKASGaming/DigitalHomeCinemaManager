@@ -12,27 +12,18 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Collections
+namespace DigitalHomeCinemaControl.Components.Lighting
 {
-    using System.ComponentModel;
-    using System.Windows.Threading;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    /// <summary>
-    /// Notifies clients when a value has changed.
-    /// </summary>
-    public interface IBindingItem : INotifyPropertyChanged
+    public enum LightState
     {
-
-        /// <summary>
-        /// Gets the Name of the IBindingItem.
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// Gets or Sets the Value of the IBindingItem
-        /// </summary>
-        object Value { get; set; }
-
+        Off,
+        On,
     }
 
 }

@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaControl.Controls
     using System.ComponentModel;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl.Collections;
+    using DigitalHomeCinemaControl.Components;
 
     /// <summary>
     /// Abstract UserControl that implements the IDeviceControl interface.

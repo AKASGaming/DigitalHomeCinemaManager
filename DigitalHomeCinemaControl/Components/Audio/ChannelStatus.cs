@@ -12,7 +12,7 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Collections
+namespace DigitalHomeCinemaControl.Components.Audio
 {
     using System;
     using System.Collections.Generic;
