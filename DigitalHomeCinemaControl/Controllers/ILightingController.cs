@@ -14,14 +14,11 @@
 
 namespace DigitalHomeCinemaControl.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using DigitalHomeCinemaControl.Components.Lighting;
+    using DigitalHomeCinemaControl.Controllers.Routing;
 
-    public interface ILightingController : IController
+    public interface ILightingController : IController, IRoutingDestination
     {
 
         void SetScene(string scence, bool state);
