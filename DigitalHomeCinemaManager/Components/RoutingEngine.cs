@@ -198,7 +198,7 @@ namespace DigitalHomeCinemaManager.Components
             int count = this.rules.Count;
             if (count == 0) { return; }
 
-            for (int i = count - 1; i >= 0; i--) {
+            for (int i = 0; i < count; i++) {
                 var rule = this.rules[i];
 
                 if (item.Equals(rule)) {
