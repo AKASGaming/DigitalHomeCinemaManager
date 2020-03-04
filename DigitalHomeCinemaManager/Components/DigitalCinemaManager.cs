@@ -100,6 +100,7 @@ namespace DigitalHomeCinemaManager.Components
             routingControl.ListDoubleClick += RoutingControlListDoubleClick;
             routingControl.ListAddClick += RoutingControlListAddClick;
             routingControl.ListRemoveClick += RoutingControlListRemoveClick;
+            routingControl.ListMoveItemClick += RoutingControlListMoveItemClick;
             this.mainWindow.InsertControl(routingControl);
 
             // show the window
@@ -188,7 +189,7 @@ namespace DigitalHomeCinemaManager.Components
         private void RoutingControlListRemoveClick(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem is MatchAction rule) {
-                this.router.Rules.Remove(rule);
+                this.router.RemoveRule(rule);
                 this.router.SaveRules();
             }
             if (sender is ListBox list) {
@@ -207,11 +208,28 @@ namespace DigitalHomeCinemaManager.Components
                 Owner = this.mainWindow,
             };
             if (window.ShowDialog() == true) {
-                this.router.Rules.Add(window.Rule);
+                this.router.AddRule(window.Rule);
                 this.router.SaveRules();
             }
             if (sender is ListBox list) {
                 list.Items.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Handler for RoutingControl Move ContextMenu.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RoutingControlListMoveItemClick(object sender, MoveSelectedItemEventArgs e)
+        {
+            if (e.SelectedItem is MatchAction rule) {
+                int i = this.router.MoveRule(rule, e.Direction);
+                this.router.SaveRules();
+                if ((i >= 0) && (sender is ListBox list)) {
+                    list.SelectedIndex = i;
+                    list.Items.Refresh();
+                }
             }
         }
 

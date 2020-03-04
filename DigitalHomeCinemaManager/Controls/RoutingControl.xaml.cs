@@ -35,9 +35,35 @@ namespace DigitalHomeCinemaManager.Controls
 
         #region Methods
 
+        private void ListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.lstRules.SelectedIndex < 0) {
+                this.MenuItemDelete.IsEnabled = false;
+                this.MenuItemDown.IsEnabled = false;
+                this.MenuItemUp.IsEnabled = false;
+            } else {
+                this.MenuItemDelete.IsEnabled = true;
+
+                if (this.lstRules.Items.Count == 1) {
+                    this.MenuItemDown.IsEnabled = false;
+                    this.MenuItemUp.IsEnabled = false;
+                } else {
+                    this.MenuItemDown.IsEnabled = true;
+                    this.MenuItemUp.IsEnabled = true;
+                }
+
+                if (this.lstRules.SelectedIndex == 0) {
+                    this.MenuItemUp.IsEnabled = false;
+                } else if (this.lstRules.SelectedIndex == (this.lstRules.Items.Count - 1)) {
+                    this.MenuItemDown.IsEnabled = false;
+                }
+            }
+        }
+
         private void ListMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            
+            if (this.lstRules.SelectedIndex < 0) { return; }
+
             ListDoubleClick?.Invoke(sender, new SelectedItemChangedEventArgs(this.lstRules.SelectedItem));
         }
 
@@ -48,21 +74,36 @@ namespace DigitalHomeCinemaManager.Controls
 
         private void RulesDeleteClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            
             if (this.lstRules.SelectedIndex < 0) { return; }
 
             ListRemoveClick?.Invoke(sender, new SelectedItemChangedEventArgs(this.lstRules.SelectedItem));
         }
 
+        private void RulesMoveUpClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (this.lstRules.SelectedIndex < 0) { return; }
+
+            ListMoveItemClick?.Invoke(sender, new MoveSelectedItemEventArgs(this.lstRules.SelectedItem, -1));
+        }
+
+        private void RulesMoveDownClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (this.lstRules.SelectedIndex < 0) { return; }
+
+            ListMoveItemClick?.Invoke(sender, new MoveSelectedItemEventArgs(this.lstRules.SelectedItem, 1));
+        }
+
         #endregion
 
         #region Events
-        
+
         public event EventHandler<SelectedItemChangedEventArgs> ListDoubleClick;
 
         public event EventHandler<SelectedItemChangedEventArgs> ListAddClick;
 
         public event EventHandler<SelectedItemChangedEventArgs> ListRemoveClick;
+
+        public event EventHandler<MoveSelectedItemEventArgs> ListMoveItemClick;
 
         #endregion
 
@@ -73,6 +114,7 @@ namespace DigitalHomeCinemaManager.Controls
             get { return this.lstRules.ItemsSource; }
             set { this.lstRules.ItemsSource = value; }
         }
+
 
         #endregion
 

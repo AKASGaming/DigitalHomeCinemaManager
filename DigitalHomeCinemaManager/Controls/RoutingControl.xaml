@@ -9,11 +9,13 @@
     <Grid>
         <StackPanel Orientation="Vertical" Margin="0,5,0,0">
             <TextBlock Text="DEVICE ROUTING" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Top" Background="{x:Null}" Width="600" Foreground="#FF818181" FontSize="18" Height="24"/>
-            <ListBox x:Name="lstRules" Margin="10,10,10,0" Height="185" Width="572" MouseDoubleClick="ListMouseDoubleClick" VerticalAlignment="Top" Background="{x:Null}" AlternationCount="2" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
+            <ListBox x:Name="lstRules" Margin="10,10,10,0" Height="185" Width="572" MouseDoubleClick="ListMouseDoubleClick" SelectionChanged="ListSelectionChanged" VerticalAlignment="Top" Background="{x:Null}" AlternationCount="2" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" >
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Add" Click="RulesAddClick" />
-                        <MenuItem Header="Delete" Click="RulesDeleteClick" />
+                        <MenuItem x:Name="MenuItemDelete" Header="Delete" Click="RulesDeleteClick" IsEnabled="False" />
+                        <MenuItem x:Name="MenuItemUp" Header="Move Up" Click="RulesMoveUpClick" IsEnabled="False" />
+                        <MenuItem x:Name="MenuItemDown" Header="Move Down" Click="RulesMoveDownClick" IsEnabled="False" />
                     </ContextMenu>
                 </ListBox.ContextMenu>
                 <ListBox.ItemTemplate>

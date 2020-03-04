@@ -125,6 +125,7 @@
     <Compile Include="Controls\ControllerStatusControl.xaml.cs">
       <DependentUpon>ControllerStatusControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MoveSelectedItemEventArgs.cs" />
     <Compile Include="Controls\SelectedItemChangedEventArgs.cs" />
     <Compile Include="Controls\Settings\DisplaySettings.xaml.cs">
       <DependentUpon>DisplaySettings.xaml</DependentUpon>

@@ -41,6 +41,7 @@ namespace DigitalHomeCinemaManager.Components
         private ConcurrentQueue<RoutingItem> queue = new ConcurrentQueue<RoutingItem>();
         private Dictionary<string, IRoutingDestination> routes;
         private AutoResetEvent notifier = new AutoResetEvent(false);
+        private object lockObject = new object();
         private Dispatcher dispatcher;
         private Thread workerThread;
         private bool disposed = false;
@@ -167,11 +168,13 @@ namespace DigitalHomeCinemaManager.Components
 
         public void SaveRules()
         {
-            var ruleList = new List<MatchAction>(this.Rules);
-            var serializer = new XmlSerializer(typeof(List<MatchAction>));
+            lock (this.lockObject) {
+                var ruleList = new List<MatchAction>(this.Rules);
+                var serializer = new XmlSerializer(typeof(List<MatchAction>));
 
-            using (TextWriter writer = new StreamWriter(PATH)) {
-                serializer.Serialize(writer, ruleList);
+                using (TextWriter writer = new StreamWriter(PATH)) {
+                    serializer.Serialize(writer, ruleList);
+                }
             }
         }
 
@@ -181,6 +184,40 @@ namespace DigitalHomeCinemaManager.Components
 
             this.queue.Enqueue(e.Item);
             this.notifier.Set();
+        }
+
+        public void AddRule(MatchAction rule)
+        {
+            lock (this.lockObject) {
+                this.Rules.Add(rule);
+            }
+        }
+
+        public void RemoveRule(MatchAction rule)
+        {
+            lock (this.lockObject) {
+                this.Rules.Remove(rule);
+            }
+        }
+
+        public int MoveRule(MatchAction rule, int direction)
+        {
+            lock (this.lockObject) {
+                int index = this.Rules.IndexOf(rule);
+                int newIndex = index + direction;
+
+                if ((newIndex < 0) || (newIndex >= this.Rules.Count)) {
+                    return -1; // Index out of range - nothing to do
+                }
+
+                // Removing removable element
+                this.Rules.Remove(rule);
+                // Insert it in new position
+                this.Rules.Insert(newIndex, rule);
+
+                return newIndex;
+            }
+
         }
 
         private void ProcessQueue()
@@ -198,21 +235,22 @@ namespace DigitalHomeCinemaManager.Components
             int count = this.rules.Count;
             if (count == 0) { return; }
 
-            for (int i = 0; i < count; i++) {
-                var rule = this.rules[i];
+            lock (this.lockObject) {
+                for (int i = 0; i < count; i++) {
+                    var rule = this.rules[i];
 
-                if (item.Equals(rule)) {
-                    if (!this.routes.ContainsKey(rule.ActionDestination)) { continue; } // invalid destination
+                    if (item.Equals(rule)) {
+                        if (!this.routes.ContainsKey(rule.ActionDestination)) { continue; } // invalid destination
 
-                    try {
-                        string result = this.routes[rule.ActionDestination].RouteAction(rule.Action, rule.Args);
-                        OnRuleProcessed(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_ROUTING_OK, result));
-                    } catch {
-                        OnRuleProcessed(Properties.Resources.MSG_ROUTING_ERROR);
+                        try {
+                            string result = this.routes[rule.ActionDestination].RouteAction(rule.Action, rule.Args);
+                            OnRuleProcessed(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_ROUTING_OK, result));
+                        } catch {
+                            OnRuleProcessed(Properties.Resources.MSG_ROUTING_ERROR);
+                        }
                     }
-                }
-
-            }  // for
+                }  // for
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
