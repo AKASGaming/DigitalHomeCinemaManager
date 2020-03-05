@@ -403,6 +403,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
                 case DEL:
                     this.avr.Delay = (int)args;
                     break;
+                default:
+                    return "AVR Unknown Action!";
             }
 
             return string.Format(CultureInfo.InvariantCulture, "AVR {0}", Properties.Resources.MSG_OK);
