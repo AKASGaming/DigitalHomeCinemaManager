@@ -209,6 +209,7 @@ namespace DigitalHomeCinemaManager.Windows
                 this.argsBorder.Child = text;
             }
 
+            // TODO: This should handle the proper args type rather than just everything being a string
             if (this.cmbAction.SelectedItem != null) {
                 this.argsBorder.IsEnabled = true;
                 if (!this.initializing) {
