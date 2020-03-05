@@ -12,21 +12,21 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controllers
+namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
 {
-    using System;
-    using DigitalHomeCinemaControl.Controllers.Providers.Scheduler;
-    using DigitalHomeCinemaControl.Controllers.Routing;
 
-    public interface IScheduleController : IController, IRoutingSource, IRoutingDestination, IDisposable
+    public enum ScheduleState
     {
+        None,
+        Scheduled,
+        Start,
+    }
 
-        bool SetSchedule(ScheduleItem start);
-
-        bool Enabled { get; }
-
-        ScheduleItem Schedule { get; }
-
+    public enum ScheduleInterval
+    {
+        Exact, // trigger only on exact date and time
+        Once, // trigger once at specified time
+        Daily, // trigger daily at specified time
     }
 
 }

@@ -56,6 +56,10 @@ namespace DigitalHomeCinemaManager.Components
             this.Devices.Clear();
             this.Controllers.Clear();
 
+            // Special case for Scheduler
+            this.Scheduler = new DigitalHomeCinemaControl.Controllers.Providers.Scheduler.ScheduleController();
+            this.Controllers.Add(this.Scheduler);
+
             if (!string.IsNullOrEmpty(Properties.Settings.Default.SerialDevice)) {
                 InitializeDevice<SerialDevice>(SerialDevice.Items[Properties.Settings.Default.SerialDevice]);
             }
@@ -230,6 +234,8 @@ namespace DigitalHomeCinemaManager.Components
         #endregion
 
         #region Properties
+
+        public IScheduleController Scheduler { get; private set; }
 
         public SourceDevice SourceDevice { get; private set; }
 

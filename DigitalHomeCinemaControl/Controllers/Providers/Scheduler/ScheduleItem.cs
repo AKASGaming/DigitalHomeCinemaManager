@@ -12,20 +12,20 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controllers
+namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
 {
     using System;
-    using DigitalHomeCinemaControl.Controllers.Providers.Scheduler;
-    using DigitalHomeCinemaControl.Controllers.Routing;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    public interface IScheduleController : IController, IRoutingSource, IRoutingDestination, IDisposable
+    public sealed class ScheduleItem
     {
+        
+        public DateTime Date { get; set; }
 
-        bool SetSchedule(ScheduleItem start);
-
-        bool Enabled { get; }
-
-        ScheduleItem Schedule { get; }
+        public ScheduleInterval Interval { get; set; }
 
     }
 

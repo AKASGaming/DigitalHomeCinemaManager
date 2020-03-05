@@ -106,6 +106,15 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SCHEDULE ERROR: {0}.
+        /// </summary>
+        internal static string FMT_SCH_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_SCH_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SDCP ERROR: {0}.
         /// </summary>
         internal static string FMT_SDCP_ERROR {

@@ -145,6 +145,10 @@
     <Compile Include="Controllers\Providers\HDFury\Enums.cs" />
     <Compile Include="Controllers\Providers\MediaPlayerClassic\MpcController.cs" />
     <Compile Include="Controllers\Providers\MovieDb\MovieDbController.cs" />
+    <Compile Include="Controllers\Providers\Scheduler\Enums.cs" />
+    <Compile Include="Controllers\Providers\Scheduler\Extensions.cs" />
+    <Compile Include="Controllers\Providers\Scheduler\ScheduleController.cs" />
+    <Compile Include="Controllers\Providers\Scheduler\ScheduleItem.cs" />
     <Compile Include="Controllers\Providers\Serial\SerialController.cs" />
     <Compile Include="Controllers\Providers\Sony\Extensions.cs" />
     <Compile Include="Controllers\Providers\Sony\ProjectorController.cs" />

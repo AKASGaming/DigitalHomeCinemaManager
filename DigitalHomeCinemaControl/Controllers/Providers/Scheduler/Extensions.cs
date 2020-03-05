@@ -12,20 +12,23 @@
  *
  */
 
-namespace DigitalHomeCinemaControl.Controllers
+namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
 {
     using System;
-    using DigitalHomeCinemaControl.Controllers.Providers.Scheduler;
-    using DigitalHomeCinemaControl.Controllers.Routing;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    public interface IScheduleController : IController, IRoutingSource, IRoutingDestination, IDisposable
+    internal static class Extensions
     {
 
-        bool SetSchedule(ScheduleItem start);
+        internal static bool IsTimeGreaterThan(this DateTime time1, DateTime time2)
+        {
+            return ((time1.Hour >= time2.Hour) && (time1.Minute >= time2.Minute) && (time1.Second >= time2.Second));
+        }
 
-        bool Enabled { get; }
 
-        ScheduleItem Schedule { get; }
 
     }
 

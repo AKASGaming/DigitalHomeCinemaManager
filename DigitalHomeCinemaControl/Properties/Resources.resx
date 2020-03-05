@@ -132,6 +132,9 @@
   <data name="FMT_NETWORK_TIMEOUT" xml:space="preserve">
     <value>Network timeout connecting to {0}</value>
   </data>
+  <data name="FMT_SCH_ERROR" xml:space="preserve">
+    <value>SCHEDULE ERROR: {0}</value>
+  </data>
   <data name="FMT_SDCP_ERROR" xml:space="preserve">
     <value>SDCP ERROR: {0}</value>
   </data>
