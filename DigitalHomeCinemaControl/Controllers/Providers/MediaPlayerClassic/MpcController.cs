@@ -32,7 +32,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     /// <summary>
     /// Media Player Classic - Home Cinema controller.
     /// </summary>
-    public sealed class MpcController : SourceController, ISourceController, IRoutingSource, IDisposable
+    public sealed class MpcController : SourceController, ISourceController, IRoutingSource, IRoutingDestination, IDisposable
     {
 
         #region Members
@@ -47,7 +47,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         private const string DISPLAY_PARAM   = " /monitor ";
         private const int    MAX_ERROR_COUNT = 10;
 
+        private const string PLAY = "Play";
+
         private Timer statsTimer;
+        private IDictionary<string, Type> actions;
         private static readonly HttpClient client = new HttpClient();
         private string feature = string.Empty;
         private volatile int errorCount = 0;
@@ -61,6 +64,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             : base()
         {
             this.State = PlaybackState.Unknown;
+
+            this.actions = new Dictionary<string, Type> {
+                { PLAY, null },
+            };
         }
 
         #endregion
@@ -257,6 +264,28 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             RouteData?.Invoke(this, new RoutingDataEventArgs(item));
         }
 
+        public string RouteAction(string action, object args)
+        {
+            if (string.IsNullOrEmpty(action)) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_MPC_ERROR,
+                    Properties.Resources.MSG_INVALID_ACTION);
+            }
+            if (args == null) {
+                return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_MPC_ERROR,
+                    Properties.Resources.MSG_INVALID_ARGS);
+            }
+
+            switch (action) {
+                case PLAY:
+                    Play();
+                    break;
+                default:
+                    return "MPC Unknown Action!";
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "MPC {0}", Properties.Resources.MSG_OK);
+        }
+
         private void Dispose(bool disposing)
         {
             if (!this.disposed) {
@@ -301,6 +330,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         public Type MatchType
         {
             get { return typeof(PlaybackState); }
+        }
+
+        public IDictionary<string, Type> Actions
+        {
+            get { return this.actions; }
         }
 
         #endregion

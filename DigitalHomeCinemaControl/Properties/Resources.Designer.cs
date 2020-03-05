@@ -97,6 +97,15 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MPC ERROR: {0}.
+        /// </summary>
+        internal static string FMT_MPC_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_MPC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network timeout connecting to {0}.
         /// </summary>
         internal static string FMT_NETWORK_TIMEOUT {
