@@ -39,6 +39,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         private volatile int resolution;
         private int timerId;
         private UIntPtr zero = UIntPtr.Zero;
+        private TimeProc timeProc;
 
         #endregion
 
@@ -54,6 +55,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         /// </summary>
         public HighAccuracyTimer()
         {
+            this.timeProc = new TimeProc(this.PeriodicTimerCallback);
             this.Mode = TimerMode.Periodic;
             this.Interval = capabilities.periodMin;
             this.Resolution = 1;
@@ -73,11 +75,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
             if (this.Enabled) { return; }
 
-            if (this.Mode == TimerMode.Periodic) {
-                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, PeriodicTimerCallback, ref this.zero, (int)this.Mode);
-            } else {
-                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, OneShotTimerCallback, ref this.zero, (int)this.Mode);
-            }
+            this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, this.timeProc, ref this.zero, (int)this.Mode);
 
             if (this.timerId != 0) {
                 this.Enabled = true;
@@ -105,12 +103,10 @@ namespace DigitalHomeCinemaControl.Components.Timers
         private void PeriodicTimerCallback(int id, int msg, int user, int param1, int param2)
         {
             OnElapsed();
-        }
 
-        private void OneShotTimerCallback(int id, int msg, int user, int param1, int param2)
-        {
-            OnElapsed();
-            Stop();
+            if (this.Mode == TimerMode.OneShot) {
+                Stop();
+            }
         }
 
         private void OnElapsed()
