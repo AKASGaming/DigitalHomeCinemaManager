@@ -49,16 +49,28 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                     <TextBlock x:Name="MasterVolume" Text="--dB" HorizontalAlignment="Right" Margin="0,0,60,0" TextWrapping="Wrap" Foreground="Aqua" TextAlignment="Right" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="60" Height="90" Width="250" Grid.Column="2" Grid.ColumnSpan="3" />
-                    <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="5" />
-                            </Style>
-                        </Button.Resources>
-                        <StackPanel>
-                            <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/settings.png" Height="20" />
-                        </StackPanel>
-                    </Button>
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                            <StackPanel>
+                                <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/settings.png" Height="20" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="Schedule" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonScheduleClick">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5" />
+                                </Style>
+                            </Button.Resources>
+                            <StackPanel>
+                                <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/outline_schedule_black_36dp.png" Height="20" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>

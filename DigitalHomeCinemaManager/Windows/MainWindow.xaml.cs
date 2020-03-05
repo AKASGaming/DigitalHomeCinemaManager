@@ -280,6 +280,11 @@ namespace DigitalHomeCinemaManager.Windows
             OpenSettings?.Invoke(sender, e);
         }
 
+        private void ButtonScheduleClick(object sender, RoutedEventArgs e)
+        {
+            OpenScheduler?.Invoke(sender, e);
+        }
+
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
             var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
@@ -403,6 +408,8 @@ namespace DigitalHomeCinemaManager.Windows
         #region Events
 
         public event EventHandler OpenSettings;
+
+        public event EventHandler OpenScheduler;
 
         #endregion
 

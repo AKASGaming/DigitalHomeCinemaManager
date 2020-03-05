@@ -77,6 +77,7 @@ namespace DigitalHomeCinemaManager.Components
             this.mainWindow.Closed += MainWindowClosed;
             this.mainWindow.ContentRendered += MainWindowContentRendered;
             this.mainWindow.OpenSettings += MainWindowOpenSettings;
+            this.mainWindow.OpenScheduler += MainWindowOpenScheduler;
             this.router.RuleProcessed += RouterRuleProcessed;
             this.playlist.PlaylistChanged += PlaylistChanged;
             this.deviceManager.ControllerError += ControllerError;
@@ -253,6 +254,16 @@ namespace DigitalHomeCinemaManager.Components
                     Application.Current.Shutdown();
                 }
             }
+        }
+
+        /// <summary>
+        /// Handler for Scheduler button click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindowOpenScheduler(object sender, EventArgs e)
+        {
+            
         }
 
         #endregion
