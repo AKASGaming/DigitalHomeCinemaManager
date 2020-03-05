@@ -114,10 +114,9 @@
     <Compile Include="Components\Lighting\Light.cs" />
     <Compile Include="Components\SettingItem.cs" />
     <Compile Include="Components\Lighting\LightingScene.cs" />
-    <Compile Include="Components\Timers\AutoResetTimer.cs" />
+    <Compile Include="Components\Timers\WaitTimer.cs" />
     <Compile Include="Components\Timers\Enums.cs" />
     <Compile Include="Components\Timers\HighAccuracyTimer.cs" />
-    <Compile Include="Components\Timers\ManualResetTimer.cs" />
     <Compile Include="Components\Timers\NativeMethods.cs" />
     <Compile Include="Components\Timers\TimerCapabilities.cs" />
     <Compile Include="Controllers\Base\DeviceController.cs" />
@@ -133,6 +132,7 @@
     <Compile Include="Controllers\IMediaInfoController.cs" />
     <Compile Include="Controllers\IProcessorController.cs" />
     <Compile Include="Controllers\IRequirePairing.cs" />
+    <Compile Include="Controllers\IScheduleController.cs" />
     <Compile Include="Controllers\ISerialController.cs" />
     <Compile Include="Controllers\ISourceController.cs" />
     <Compile Include="Controllers\ISupportCustomNames.cs" />

@@ -17,7 +17,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
     using System;
     using System.Threading;
 
-    public sealed class AutoResetTimer : WaitHandle
+    public sealed class WaitTimer : WaitHandle
     {
 
         #region Members
@@ -26,14 +26,16 @@ namespace DigitalHomeCinemaControl.Components.Timers
         private HighAccuracyTimer timer;
         private volatile bool signaled;
         private volatile bool disposed = false;
+        private bool autoReset;
 
         #endregion
 
         #region Constructor
 
-        public AutoResetTimer(bool initialState)
+        public WaitTimer(bool initialState, bool autoReset)
             : base()
         {
+            this.autoReset = autoReset;
             this.signaled = initialState;
             this.waitHandle = new AutoResetEvent(initialState);
             this.timer = new HighAccuracyTimer() {
@@ -72,7 +74,10 @@ namespace DigitalHomeCinemaControl.Components.Timers
             this.waitHandle.WaitOne();
 
             bool result = this.signaled;
-            Reset();
+
+            if (this.autoReset) {
+                Reset();
+            }
 
             return result; 
         }

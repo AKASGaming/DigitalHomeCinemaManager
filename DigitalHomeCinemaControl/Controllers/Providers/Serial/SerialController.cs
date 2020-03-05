@@ -39,7 +39,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         private const StopBits STOP_BITS = StopBits.One;
 
         private SerialPort serialPort;
-        private AutoResetTimer waitHandle; // use high accuracy WaitHandle
+        private WaitTimer waitHandle; // use high accuracy WaitHandle
         private volatile bool disposed = false; 
 
         #endregion
@@ -71,7 +71,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
             }
 
             if (this.waitHandle == null) {
-                this.waitHandle = new AutoResetTimer(false);
+                this.waitHandle = new WaitTimer(false, true);
             }
             this.waitHandle.Reset();
 
