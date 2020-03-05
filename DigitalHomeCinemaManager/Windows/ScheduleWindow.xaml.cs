@@ -41,7 +41,7 @@ namespace DigitalHomeCinemaManager.Windows
             if (schedule == null) {
                 this.schedule = new ScheduleItem() {
                     Interval = ScheduleInterval.Exact,
-                    Date = new DateTime(),
+                    Date = DateTime.Now,
                 };
             } else {
                 this.schedule = schedule;
