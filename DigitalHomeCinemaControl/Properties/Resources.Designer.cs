@@ -295,6 +295,24 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interval out of range..
+        /// </summary>
+        internal static string MSG_TIMER_INTERVAL_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_TIMER_INTERVAL_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Resolution out of range..
+        /// </summary>
+        internal static string MSG_TIMER_RESOLUTION_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_TIMER_RESOLUTION_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Api Key not set..
         /// </summary>
         internal static string MSG_TMDB_API_KEY_ERROR {

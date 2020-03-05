@@ -195,6 +195,12 @@
   <data name="MSG_STREAM_ERROR" xml:space="preserve">
     <value>Stream not readable or writable</value>
   </data>
+  <data name="MSG_TIMER_INTERVAL_ERROR" xml:space="preserve">
+    <value>Interval out of range.</value>
+  </data>
+  <data name="MSG_TIMER_RESOLUTION_ERROR" xml:space="preserve">
+    <value>Resolution out of range.</value>
+  </data>
   <data name="MSG_TMDB_API_KEY_ERROR" xml:space="preserve">
     <value>Api Key not set.</value>
   </data>
