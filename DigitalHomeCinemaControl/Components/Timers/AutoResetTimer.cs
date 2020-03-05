@@ -24,6 +24,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
 
         private AutoResetEvent waitHandle;
         private HighAccuracyTimer timer;
+        private volatile bool signaled;
         private volatile bool disposed = false;
 
         #endregion
@@ -33,6 +34,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         public AutoResetTimer(bool initialState)
             : base()
         {
+            this.signaled = initialState;
             this.waitHandle = new AutoResetEvent(initialState);
             this.timer = new HighAccuracyTimer() {
                 Resolution = 1,
@@ -49,6 +51,8 @@ namespace DigitalHomeCinemaControl.Components.Timers
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
 
+            this.signaled = false;
+
             return this.waitHandle.Reset();
         }
 
@@ -56,14 +60,21 @@ namespace DigitalHomeCinemaControl.Components.Timers
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
 
+            this.signaled = true;
+
             return this.waitHandle.Set();
         }
 
         public override bool WaitOne()
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
+            
+            this.waitHandle.WaitOne();
 
-            return this.waitHandle.WaitOne();
+            bool result = this.signaled;
+            Reset();
+
+            return result; 
         }
 
         public override bool WaitOne(int millisecondsTimeout)
