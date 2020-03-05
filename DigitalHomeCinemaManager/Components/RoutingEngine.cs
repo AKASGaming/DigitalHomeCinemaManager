@@ -97,7 +97,8 @@ namespace DigitalHomeCinemaManager.Components
                 if (controller is IRoutingSource source) {
                     source.RouteData += QueueData;
                     this.Sources.Add(source.Name, source.MatchType);
-                } else if (controller is IRoutingDestination destination) {
+                } 
+                if (controller is IRoutingDestination destination) {
                     this.routes.Add(destination.Name, destination);
                     this.Destinations.Add(destination.Name, destination.Actions);
                 }
