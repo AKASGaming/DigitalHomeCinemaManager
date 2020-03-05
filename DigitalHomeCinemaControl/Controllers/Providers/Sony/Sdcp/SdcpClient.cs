@@ -16,7 +16,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
 {
     using System;
     using System.Net.Sockets;
-    using System.Threading;
+    using DigitalHomeCinemaControl.Components.Timers;
 
     public class SdcpClient : IDisposable
     {
@@ -28,7 +28,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         private readonly object lockObject = new object();
         private TcpClient client;
         private NetworkStream stream;
-        private AutoResetEvent waitHandle;
+        private AutoResetTimer waitHandle; // use high accuracy WaitHandle
         private bool disposed = false;
         private string host;
         private int port = 53484;
@@ -44,7 +44,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
                 NoDelay = true,
                 ReceiveBufferSize = READ_BUFFER_SIZE,
             };
-            this.waitHandle = new AutoResetEvent(false);
+            this.waitHandle = new AutoResetTimer(false);
             this.Closed = false;
         }
 

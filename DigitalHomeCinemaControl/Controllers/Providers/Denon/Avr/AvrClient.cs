@@ -38,8 +38,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         private StreamReader reader;
         private StreamWriter writer;
         private Thread readThread;
-        private bool initialized;
-        private bool disposed = false;
+        private volatile bool initialized;
+        private volatile bool disposed = false;
         private System.Timers.Timer timer;
 
         private PowerStatus power = PowerStatus.Unknown;

@@ -19,7 +19,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
     using System.Globalization;
     using System.IO.Ports;
     using System.Runtime.CompilerServices;
-    using System.Threading;
+    using DigitalHomeCinemaControl.Components.Timers;
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
@@ -39,8 +39,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
         private const StopBits STOP_BITS = StopBits.One;
 
         private SerialPort serialPort;
-        private AutoResetEvent waitHandle;
-        private bool disposed = false; 
+        private AutoResetTimer waitHandle; // use high accuracy WaitHandle
+        private volatile bool disposed = false; 
 
         #endregion
 
@@ -71,7 +71,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
             }
 
             if (this.waitHandle == null) {
-                this.waitHandle = new AutoResetEvent(false);
+                this.waitHandle = new AutoResetTimer(false);
             }
             this.waitHandle.Reset();
 
