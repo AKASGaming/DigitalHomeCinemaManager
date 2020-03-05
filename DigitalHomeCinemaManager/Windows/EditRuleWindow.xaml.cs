@@ -182,7 +182,7 @@ namespace DigitalHomeCinemaManager.Windows
         {
             if ((this.cmbAction.SelectedItem != null) &&
                 (this.cmbAction.SelectedItem is KeyValuePair<string, Type> kvp) &&
-                kvp.Value.IsEnum) {
+                (kvp.Value != null) && kvp.Value.IsEnum) {
 
                 // The destination has specified an Enum for this Action
                 // Create a ComboBox dynamically and add it to the window.
