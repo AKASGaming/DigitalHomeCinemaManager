@@ -91,6 +91,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
             return true;
         }
 
+        public void ClearSchedule()
+        {
+            this.timer.Stop();
+            this.Enabled = false;
+            this.Schedule = null;
+        }
+
         public string RouteAction(string action, object args)
         {
             if (string.IsNullOrEmpty(action)) {
@@ -104,9 +111,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
 
             switch (action) {
                 case DELAY:
-                    int seconds = (int)args;
-                    using (var delay = new WaitTimer(false, false)) {
-                        delay.WaitOne(seconds * 1000);
+                    if (int.TryParse(args.ToString(), out int seconds)) {
+                        using (var delay = new WaitTimer(false, false)) {
+                            delay.WaitOne(seconds * 1000);
+                        }
+                    } else {
+                        return string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_SCH_ERROR,
+                            Properties.Resources.MSG_INVALID_ARGS);
                     }
                     break;
                 default:

@@ -23,6 +23,8 @@ namespace DigitalHomeCinemaControl.Controllers
 
         bool SetSchedule(ScheduleItem start);
 
+        void ClearSchedule();
+
         bool Enabled { get; }
 
         ScheduleItem Schedule { get; }
