@@ -157,7 +157,7 @@ namespace DigitalHomeCinemaManager.Components
         private void MainWindowClosed(object sender, System.EventArgs e)
         {
             this.router?.Stop();
-            Dispose(true);
+            Dispose(false);
             Environment.Exit(0);
         }
 
