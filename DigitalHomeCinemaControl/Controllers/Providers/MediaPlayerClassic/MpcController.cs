@@ -28,7 +28,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
     using DigitalHomeCinemaControl.Controllers.Base;
     using DigitalHomeCinemaControl.Controllers.Routing;
 
-
     /// <summary>
     /// Media Player Classic - Home Cinema controller.
     /// </summary>
@@ -48,6 +47,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         private const int    MAX_ERROR_COUNT = 10;
 
         private const string PLAY = "Play";
+        private const string PAUSE = "Pause";
+        private const string STOP = "Stop";
 
         private Timer statsTimer;
         private IDictionary<string, Type> actions;
@@ -67,6 +68,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
             this.actions = new Dictionary<string, Type> {
                 { PLAY, null },
+                { PAUSE, null },
+                { STOP, null },
             };
         }
 
@@ -153,8 +156,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
                 if ((s >= PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(currentFile)) {
                     s = PlaybackState.PlayingFeature;
                 }
-                this.State = s;
-                OnDataReceived(s);
+
+                if (s != this.State) {
+                    this.State = s;
+                    OnDataReceived(s);
+                }
             }
 
             UpdateDataSource<string>(CURRENTFILE, currentFile);
@@ -278,6 +284,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
             switch (action) {
                 case PLAY:
                     Play();
+                    break;
+                case PAUSE:
+                    Pause();
+                    break;
+                case STOP:
+                    Stop();
                     break;
                 default:
                     return "MPC Unknown Action!";
