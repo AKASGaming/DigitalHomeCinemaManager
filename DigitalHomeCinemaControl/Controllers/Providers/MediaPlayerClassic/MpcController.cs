@@ -50,8 +50,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         private Timer statsTimer;
         private static readonly HttpClient client = new HttpClient();
         private string feature = string.Empty;
-        private int errorCount = 0;
-        private bool disposed = false;
+        private volatile int errorCount = 0;
+        private volatile bool disposed = false;
 
         #endregion
 

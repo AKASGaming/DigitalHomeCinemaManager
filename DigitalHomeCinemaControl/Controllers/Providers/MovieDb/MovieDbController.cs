@@ -33,7 +33,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
 
         private const string POSTER_URL = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
         private TMDbClient movieApi;
-        private bool disposed = false;
+        private volatile bool disposed = false;
 
         #endregion
 
