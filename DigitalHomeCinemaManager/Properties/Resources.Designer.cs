@@ -214,6 +214,24 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Schedule cleared..
+        /// </summary>
+        internal static string MSG_SCHEDULE_CLEAR {
+            get {
+                return ResourceManager.GetString("MSG_SCHEDULE_CLEAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schedule set..
+        /// </summary>
+        internal static string MSG_SCHEDULE_SET {
+            get {
+                return ResourceManager.GetString("MSG_SCHEDULE_SET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Rule.
         /// </summary>
         internal static string NEW_RULE {

@@ -168,6 +168,12 @@
   <data name="MSG_ROUTING_ERROR" xml:space="preserve">
     <value>Rule processing failed!</value>
   </data>
+  <data name="MSG_SCHEDULE_CLEAR" xml:space="preserve">
+    <value>Schedule cleared.</value>
+  </data>
+  <data name="MSG_SCHEDULE_SET" xml:space="preserve">
+    <value>Schedule set.</value>
+  </data>
   <data name="NEW_RULE" xml:space="preserve">
     <value>New Rule</value>
   </data>

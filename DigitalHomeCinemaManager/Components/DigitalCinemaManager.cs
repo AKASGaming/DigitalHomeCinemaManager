@@ -248,7 +248,9 @@ namespace DigitalHomeCinemaManager.Components
                 Properties.Settings.Default.Save();
                 Properties.DeviceSettings.Default.Save();
 
-                var result = MessageBox.Show(Properties.Resources.SETTINGS_CHANGED, Properties.Resources.APP_RESTART, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                var result = MessageBox.Show(Properties.Resources.SETTINGS_CHANGED, 
+                    Properties.Resources.APP_RESTART, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                
                 if (result == MessageBoxResult.Yes) { 
                     Process.Start(Application.ResourceAssembly.Location);
                     Application.Current.Shutdown();
@@ -270,11 +272,11 @@ namespace DigitalHomeCinemaManager.Components
             if (window.ShowDialog() == true) {
                 if (window.Enabled.IsChecked == true) {
                     if (this.deviceManager.Scheduler.SetSchedule(window.Schedule)) {
-                        SendStatusUpdate("Schedule set.");
+                        SendStatusUpdate(Properties.Resources.MSG_SCHEDULE_SET);
                     }
                 } else {
                     this.deviceManager.Scheduler.ClearSchedule();
-                    SendStatusUpdate("Schedule cleared.");
+                    SendStatusUpdate(Properties.Resources.MSG_SCHEDULE_CLEAR);
                 }
             }
         }
