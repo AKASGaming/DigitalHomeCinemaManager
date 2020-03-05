@@ -15,18 +15,8 @@
 namespace DigitalHomeCinemaManager.Windows
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Shapes;
     using DigitalHomeCinemaControl.Controllers.Providers.Scheduler;
 
 
@@ -36,7 +26,13 @@ namespace DigitalHomeCinemaManager.Windows
     public partial class ScheduleWindow : Window
     {
 
+        #region Members
+
         private ScheduleItem schedule;
+
+        #endregion
+
+        #region Constructor
 
         public ScheduleWindow(ScheduleItem schedule)
         {
@@ -49,6 +45,7 @@ namespace DigitalHomeCinemaManager.Windows
                 };
             } else {
                 this.schedule = schedule;
+                this.Enabled.IsChecked = true;
             }
 
             this.Time.TimeInterval = new TimeSpan(0, 30, 0);
@@ -57,6 +54,10 @@ namespace DigitalHomeCinemaManager.Windows
             this.Date.SelectedDate = this.schedule.Date;
             this.Time.Value = this.schedule.Date;
         }
+
+        #endregion
+
+        #region Methods
 
         private void IntervalSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -100,7 +101,14 @@ namespace DigitalHomeCinemaManager.Windows
             Close();
         }
 
+        #endregion
+
+        #region Properties
+
         public ScheduleItem Schedule { get { return this.schedule; } }
+
+        #endregion
+
     }
 
 }
