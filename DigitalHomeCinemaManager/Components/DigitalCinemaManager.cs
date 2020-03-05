@@ -33,7 +33,7 @@ namespace DigitalHomeCinemaManager.Components
 
         #region Members
 
-        private bool disposed = false;
+        private volatile bool disposed = false;
         private MainWindow mainWindow;
         private Dispatcher dispatcher;
         private DeviceManager deviceManager;

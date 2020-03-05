@@ -61,7 +61,7 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         private IntPtr recipientHandle; // Handle of the window which receives messages from Windows. This will be a form.
         private string currentDrive; // Drive which is currently hooked for query remove
         private DetectorForm form;
-        private bool disposed = false;
+        private volatile bool disposed = false;
 
         #endregion
 

@@ -44,8 +44,8 @@ namespace DigitalHomeCinemaManager.Components
         private object lockObject = new object();
         private Dispatcher dispatcher;
         private Thread workerThread;
-        private bool disposed = false;
-        private bool running;
+        private volatile bool disposed = false;
+        private volatile bool running;
 
         #endregion
 
