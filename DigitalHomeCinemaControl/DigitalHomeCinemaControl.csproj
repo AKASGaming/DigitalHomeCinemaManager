@@ -116,6 +116,7 @@
     <Compile Include="Components\Lighting\LightingScene.cs" />
     <Compile Include="Controllers\Base\DeviceController.cs" />
     <Compile Include="Controllers\Base\DisplayController.cs" />
+    <Compile Include="Controllers\Base\LightingController.cs" />
     <Compile Include="Controllers\Base\ProcessorController.cs" />
     <Compile Include="Controllers\Base\SourceController.cs" />
     <Compile Include="Components\IBindingItem.cs" />
