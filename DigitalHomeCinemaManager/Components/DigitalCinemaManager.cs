@@ -263,7 +263,20 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowOpenScheduler(object sender, EventArgs e)
         {
-            
+            var window = new ScheduleWindow(this.deviceManager.Scheduler.Schedule) {
+                Owner = this.mainWindow,
+            };
+
+            if (window.ShowDialog() == true) {
+                if (window.Enabled.IsChecked == true) {
+                    if (this.deviceManager.Scheduler.SetSchedule(window.Schedule)) {
+                        SendStatusUpdate("Schedule set.");
+                    }
+                } else {
+                    this.deviceManager.Scheduler.ClearSchedule();
+                    SendStatusUpdate("Schedule cleared.");
+                }
+            }
         }
 
         #endregion
