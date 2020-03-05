@@ -17,6 +17,20 @@ namespace DigitalHomeCinemaControl.Components.Timers
     using System;
     using System.Threading;
 
+    /// <summary>
+    /// Implements a highly accurate wait timer.
+    /// </summary>
+    /// <remarks>
+    /// This WaitTimer is the most accurate way to cause a thread to wait
+    /// for a desired interval. The timeout will occur within +/- 1 
+    /// millisecond of the specified value.
+    /// 
+    /// The worst performing method is calling Thread.Sleep() which almost
+    /// always causes the thread to block for much longer than the time 
+    /// specified. Slightly better is using either an AutoResetEvent or
+    /// ManualResetEvent and providing a timeout when calling WaitOne(),
+    /// but even this has tested to be very innacurate on some systems.
+    /// </remarks>
     public sealed class WaitTimer : WaitHandle
     {
 
@@ -32,6 +46,11 @@ namespace DigitalHomeCinemaControl.Components.Timers
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the WaitTimer class.
+        /// </summary>
+        /// <param name="initialState">true to set the initial state to signaled; false to set the initial state to non-signaled.</param>
+        /// <param name="autoReset">true for the wait handle to auto reset, false for manual reset.</param>
         public WaitTimer(bool initialState, bool autoReset)
             : base()
         {
@@ -49,6 +68,10 @@ namespace DigitalHomeCinemaControl.Components.Timers
 
         #region Methods
 
+        /// <summary>
+        /// Sets the state of the WaitTimer to non-signaled, which causes threads to block.
+        /// </summary>
+        /// <returns></returns>
         public bool Reset()
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
@@ -58,6 +81,11 @@ namespace DigitalHomeCinemaControl.Components.Timers
             return this.waitHandle.Reset();
         }
 
+        /// <summary>
+        /// Sets the state of the WaitTimer to signaled, which allows at most one waiting thread
+        /// to proceed.
+        /// </summary>
+        /// <returns></returns>
         public bool Set()
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }

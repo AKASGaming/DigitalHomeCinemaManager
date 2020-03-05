@@ -20,6 +20,13 @@ namespace DigitalHomeCinemaControl.Components.Timers
     using System.Runtime.InteropServices;
     using System.Windows.Threading;
 
+    /// <summary>
+    /// Implements a high accuracy timer using the Windows Multimedia API.
+    /// </summary>
+    /// <remarks>
+    /// The HighAccuracy timer will typically raise the Elapsed event within
+    /// +/- 1 millisecond of the specified interval.
+    /// </remarks>
     public sealed class HighAccuracyTimer : MarshalByRefObject, IDisposable
     {
 
@@ -42,6 +49,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
             _ = NativeMethods.timeGetDevCaps(ref capabilities, Marshal.SizeOf(capabilities));
         }
 
+        /// <summary>
+        /// Create a new instance of the HighAccuracyTimer class.
+        /// </summary>
         public HighAccuracyTimer()
         {
             this.Mode = TimerMode.Periodic;
@@ -55,6 +65,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
 
         #region Methods
 
+        /// <summary>
+        /// Starts the timer.
+        /// </summary>
         public void Start()
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
@@ -73,6 +86,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
             }
         }
 
+        /// <summary>
+        /// Stops the timer.
+        /// </summary>
         public void Stop()
         {
             if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
@@ -91,8 +107,6 @@ namespace DigitalHomeCinemaControl.Components.Timers
             OnElapsed();
         }
 
-        // Callback method called by the Win32 multimedia timer when a timer
-        // one shot event occurs.
         private void OneShotTimerCallback(int id, int msg, int user, int param1, int param2)
         {
             OnElapsed();
@@ -117,6 +131,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
             }
         }
 
+        /// <summary>
+        /// Releases all resources used by the current HighAccuracyTimer.
+        /// </summary>
         public void Dispose()
         {
             if (!this.disposed) {
@@ -133,14 +150,30 @@ namespace DigitalHomeCinemaControl.Components.Timers
 
         #region Events
 
+        /// <summary>
+        /// Occurs when the interval elapses.
+        /// </summary>
         public event EventHandler Elapsed;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets or Sets the Dispatcher used to marshal event handler calls to the UI thread.
+        /// </summary>
         public Dispatcher Dispatcher { get; set; }
 
+        /// <summary>
+        /// Gets or Sets the interval, in milliseconds, at which to raise the Elapsed event.
+        /// </summary>
+        /// <remarks>
+        /// Changing this value while the timer is running will reset the timer with the new
+        /// interval.
+        /// </remarks>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// The specified interval is outside the capabilities of the multimedia timer.
+        /// </exception>
         public int Interval
         {
             get {
@@ -163,6 +196,14 @@ namespace DigitalHomeCinemaControl.Components.Timers
             }
         }
 
+        /// <summary>
+        /// Gets or Sets the timer resolution in milliseconds.
+        /// </summary>
+        /// <remarks>
+        /// Changing this value while the timer is running will reset the timer with the new
+        /// interval.
+        /// </remarks>
+        /// <exception cref="ArgumentOutOfRangeException">The Resolution is less than 0.</exception>
         public int Resolution
         {
             get {
@@ -185,6 +226,13 @@ namespace DigitalHomeCinemaControl.Components.Timers
             }
         }
 
+        /// <summary>
+        /// Gets or Sets the timer mode.
+        /// </summary>
+        /// <remarks>
+        /// Changing this value while the timer is running will reset the timer with the new
+        /// interval.
+        /// </remarks>
         public TimerMode Mode
         {
             get {
@@ -204,6 +252,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the Timer is enabled.
+        /// </summary>
         public bool Enabled { get; private set; }
 
         #endregion

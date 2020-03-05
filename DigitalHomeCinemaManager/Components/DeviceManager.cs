@@ -56,7 +56,8 @@ namespace DigitalHomeCinemaManager.Components
             this.Devices.Clear();
             this.Controllers.Clear();
 
-            // Special case for Scheduler
+            // Special case for Scheduler since it's not an actual device. Just create an instance and add
+            // it to the collection so that the RoutingEngine can bind to it.
             this.Scheduler = new DigitalHomeCinemaControl.Controllers.Providers.Scheduler.ScheduleController();
             this.Controllers.Add(this.Scheduler);
 
