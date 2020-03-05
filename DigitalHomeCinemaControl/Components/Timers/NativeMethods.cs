@@ -14,6 +14,7 @@
 
 namespace DigitalHomeCinemaControl.Components.Timers
 {
+    using System;
     using System.Runtime.InteropServices;
 
     internal delegate void TimeProc(int id, int msg, int user, int param1, int param2);
@@ -26,7 +27,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         internal static extern int timeGetDevCaps(ref TimerCapabilities caps, int sizeOfTimerCaps);
 
         [DllImport("winmm.dll", SetLastError = true)]
-        internal static extern int timeSetEvent(int delay, int resolution, TimeProc proc, int user, int mode);
+        internal static extern int timeSetEvent(int delay, int resolution, TimeProc proc, ref UIntPtr user, int mode);
 
         [DllImport("winmm.dll")]
         internal static extern int timeKillEvent(int id);

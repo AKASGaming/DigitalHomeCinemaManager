@@ -31,6 +31,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         private volatile int interval;
         private volatile int resolution;
         private int timerId;
+        private UIntPtr zero = UIntPtr.Zero;
 
         #endregion
 
@@ -60,9 +61,9 @@ namespace DigitalHomeCinemaControl.Components.Timers
             if (this.Enabled) { return; }
 
             if (this.Mode == TimerMode.Periodic) {
-                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, PeriodicTimerCallback, 0, (int)this.Mode);
+                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, PeriodicTimerCallback, ref this.zero, (int)this.Mode);
             } else {
-                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, OneShotTimerCallback, 0, (int)this.Mode);
+                this.timerId = NativeMethods.timeSetEvent(this.Interval, this.Resolution, OneShotTimerCallback, ref this.zero, (int)this.Mode);
             }
 
             if (this.timerId != 0) {
