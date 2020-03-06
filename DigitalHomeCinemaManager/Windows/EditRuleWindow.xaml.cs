@@ -210,7 +210,11 @@ namespace DigitalHomeCinemaManager.Windows
                         Height = 22,
                     };
                     text.TextChanged += (s, ea) => {
-                        this.rule.Args = ParseType(((TextBox)s).Text, kvp.Value);
+                        if (TryParseType(((TextBox)s).Text, kvp.Value, out object args)) {
+                            this.rule.Args = args;
+                        } else {
+                            this.rule.Args = null;
+                        }
                         CheckOK();
                     };
                     this.argsBorder.Child = text;
@@ -244,22 +248,32 @@ namespace DigitalHomeCinemaManager.Windows
             this.rule.Enabled = (bool)this.CheckEnabled.IsChecked;
         }
 
-        private static object ParseType(string data, Type type)
+        private static bool TryParseType(string data, Type type, out object args)
         {
-            object result;
+            bool result = false;
 
-            if (type == null) { return data; }
+            if (type == null) {
+                args = null;
+                return result; 
+            }
 
             if (type == typeof(int) && int.TryParse(data, out int i)) {
-                result = i;
+                args = i;
+                result = true;
             } else if (type == typeof(decimal) && decimal.TryParse(data, out decimal m)) {
-                result = m;
+                args = m;
+                result = true;
             } else if (type == typeof(double) && double.TryParse(data, out double d)) {
-                result = d;
+                args = d;
+                result = true;
             } else if (type == typeof(bool) && bool.TryParse(data, out bool b)) {
-                result = b;
+                args = b;
+                result = true;
+            } else if (type == typeof(string) {
+                args = data;
+                result = true;
             } else {
-                result = data;
+                args = null;
             }
 
             return result;
