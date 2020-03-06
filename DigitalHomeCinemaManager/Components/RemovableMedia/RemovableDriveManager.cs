@@ -378,15 +378,20 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         protected virtual void Dispose(bool disposing)
         {
             if (!this.disposed) {
-                if (disposing) {
-                    this.fileOnFlash?.Close();
-                    this.form.Dispose();
-                }
-
                 try {
                     RegisterForDeviceChange(false, null);
                 } catch { }
-                
+
+                if (disposing) {
+                    this.fileOnFlash?.Close();
+                    if (this.form != null) {
+                        this.form.Invoke((Action)(() => {
+                            this.form.Close();
+                            this.form.Dispose();
+                        }));
+                    } 
+                }
+
                 this.disposed = true;
                 this.fileOnFlash = null;
                 this.form = null;
