@@ -96,17 +96,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         public override void Disconnect()
         {
-            Process[] mpcProcs = Process.GetProcessesByName(PROCESS_NAME);
-
             if ((this.statsTimer != null) && this.statsTimer.Enabled) {
                 this.statsTimer.Stop();
             }
-
+           
             try {
-                foreach (var p in mpcProcs) {
-                    p.Kill();
-                }
-
                 Dispose(true);
             } catch { 
             } finally {
@@ -307,6 +301,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
                 this.disposed = true;
                 this.statsTimer = null;
+
+                Process[] mpcProcs = Process.GetProcessesByName(PROCESS_NAME);
+                foreach (var p in mpcProcs) {
+                    p.Kill();
+                }
             }
         }
 
