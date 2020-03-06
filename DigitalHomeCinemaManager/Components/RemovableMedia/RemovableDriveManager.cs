@@ -25,7 +25,8 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
     using System.IO;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;   // required for Marshal
-    using System.Windows.Forms;             // required for Message
+    using System.Windows;
+    using System.Windows.Interop;
     using Microsoft.Win32.SafeHandles;
 
     /// <summary>
@@ -60,7 +61,8 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         private IntPtr deviceNotifyHandle; // Handle to file which we keep opened on the drive if query remove message is required by the client
         private IntPtr recipientHandle; // Handle of the window which receives messages from Windows. This will be a form.
         private string currentDrive; // Drive which is currently hooked for query remove
-        private DetectorForm form;
+        private DetectorWindow window;
+        private HwndSource hwnd;
         private volatile bool disposed = false;
 
         #endregion
@@ -68,16 +70,16 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         #region Constructor
 
         /// <summary>
-        /// The easiest way to use DriveDetector. 
-        /// It will create hidden form for processing Windows messages about USB drives
-        /// You do not need to override WndProc in your form.
+        /// Creates a hidden window for processing Windows messages about 
+        /// removable drives.
         /// </summary>
         public RemovableDriveManager()
         {
-            this.form = new DetectorForm(this);
-            this.form.Show(); // will be hidden immediatelly
+            this.window = new DetectorWindow();
+            this.window.Show();
+            this.hwnd = (HwndSource)PresentationSource.FromVisual(this.window);
 
-            Initialize(this.form, null);
+            Initialize(null);
         }
 
         #endregion
@@ -85,16 +87,18 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         #region Methods
 
         /// <summary>
-        /// init the DriveDetector object
+        /// Initialize the DriveDetector object
         /// </summary>
         /// <param name="intPtr"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Initialize(Control control, string fileToOpen)
+        private void Initialize(string fileToOpen)
         {
+            this.hwnd.AddHook(WndProc);
+
             this.fileToOpen = fileToOpen;
             this.fileOnFlash = null;
             this.deviceNotifyHandle = IntPtr.Zero;
-            this.recipientHandle = control.Handle;
+            this.recipientHandle = this.hwnd.Handle;
             this.dirHandle = IntPtr.Zero;   // handle to the root directory of the flash drive which we open 
             this.currentDrive = string.Empty;
         }
@@ -193,46 +197,55 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         }
 
         /// <summary>
-        /// Message handler which must be called from client form.
+        /// Message handler which must be called from client window.
         /// Processes Windows messages and calls event handlers. 
         /// </summary>
-        /// <param name="m"></param>
-        public void WndProc(ref Message m)
+        /// <param name="hwnd"></param>
+        /// <param name="msg"></param>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <param name="handled"></param>
+        /// <returns></returns>
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            int devType;
+            if (msg != WM_DEVICECHANGE) {
+                return IntPtr.Zero;
+            }
 
-            if (m.Msg == WM_DEVICECHANGE) {
-                switch (m.WParam.ToInt32()) { // WM_DEVICECHANGE can have several meanings depending on the WParam value...
-                    case DBT_DEVICEARRIVAL: // New device has just arrived
-                        devType = Marshal.ReadInt32(m.LParam, 4);
-                        if (devType == DBT_DEVTYP_VOLUME) {
-                            var vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
-                            OnDeviceArrived(vol);
+            int devType;
+            IntPtr result = IntPtr.Zero;
+
+            switch (wParam.ToInt32()) {
+                case DBT_DEVICEARRIVAL: // New device has just arrived
+                    devType = Marshal.ReadInt32(lParam, 4);
+                    if (devType == DBT_DEVTYP_VOLUME) {
+                        var vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(lParam, typeof(DEV_BROADCAST_VOLUME));
+                        OnDeviceArrived(vol);
+                    }
+                    break;
+                case DBT_DEVICEREMOVECOMPLETE: // Device has been removed
+                    devType = Marshal.ReadInt32(lParam, 4);
+                    if (devType == DBT_DEVTYP_VOLUME) {
+                        var vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(lParam, typeof(DEV_BROADCAST_VOLUME));
+                        OnDeviceRemoved(vol);
+                    }
+                    break;
+                case DBT_DEVICEQUERYREMOVE: // Device is about to be removed
+                    devType = Marshal.ReadInt32(lParam, 4);
+                    if (devType == DBT_DEVTYP_HANDLE) {
+                        bool cancel = OnQueryRemove();
+                        if (cancel) {
+                            // If the client wants to cancel, let Windows know
+                            result = (IntPtr)BROADCAST_QUERY_DENY;
+                        } else {
+                            // this will close the handle to file or root directory also. 
+                            RegisterForDeviceChange(false, null);
                         }
-                        break;
-                    case DBT_DEVICEQUERYREMOVE: // Device is about to be removed
-                        devType = Marshal.ReadInt32(m.LParam, 4);
-                        if (devType == DBT_DEVTYP_HANDLE) {
-                            bool cancel = OnQueryRemove();
-                            if (cancel) {
-                                // If the client wants to cancel, let Windows know
-                                m.Result = (IntPtr)BROADCAST_QUERY_DENY;
-                            } else {
-                                // Change 28.10.2007: Unregister the notification, this will
-                                // close the handle to file or root directory also. 
-                                RegisterForDeviceChange(false, null);
-                            }
-                        }
-                        break;
-                    case DBT_DEVICEREMOVECOMPLETE: // Device has been removed
-                        devType = Marshal.ReadInt32(m.LParam, 4);
-                        if (devType == DBT_DEVTYP_VOLUME) {
-                            var vol = (DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(m.LParam, typeof(DEV_BROADCAST_VOLUME));
-                            OnDeviceRemoved(vol);
-                        }
-                        break;
-                } // switch
-            } // WM_DEVICECHANGE
+                    }
+                    break;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -384,17 +397,18 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
 
                 if (disposing) {
                     this.fileOnFlash?.Close();
-                    if (this.form != null) {
-                        this.form.Invoke((Action)(() => {
-                            this.form.Close();
-                            this.form.Dispose();
-                        }));
-                    } 
+                    if (this.hwnd != null) {
+                        this.hwnd.RemoveHook(WndProc);
+                    }
+                    this.window?.Dispatcher.Invoke(() => {
+                        this.window.Close();
+                    });
                 }
 
                 this.disposed = true;
                 this.fileOnFlash = null;
-                this.form = null;
+                this.hwnd = null;
+                this.window = null;
             }
         }
 

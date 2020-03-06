@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System;
     using System.IO;
     using System.Windows;
+    using Microsoft.Win32;
 
     /// <summary>
     /// Interaction logic for GeneralSettings.xaml
@@ -48,52 +49,64 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonMediaClick(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
-                if (Directory.Exists(this.MediaPath.Text)) {
-                    fbd.SelectedPath = this.MediaPath.Text;
-                } else {
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-                }
-
-                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                    this.MediaPath.Text = fbd.SelectedPath;
-                    OnItemChanged();
-                }
+            var dialog = new SaveFileDialog() {
+                Title = "Select Media Path",
+                Filter = "Directory|*.this.directory",
+                FileName = "select",
+            };
+            if (Directory.Exists(this.MediaPath.Text)) {
+                dialog.InitialDirectory = this.MediaPath.Text;
+            } else {
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+            if (dialog.ShowDialog() == true) {
+                string path = dialog.FileName;
+                path = path.Replace("\\select.this.directory", "");
+                path = path.Replace(".this.directory", "");
+                this.MediaPath.Text = path;
+                OnItemChanged();
             }
         }
 
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
-                if (Directory.Exists(this.PrerollPath.Text)) {
-                    fbd.SelectedPath = this.PrerollPath.Text;
-                } else {
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-                }
-
-                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                    this.PrerollPath.Text = fbd.SelectedPath;
-                    OnItemChanged();
-                }
+            var dialog = new SaveFileDialog() {
+                Title = "Select Preroll Path",
+                Filter = "Directory|*.this.directory",
+                FileName = "select",
+            };
+            if (Directory.Exists(this.PrerollPath.Text)) {
+                dialog.InitialDirectory = this.PrerollPath.Text;
+            } else {
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+            if (dialog.ShowDialog() == true) {
+                string path = dialog.FileName;
+                path = path.Replace("\\select.this.directory", "");
+                path = path.Replace(".this.directory", "");
+                this.PrerollPath.Text = path;
+                OnItemChanged();
             }
         }
 
         private void ButtonTrailerClick(object sender, RoutedEventArgs e)
         {
-            using (var fbd = new System.Windows.Forms.FolderBrowserDialog()) {
-                if (Directory.Exists(this.TrailerPath.Text)) {
-                    fbd.SelectedPath = this.TrailerPath.Text;
-                } else {
-                    fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-                }
-
-                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrEmpty(fbd.SelectedPath)) {
-                    this.TrailerPath.Text = fbd.SelectedPath;
-                    OnItemChanged();
-                }
+            var dialog = new SaveFileDialog() {
+                Title = "Select Trailer Path",
+                Filter = "Directory|*.this.directory",
+                FileName = "select",
+            };
+            if (Directory.Exists(this.TrailerPath.Text)) {
+                dialog.InitialDirectory = this.TrailerPath.Text;
+            } else {
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            }
+            if (dialog.ShowDialog() == true) {
+                string path = dialog.FileName;
+                path = path.Replace("\\select.this.directory", "");
+                path = path.Replace(".this.directory", "");
+                this.TrailerPath.Text = path;
+                OnItemChanged();
             }
         }
 
