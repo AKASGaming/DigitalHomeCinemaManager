@@ -170,7 +170,6 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         /// <summary>
         /// Raises the INotifyPropertyChanged.PropertyChanged event.
-        /// This event IS marshalled to the UI Thread if possible.
         /// </summary>
         /// <remarks>
         /// This event IS marshalled to the UI Thread if possible.
