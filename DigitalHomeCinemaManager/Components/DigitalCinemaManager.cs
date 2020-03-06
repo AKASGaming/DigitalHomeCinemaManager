@@ -110,14 +110,14 @@ namespace DigitalHomeCinemaManager.Components
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void SendStatusUpdate(string message)
-        {
+        { 
             // if we're already on the UI thread just call UpdateStatus directly
             // otherwise marshall to UI thread with BeginInvoke
             if (this.dispatcher.CheckAccess()) {
-                this.mainWindow.UpdateStatus(message);
+                this.mainWindow?.UpdateStatus(message);
             } else {
                 this.dispatcher.BeginInvoke((Action)(() => {
-                    this.mainWindow.UpdateStatus(message);
+                    this.mainWindow?.UpdateStatus(message);
                 }));
             }
         }
@@ -157,9 +157,17 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowClosed(object sender, System.EventArgs e)
         {
-            this.router?.Stop();
-            Dispose(false);
-            Environment.Exit(0);
+            Closing?.BeginInvoke(this, new EventArgs(), EndInvokeClosing, null);
+        }
+
+        private void EndInvokeClosing(IAsyncResult iar)
+        {
+            var ar = (System.Runtime.Remoting.Messaging.AsyncResult)iar;
+            var invokedMethod = (EventHandler)ar.AsyncDelegate;
+
+            try {
+                invokedMethod.EndInvoke(iar);
+            } catch { }
         }
 
         /// <summary>
@@ -348,6 +356,7 @@ namespace DigitalHomeCinemaManager.Components
         {
             if (!this.disposed) {
                 if (disposing) {
+                    this.router?.Stop();
                     this.deviceManager.Dispose();
                     this.router.Dispose();
                     this.mainWindow.Dispose();
@@ -379,6 +388,12 @@ namespace DigitalHomeCinemaManager.Components
         }
 
         #endregion
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler Closing;
 
         #endregion
 
