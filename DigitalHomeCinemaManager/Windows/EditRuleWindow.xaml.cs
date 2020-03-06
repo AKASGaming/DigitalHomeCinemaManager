@@ -180,49 +180,50 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ActionSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((this.cmbAction.SelectedItem != null) &&
-                (this.cmbAction.SelectedItem is KeyValuePair<string, Type> kvp) &&
-                (kvp.Value != null) && kvp.Value.IsEnum) {
-
-                // The destination has specified an Enum for this Action
-                // Create a ComboBox dynamically and add it to the window.
-                ComboBox combo = new ComboBox() {
-                    Name = "txtArgs",
-                    ItemsSource = Enum.GetValues(kvp.Value), // bind directly to the enum
-                };
-                combo.SelectionChanged += (s, ea) => {
-                    this.rule.Args = ((ComboBox)s).SelectedItem; // store the selected value
-                    CheckOK();
-                };
-                this.argsBorder.Child = combo;
-            } else {
-                // The destination will accept a simple value
-                // Create a TextBox dynamically and add it to the window.
-                TextBox text = new TextBox() {
-                    Name = "txtArgs",
-                    Height = 22,
-                };
-                text.LostFocus += (s, ea) => {
-                    this.rule.Args = ((TextBox)s).Text;
-                    CheckOK();
-                };
-                this.argsBorder.Child = text;
-            }
-
-            // TODO: This should handle the proper args type rather than just everything being a string
-            if (this.cmbAction.SelectedItem != null) {
-                this.argsBorder.IsEnabled = true;
-                if (!this.initializing) {
-                    this.rule.Action = ((KeyValuePair<string, Type>)this.cmbAction.SelectedItem).Key;
-                    this.rule.Args = null;
-                }
-            } else {
+            if (this.cmbAction.SelectedItem == null) {
                 this.argsBorder.IsEnabled = false;
                 if (!this.initializing) {
                     this.rule.Action = string.Empty;
                     this.rule.Args = null;
                 }
+                return; 
             }
+
+            if (this.cmbAction.SelectedItem is KeyValuePair<string, Type> kvp) {
+                if ((kvp.Value != null) && kvp.Value.IsEnum) {
+                    // The destination has specified an Enum for this Action
+                    // Create a ComboBox dynamically and add it to the window.
+                    ComboBox combo = new ComboBox() {
+                        Name = "txtArgs",
+                        ItemsSource = Enum.GetValues(kvp.Value), // bind directly to the enum
+                    };
+                    combo.SelectionChanged += (s, ea) => {
+                        this.rule.Args = ((ComboBox)s).SelectedItem; // store the selected value
+                        CheckOK();
+                    };
+                    this.argsBorder.Child = combo;
+                } else {
+                    // The destination will accept a simple value
+                    // Create a TextBox dynamically and add it to the window.
+                    TextBox text = new TextBox() {
+                        Name = "txtArgs",
+                        Height = 22,
+                    };
+                    text.TextChanged += (s, ea) => {
+                        this.rule.Args = ParseType(((TextBox)s).Text, kvp.Value);
+                        CheckOK();
+                    };
+                    this.argsBorder.Child = text;
+                }
+
+            }
+
+            this.argsBorder.IsEnabled = true;
+            if (!this.initializing) {
+                this.rule.Action = ((KeyValuePair<string, Type>)this.cmbAction.SelectedItem).Key;
+                this.rule.Args = null;
+            }
+
             CheckOK();
         }
 
@@ -241,6 +242,27 @@ namespace DigitalHomeCinemaManager.Windows
         private void CheckBoxChecked(object sender, RoutedEventArgs e)
         {
             this.rule.Enabled = (bool)this.CheckEnabled.IsChecked;
+        }
+
+        private static object ParseType(string data, Type type)
+        {
+            object result;
+
+            if (type == null) { return data; }
+
+            if (type == typeof(int) && int.TryParse(data, out int i)) {
+                result = i;
+            } else if (type == typeof(decimal) && decimal.TryParse(data, out decimal m)) {
+                result = m;
+            } else if (type == typeof(double) && double.TryParse(data, out double d)) {
+                result = d;
+            } else if (type == typeof(bool) && bool.TryParse(data, out bool b)) {
+                result = b;
+            } else {
+                result = data;
+            }
+
+            return result;
         }
 
         #endregion
