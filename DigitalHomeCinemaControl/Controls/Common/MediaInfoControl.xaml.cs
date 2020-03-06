@@ -75,7 +75,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                 request.Timeout = -1;
                 request.BeginGetResponse(new AsyncCallback(EndSetFeaturePoster), request);
             } catch {
-                this.imgPoster.Source = new BitmapImage();
+                this.imgPoster.Source = EMPTY_IMAGE;
             }
         }
 

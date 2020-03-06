@@ -15,10 +15,12 @@
 namespace DigitalHomeCinemaControl.Controls.HDFury
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Controllers;
     using DigitalHomeCinemaControl.Controllers.Providers.HDFury;
@@ -28,6 +30,12 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
     /// </summary>
     public partial class InputControl : DeviceControl, IRequireController
     {
+
+        #region Members
+
+        private static BitmapSource EMPTY_IMAGE = BitmapImage.Create(2, 2, 96, 96, PixelFormats.Indexed1, new BitmapPalette(new List<Color> { Colors.Transparent }), new byte[] { 0, 0, 0, 0 }, 1);
+
+        #endregion
 
         #region Constructor
 
@@ -95,11 +103,19 @@ namespace DigitalHomeCinemaControl.Controls.HDFury
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void SetImageSource(Image image, string source)
         {
-            if (string.IsNullOrEmpty(source)) {
-                image.Source = new BitmapImage();
+            ImageSource imageSource;
+
+            if (!string.IsNullOrEmpty(source)) {
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(source);
+                bi.EndInit();
+                imageSource = bi;
             } else {
-                image.Source = new BitmapImage(new Uri(source));
+                imageSource = EMPTY_IMAGE;
             }
+
+            image.Source = imageSource;
         }
 
         private void ButtonSourceSelectClick(object sender, System.Windows.RoutedEventArgs e)
