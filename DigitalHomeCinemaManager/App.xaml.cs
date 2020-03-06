@@ -15,6 +15,8 @@
 namespace DigitalHomeCinemaManager
 {
     using System;
+    using System.Diagnostics;
+    using System.Threading;
     using System.Windows;
     using DigitalHomeCinemaManager.Components;
 
@@ -23,13 +25,28 @@ namespace DigitalHomeCinemaManager
     /// </summary>
     public partial class App : Application, IDisposable
     {
+
+        #region Members
+
         private DigitalCinemaManager cinemaManager;
-        private bool disposed = false; 
+        private bool disposed = false;
+
+        #endregion
+
+        #region Methods
 
         private void Main(object sender, StartupEventArgs e) 
         {
             this.cinemaManager = new DigitalCinemaManager();
+            this.cinemaManager.Closing += CinemaManagerClosing;
             this.cinemaManager.Run();
+        }
+
+        private void CinemaManagerClosing(object sender, EventArgs e)
+        {
+            Thread.Sleep(500);
+            Dispose();
+            Environment.Exit(0);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -54,6 +71,8 @@ namespace DigitalHomeCinemaManager
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        #endregion
 
     }
 
