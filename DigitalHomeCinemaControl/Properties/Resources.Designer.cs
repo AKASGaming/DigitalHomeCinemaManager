@@ -160,6 +160,15 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Projector: Max errors exceeded, Exiting..
+        /// </summary>
+        internal static string MSG_DISPLAY_MAX_ERRORS {
+            get {
+                return ResourceManager.GetString("MSG_DISPLAY_MAX_ERRORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         internal static string MSG_ERROR {

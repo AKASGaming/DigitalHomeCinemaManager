@@ -57,7 +57,7 @@
                                 </Style>
                             </Button.Resources>
                             <StackPanel>
-                                <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/settings.png" Height="20" />
+                                <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_settings_black_36dp.png" Height="20" />
                             </StackPanel>
                         </Button>
                         <Button x:Name="Schedule" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonScheduleClick">

@@ -326,9 +326,6 @@
     <Resource Include="Resources\Images\gradient2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icons\settings.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Labels\atmos.png" />
     <Resource Include="Resources\Labels\dd.png" />
     <Resource Include="Resources\Labels\dts.jpg" />
@@ -349,6 +346,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icons\outline_schedule_black_36dp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\baseline_settings_black_36dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

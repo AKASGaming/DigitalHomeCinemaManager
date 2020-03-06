@@ -150,6 +150,9 @@
   <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
     <value>Connection Closed</value>
   </data>
+  <data name="MSG_DISPLAY_MAX_ERRORS" xml:space="preserve">
+    <value>Projector: Max errors exceeded, Exiting.</value>
+  </data>
   <data name="MSG_ERROR" xml:space="preserve">
     <value>Error</value>
   </data>

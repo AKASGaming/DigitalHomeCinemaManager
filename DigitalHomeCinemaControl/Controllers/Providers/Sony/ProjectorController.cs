@@ -47,6 +47,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         private const int COMMAND_DELAY = 100;
         private const int IDLE_INTERVAL = 5000;
         private const int INTERVAL = 2000;
+        private const int MAX_ERROR_COUNT = 10;
 
         // use lock(lockObject) to control access to the SdcpClient
         // aquire the lock before calling client.SendRequest()
@@ -56,7 +57,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         private Timer timer;
         private bool running;
         private SdcpClient client;
-        private bool disposed = false;
+        private volatile bool disposed = false;
+        private volatile int errorCount = 0;
 
         #endregion
 
@@ -191,7 +193,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 }
             } catch {
                 this.ControllerStatus = ControllerStatus.Error;
-                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "projector"));
+                OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_NETWORK_TIMEOUT, "Projector"));
+
+                this.errorCount++;
+                if (this.errorCount >= MAX_ERROR_COUNT) {
+                    OnError(Properties.Resources.MSG_DISPLAY_MAX_ERRORS);
+                    this.timer.Stop();
+                    this.timer = null;
+                }
             } finally {
                 if ((this.timer != null) && !this.timer.Enabled) {
                     if (this.running) {
@@ -324,6 +333,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
                 this.ControllerStatus = status.ToControllerStatus();
             } else {
                 this.ControllerStatus = ControllerStatus.Error;
+                this.errorCount++;
+                if (this.errorCount >= MAX_ERROR_COUNT) {
+                    throw new TimeoutException();
+                }
             }
 
             // If projector is in standby mode, slow down polling inteval
