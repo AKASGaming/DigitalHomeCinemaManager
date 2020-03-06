@@ -42,11 +42,11 @@ namespace DigitalHomeCinemaControl.Controllers.Base
 
         public int Index { get; set; }
 
-        public Dictionary<string, LightingScene> Scenes { get; protected set; }
+        public Dictionary<string, LightingScene> Scenes { get; private set; }
 
         public string Name { get; protected set; }
 
-        public IDictionary<string, Type> Actions { get; protected set; }
+        public IDictionary<string, Type> Actions { get; private set; }
 
         
     }
