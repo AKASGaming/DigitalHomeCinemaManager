@@ -275,10 +275,11 @@ namespace DigitalHomeCinemaManager.Components
         {
             var window = new ScheduleWindow(this.deviceManager.Scheduler.Schedule) {
                 Owner = this.mainWindow,
+                SchedulerEnable = this.deviceManager.Scheduler.Enabled,
             };
 
             if (window.ShowDialog() == true) {
-                if (window.Enabled.IsChecked == true) {
+                if (window.SchedulerEnable) {
                     if (this.deviceManager.Scheduler.SetSchedule(window.Schedule)) {
                         SendStatusUpdate(Properties.Resources.MSG_SCHEDULE_SET);
                     }

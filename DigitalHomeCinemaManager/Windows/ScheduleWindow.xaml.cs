@@ -107,6 +107,16 @@ namespace DigitalHomeCinemaManager.Windows
 
         public ScheduleItem Schedule { get { return this.schedule; } }
 
+        public bool SchedulerEnable
+        {
+            get {
+                return (this.Enabled.IsChecked == true)? true : false;
+            }
+            set {
+                this.Enabled.IsChecked = value;
+            }
+        }
+
         #endregion
 
     }
