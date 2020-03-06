@@ -269,7 +269,7 @@ namespace DigitalHomeCinemaManager.Windows
             } else if (type == typeof(bool) && bool.TryParse(data, out bool b)) {
                 args = b;
                 result = true;
-            } else if (type == typeof(string) {
+            } else if (type == typeof(string)) {
                 args = data;
                 result = true;
             } else {
