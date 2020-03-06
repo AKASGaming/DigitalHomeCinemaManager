@@ -43,6 +43,8 @@ namespace DigitalHomeCinemaManager.Windows
 
         #region Members
 
+        private static BitmapSource EMPTY_IMAGE = BitmapImage.Create(2, 2, 96, 96, PixelFormats.Indexed1, new BitmapPalette(new List<Color> { Colors.Transparent }), new byte[] { 0, 0, 0, 0 }, 1);
+        
         private PlaylistManager playlist;
         private bool playlistInitialized = false;
         private List<string> errorLog = new List<string>();
@@ -196,11 +198,19 @@ namespace DigitalHomeCinemaManager.Windows
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void SetImageSource(Image image, string source)
         {
-            if (string.IsNullOrEmpty(source)) {
-                image.Source = new BitmapImage();
+            ImageSource imageSource;
+            
+            if (!string.IsNullOrEmpty(source)) {
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(source);
+                bi.EndInit();
+                imageSource = bi;
             } else {
-                image.Source = new BitmapImage(new Uri(source));
+                imageSource = EMPTY_IMAGE;
             }
+            
+            image.Source = imageSource;
         }
 
         private void PlaylistChanged(object sender, string e)

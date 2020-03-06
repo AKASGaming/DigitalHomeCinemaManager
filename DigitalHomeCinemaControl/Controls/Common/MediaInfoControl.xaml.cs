@@ -15,9 +15,11 @@
 namespace DigitalHomeCinemaControl.Controls.Common
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.IO;
     using System.Net;
+    using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Components;
 
@@ -29,6 +31,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
 
         #region Members
 
+        private static BitmapSource EMPTY_IMAGE = BitmapImage.Create(2, 2, 96, 96, PixelFormats.Indexed1, new BitmapPalette(new List<Color> { Colors.Transparent }), new byte[] { 0, 0, 0, 0 }, 1);
         private const int READ_BUFFER_LENGTH = 100;
 
         #endregion
@@ -52,7 +55,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                 switch (item.Name) {
                     case "PosterPath":
                         if (string.IsNullOrEmpty((string)item.Value)) {
-                            this.imgPoster.Source = new BitmapImage();
+                            this.imgPoster.Source = EMPTY_IMAGE;
                         } else {
                             BeginSetFeaturePoster((string)item.Value);
                         }
@@ -103,7 +106,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                         this.imgPoster.Source = image;
                     }
                 } catch {
-                    this.imgPoster.Source = new BitmapImage();
+                    this.imgPoster.Source = EMPTY_IMAGE;
                 } finally {
                     if (response != null) { response.Dispose(); }
                 }
