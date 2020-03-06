@@ -279,6 +279,7 @@ namespace DigitalHomeCinemaManager.Components
             };
 
             if (window.ShowDialog() == true) {
+                // TODO: Figure out how to display this in UI
                 if (window.SchedulerEnable) {
                     if (this.deviceManager.Scheduler.SetSchedule(window.Schedule)) {
                         SendStatusUpdate(Properties.Resources.MSG_SCHEDULE_SET);
