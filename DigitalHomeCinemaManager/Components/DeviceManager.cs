@@ -35,6 +35,7 @@ namespace DigitalHomeCinemaManager.Components
 
         private Dispatcher dispatcher;
         private volatile bool disposed = false;
+        private volatile bool disposing = false;
 
         #endregion
 
@@ -199,11 +200,15 @@ namespace DigitalHomeCinemaManager.Components
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnControllerError(object sender, ControllerErrorEventArgs e)
         {
+            if (this.disposed || this.disposing) { return; }
+
             ControllerError?.Invoke(sender, e.Message);
         }
 
         private void Dispose(bool disposing)
         {
+            this.disposing = true;
+
             if (!this.disposed) {
                 if (disposing) {
                     foreach (var controller in this.Controllers) {
