@@ -114,7 +114,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         {
             this.timer.Interval = millisecondsTimeout;
             this.timer.Start();
-            return this.waitHandle.WaitOne();
+            return WaitOne();
         }
 
         public override bool WaitOne(int millisecondsTimeout, bool exitContext)
