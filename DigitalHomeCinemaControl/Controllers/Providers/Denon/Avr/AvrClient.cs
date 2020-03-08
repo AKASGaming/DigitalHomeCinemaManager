@@ -127,11 +127,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
             }
 
             try {
-                this.readThread?.Abort();
-                this.readThread?.Join();
-            } catch { }
-
-            try {
                 Dispose(true);
             } catch {
             } finally {
@@ -730,12 +725,17 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         {
             if (!this.disposed) {
                 if (disposing) {
+                    this.client?.Close();
                     this.reader?.Dispose();
                     this.writer?.Dispose();
                     this.networkStream?.Dispose();
                     this.timer?.Dispose();
-                    this.client?.Close();
                 }
+
+                try {
+                    this.readThread?.Abort();
+                    this.readThread?.Join();
+                } catch { }
 
                 this.disposed = true;
                 this.IsConnected = false;
