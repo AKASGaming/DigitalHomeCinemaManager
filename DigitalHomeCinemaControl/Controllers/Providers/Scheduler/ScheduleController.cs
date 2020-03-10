@@ -70,6 +70,10 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
         {
             this.Enabled = false;
 
+            if ((this.timer != null) && this.timer.Enabled) {
+                this.timer.Stop();
+            }
+
             try {
                 Dispose(true);
             } catch {
