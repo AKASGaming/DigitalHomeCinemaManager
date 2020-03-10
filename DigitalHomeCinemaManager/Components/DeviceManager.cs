@@ -175,6 +175,7 @@ namespace DigitalHomeCinemaManager.Components
   
             device.Controller.Dispatcher = this.dispatcher;
             device.Controller.Error += OnControllerError;
+            device.Controller.Disconnected += OnControllerDisconnected;
             LoadDeviceSettings(device);
             if (device.UIElement != null) {
                 device.UIElement.DataSource = device.Controller.DataSource;
@@ -203,6 +204,13 @@ namespace DigitalHomeCinemaManager.Components
             if (this.disposed || this.disposing) { return; }
 
             ControllerError?.Invoke(sender, e.Message);
+        }
+
+        private void OnControllerDisconnected(object sender, EventArgs e)
+        {
+            if (this.disposed || this.disposing) { return; }
+
+            ControllerError?.Invoke(sender, string.Format(CultureInfo.InvariantCulture, "Controller disconnected {0}", sender.GetType().Name));
         }
 
         private void Dispose(bool disposing)
