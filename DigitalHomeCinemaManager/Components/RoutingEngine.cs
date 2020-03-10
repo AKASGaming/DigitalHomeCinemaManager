@@ -79,7 +79,7 @@ namespace DigitalHomeCinemaManager.Components
             try {
                 this.workerThread.Abort();
                 this.workerThread.Join();
-            } catch { } 
+            } catch { }
         }
 
         public void BindControllers(IEnumerable<IController> controllers)
