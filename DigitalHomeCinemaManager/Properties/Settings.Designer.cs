@@ -73,7 +73,7 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Users\\bill\\Videos\\Preroll")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Theater\\Videos\\Preroll")]
         public string PrerollPath {
             get {
                 return ((string)(this["PrerollPath"]));
@@ -85,7 +85,7 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("F:\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Theater\\Videos\\Movies")]
         public string MediaPath {
             get {
                 return ((string)(this["MediaPath"]));
@@ -97,7 +97,7 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Users\\bill\\Videos\\Trailers")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\Theater\\Videos\\Trailers")]
         public string TrailerPath {
             get {
                 return ((string)(this["TrailerPath"]));

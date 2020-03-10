@@ -25,7 +25,7 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Program Files\\MPC-HC\\mpc-hc64.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Program Files\\MPC-HC\\mpc-hc64.exe")]
         public string Source_Path {
             get {
                 return ((string)(this["Source_Path"]));
@@ -37,7 +37,7 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
         public int Source_FullscreenDisplay {
             get {
                 return ((int)(this["Source_FullscreenDisplay"]));

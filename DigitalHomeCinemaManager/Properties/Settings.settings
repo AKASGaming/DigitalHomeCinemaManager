@@ -15,13 +15,13 @@
       <Value Profile="(Default)">TMDB</Value>
     </Setting>
     <Setting Name="PrerollPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Users\bill\Videos\Preroll</Value>
+      <Value Profile="(Default)">C:\Users\Theater\Videos\Preroll</Value>
     </Setting>
     <Setting Name="MediaPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">F:\</Value>
+      <Value Profile="(Default)">C:\Users\Theater\Videos\Movies</Value>
     </Setting>
     <Setting Name="TrailerPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Users\bill\Videos\Trailers</Value>
+      <Value Profile="(Default)">C:\Users\Theater\Videos\Trailers</Value>
     </Setting>
     <Setting Name="ProcessorDevice" Type="System.String" Scope="User">
       <Value Profile="(Default)">Denon AVR</Value>
