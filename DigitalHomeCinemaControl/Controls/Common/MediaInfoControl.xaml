@@ -9,7 +9,10 @@
              d:DesignHeight="700" d:DesignWidth="500">
     <Grid>
         <StackPanel Orientation="Vertical" >
-            <Image x:Name="imgPoster" HorizontalAlignment="Center" Height="700" Margin="0,0,0,0" VerticalAlignment="Top" />
+            <Grid>
+                <Image x:Name="imgPoster" HorizontalAlignment="Center" Height="700" Margin="0,0,0,0" VerticalAlignment="Top" />
+                <Image x:Name="imgLogo" Source="pack://application:,,,/DigitalHomeCinemaControl;component/Resources/Icons/tmdb-logo.png" Margin="0,0,20,5" Height="50" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            </Grid>
             <Border Height="Auto" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="500" >
                 <TextBlock x:Name="txtOverview" Text="" HorizontalAlignment="Center" Height="Auto" Margin="0,0,0,0" VerticalAlignment="Top" Width="400" TextWrapping="Wrap" TextAlignment="Left" Background="{x:Null}" Foreground="#FF818181" FontSize="14" />
             </Border>
