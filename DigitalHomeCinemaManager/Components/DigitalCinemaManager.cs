@@ -157,17 +157,7 @@ namespace DigitalHomeCinemaManager.Components
         /// <param name="e"></param>
         private void MainWindowClosed(object sender, System.EventArgs e)
         {
-            Closing?.BeginInvoke(this, new EventArgs(), EndInvokeClosing, null);
-        }
-
-        private void EndInvokeClosing(IAsyncResult iar)
-        {
-            var ar = (System.Runtime.Remoting.Messaging.AsyncResult)iar;
-            var invokedMethod = (EventHandler)ar.AsyncDelegate;
-
-            try {
-                invokedMethod.EndInvoke(iar);
-            } catch { }
+            Closing?.Invoke(this, new EventArgs());
         }
 
         /// <summary>
