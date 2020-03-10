@@ -15,8 +15,6 @@
 namespace DigitalHomeCinemaManager
 {
     using System;
-    using System.Diagnostics;
-    using System.Threading;
     using System.Windows;
     using DigitalHomeCinemaManager.Components;
 
@@ -44,7 +42,6 @@ namespace DigitalHomeCinemaManager
 
         private void CinemaManagerClosing(object sender, EventArgs e)
         {
-            Thread.Sleep(500);
             Dispose();
             Environment.Exit(0);
         }
