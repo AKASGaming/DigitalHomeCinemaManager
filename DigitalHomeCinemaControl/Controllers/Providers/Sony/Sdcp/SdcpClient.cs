@@ -174,9 +174,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         {
             if (!this.disposed) {
                 if (disposing) {
-                    this.waitHandle?.Dispose();
-                    this.stream?.Dispose();
                     this.client?.Close();
+                    this.stream?.Dispose();
+                    this.waitHandle?.Dispose();
                 }
 
                 this.disposed = true;
