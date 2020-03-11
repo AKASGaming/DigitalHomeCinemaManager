@@ -55,7 +55,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         /// </summary>
         public HighAccuracyTimer()
         {
-            this.timeProc = new TimeProc(this.PeriodicTimerCallback);
+            this.timeProc = new TimeProc(PeriodicTimerCallback);
             this.Mode = TimerMode.Periodic;
             this.Interval = capabilities.periodMin;
             this.Resolution = 1;
@@ -89,7 +89,6 @@ namespace DigitalHomeCinemaControl.Components.Timers
         /// </summary>
         public void Stop()
         {
-            if (this.disposed) { throw new ObjectDisposedException(GetType().Name); }
             if (!this.Enabled) { return; }
 
             int result = NativeMethods.timeKillEvent(this.timerId);
@@ -104,7 +103,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         {
             OnElapsed();
 
-            if (this.Mode == TimerMode.OneShot) {
+            if (this.mode == TimerMode.OneShot) {
                 Stop();
             }
         }
