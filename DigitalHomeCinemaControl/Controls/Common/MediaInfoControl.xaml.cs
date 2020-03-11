@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
     using System.ComponentModel;
     using System.IO;
     using System.Net;
+    using System.Windows;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
     using DigitalHomeCinemaControl.Components;
@@ -56,6 +57,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                     case "PosterPath":
                         if (string.IsNullOrEmpty((string)item.Value)) {
                             this.imgPoster.Source = EMPTY_IMAGE;
+                            this.imgLogo.Visibility = Visibility.Hidden;
                         } else {
                             BeginSetFeaturePoster((string)item.Value);
                         }
@@ -76,6 +78,7 @@ namespace DigitalHomeCinemaControl.Controls.Common
                 request.BeginGetResponse(new AsyncCallback(EndSetFeaturePoster), request);
             } catch {
                 this.imgPoster.Source = EMPTY_IMAGE;
+                this.imgLogo.Visibility = Visibility.Hidden;
             }
         }
 
@@ -104,9 +107,11 @@ namespace DigitalHomeCinemaControl.Controls.Common
                         image.EndInit();
 
                         this.imgPoster.Source = image;
+                        this.imgLogo.Visibility = Visibility.Visible;
                     }
                 } catch {
                     this.imgPoster.Source = EMPTY_IMAGE;
+                    this.imgLogo.Visibility = Visibility.Hidden;
                 } finally {
                     if (response != null) { response.Dispose(); }
                 }
