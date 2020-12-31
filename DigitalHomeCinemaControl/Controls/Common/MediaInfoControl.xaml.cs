@@ -41,6 +41,8 @@ namespace DigitalHomeCinemaControl.Controls.Common
 
         public MediaInfoControl()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             InitializeComponent();
         }
 
