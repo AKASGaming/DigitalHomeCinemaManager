@@ -67,6 +67,7 @@ namespace DigitalHomeCinemaManager.Components
             this.running = true;
             this.workerThread = new Thread(ProcessQueue) {
                 Name = INTERNAL_THREAD_NAME,
+                IsBackground = true,
             };
             this.workerThread.Start();
         }

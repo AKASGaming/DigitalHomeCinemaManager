@@ -107,6 +107,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
 
             this.readThread = new Thread(ClientThread) {
                 Name = INTERNAL_THREAD_NAME,
+                IsBackground = true,
             };
             this.readThread.Start();
 
