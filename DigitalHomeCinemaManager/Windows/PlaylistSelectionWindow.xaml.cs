@@ -71,6 +71,11 @@ namespace DigitalHomeCinemaManager.Windows
             this.lstPlaylist.Items.RemoveAt(this.lstPlaylist.SelectedIndex);
         }
 
+        private void ClearClick(object sender, RoutedEventArgs e)
+        {
+            this.lstPlaylist.Items.Clear();
+        }
+
         private void UpClick(object sender, RoutedEventArgs e)
         {
             MoveItem(-1);

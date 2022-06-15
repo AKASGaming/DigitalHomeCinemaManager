@@ -17,14 +17,17 @@
         <StackPanel Orientation="Horizontal" Margin="10,10,0,0" Grid.Row="0">
             <ListBox x:Name="lstPlaylist" Height="190" Width="540" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FF494949"/>
             <StackPanel Orientation="Vertical">
-                <Button x:Name="btnAdd" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="AddClick" Background="#FFA8A8A8">
+                <Button x:Name="btnAdd" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="AddClick" Background="#FFA8A8A8" ToolTip="Add to playlist">
                     <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_add_box_black_36dp.png" />
                 </Button>
-                <Button x:Name="btnRemove" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="RemoveClick" Background="#FFA8A8A8">
-                    <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_cancel_black_36dp.png" />
+                <Button x:Name="btnRemove" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="RemoveClick" Background="#FFA8A8A8" ToolTip="Remove from playlist">
+                    <Image Source="/Windows/baseline_remove_black_48dp.png" Width="20" />
                 </Button>
-                <Button x:Name="btnUp" Content="▲" HorizontalAlignment="Left" Margin="0,100,0,0" VerticalAlignment="Top" Width="25" Click="UpClick" Background="#FFA8A8A8" />
-                <Button x:Name="btnDown" Content="▼" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="DownClick" Background="#FFA8A8A8"/>
+                <Button x:Name="btnClear" Width="25" Click="ClearClick" Background="#FFA8A8A8" ToolTip="Clear playlist">
+                    <Image Source="/Windows/baseline_delete_forever_black_36dp.png" />
+                </Button>
+                <Button x:Name="btnUp" Content="▲" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="25" Click="UpClick" Background="#FFA8A8A8" ToolTip="Move Up"/>
+                <Button x:Name="btnDown" Content="▼" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="DownClick" Background="#FFA8A8A8" ToolTip="Move Down"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,10,10" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
