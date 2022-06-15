@@ -124,7 +124,7 @@
     <value>--dB</value>
   </data>
   <data name="FILTER_MOVIES" xml:space="preserve">
-    <value>Movies (*.mkv)|*.mkv|All Files (*.*)|*.*</value>
+    <value>Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*</value>
   </data>
   <data name="FILTER_PROGRAMS" xml:space="preserve">
     <value>Programs (*.exe)|*.exe|All Files (*.*)|*.*</value>

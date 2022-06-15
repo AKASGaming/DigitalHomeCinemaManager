@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System;
     using System.IO;
     using System.Windows;
+    using System.Windows.Forms;
     using Microsoft.Win32;
 
     /// <summary>
@@ -49,20 +50,17 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonMediaClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new SaveFileDialog() {
-                Title = "Select Media Path",
-                Filter = "Directory|*.this.directory",
-                FileName = "select",
+            var dialog = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = false
             };
             if (Directory.Exists(this.MediaPath.Text)) {
-                dialog.InitialDirectory = this.MediaPath.Text;
+                dialog.SelectedPath = this.MediaPath.Text;
             } else {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+                dialog.RootFolder = dialog.RootFolder;
             }
-            if (dialog.ShowDialog() == true) {
-                string path = dialog.FileName;
-                path = path.Replace("\\select.this.directory", "");
-                path = path.Replace(".this.directory", "");
+            if (dialog.ShowDialog() == DialogResult.OK) {
+                string path = dialog.SelectedPath;
                 this.MediaPath.Text = path;
                 OnItemChanged();
             }
@@ -70,20 +68,21 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new SaveFileDialog() {
-                Title = "Select Preroll Path",
-                Filter = "Directory|*.this.directory",
-                FileName = "select",
+            var dialog = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = false
             };
-            if (Directory.Exists(this.PrerollPath.Text)) {
-                dialog.InitialDirectory = this.PrerollPath.Text;
-            } else {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            if (Directory.Exists(this.PrerollPath.Text))
+            {
+                dialog.SelectedPath = this.PrerollPath.Text;
             }
-            if (dialog.ShowDialog() == true) {
-                string path = dialog.FileName;
-                path = path.Replace("\\select.this.directory", "");
-                path = path.Replace(".this.directory", "");
+            else
+            {
+                dialog.RootFolder = dialog.RootFolder;
+            }
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.SelectedPath;
                 this.PrerollPath.Text = path;
                 OnItemChanged();
             }
@@ -91,20 +90,21 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ButtonTrailerClick(object sender, RoutedEventArgs e)
         {
-            var dialog = new SaveFileDialog() {
-                Title = "Select Trailer Path",
-                Filter = "Directory|*.this.directory",
-                FileName = "select",
+            var dialog = new FolderBrowserDialog()
+            {
+                ShowNewFolderButton = false
             };
-            if (Directory.Exists(this.TrailerPath.Text)) {
-                dialog.InitialDirectory = this.TrailerPath.Text;
-            } else {
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+            if (Directory.Exists(this.TrailerPath.Text))
+            {
+                dialog.SelectedPath = this.TrailerPath.Text;
             }
-            if (dialog.ShowDialog() == true) {
-                string path = dialog.FileName;
-                path = path.Replace("\\select.this.directory", "");
-                path = path.Replace(".this.directory", "");
+            else
+            {
+                dialog.RootFolder = dialog.RootFolder;
+            }
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.SelectedPath;
                 this.TrailerPath.Text = path;
                 OnItemChanged();
             }
@@ -127,6 +127,15 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #endregion
 
+        private void checkBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            OnItemChanged();
+        }
+
+        private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
     }
 
 }

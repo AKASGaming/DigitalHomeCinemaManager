@@ -63,13 +63,12 @@ namespace DigitalHomeCinemaManager.Windows
             InitializeComponent();
 
 #pragma warning disable CA1308 // Normalize strings to uppercase
-            this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToLowerInvariant();
+            this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
-            this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
-            this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
+            this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
 
             this.clockTimer = new System.Timers.Timer {
-                Interval = 10000
+                Interval = 1000
             };
             this.clockTimer.Elapsed += OnTimerElapsed;
             this.clockTimer.AutoReset = true;
@@ -256,10 +255,9 @@ namespace DigitalHomeCinemaManager.Windows
         {
             this.Dispatcher.BeginInvoke((Action)(() => {
 #pragma warning disable CA1308 // Normalize strings to uppercase
-                this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToLowerInvariant();
+                this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
-                this.lblTimeHour.Content = DateTime.Now.Hour.ToString("D2", CultureInfo.InvariantCulture);
-                this.lblTimeMinute.Content = DateTime.Now.Minute.ToString("D2", CultureInfo.InvariantCulture);
+                this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
             }));
         }
 

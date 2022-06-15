@@ -29,6 +29,22 @@
                     <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                 </Button>
             </StackPanel>
+            <Separator Height="19"/>
+            <Label x:Name="label" Content="These do nothing&#xD;&#xA;Feel free to implement yourself" HorizontalAlignment="Center" FontSize="36" Height="103" Foreground="#FFAF3030"/>
+            <StackPanel Orientation="Horizontal" Margin="0,34,0,0">
+                <TextBlock Text="Randomize Prerolls" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <CheckBox x:Name="RandPreroll" IsChecked="True" Click="checkBox_SelectionChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,9,0,0">
+                <TextBlock Text="Preroll Count" Margin="0,0,0,0" Width="108" VerticalAlignment="Center" Foreground="#FF7E7E7E" HorizontalAlignment="Left"/>
+                <ComboBox x:Name="comboBox" Width="120" SelectionChanged="comboBox_SelectionChanged">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5" IsSelected="True"/>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </local:SettingsControl>

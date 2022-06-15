@@ -54,11 +54,14 @@ namespace DigitalHomeCinemaManager.Windows
         private void AddClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog() {
+                Multiselect = true,
                 InitialDirectory = this.InitialDirectory,
                 Filter = this.Filter
             };
             if (ofd.ShowDialog() == true) {
-                this.lstPlaylist.Items.Add(ofd.FileName);
+                foreach (string s in ofd.FileNames) {
+                    this.lstPlaylist.Items.Add(s);
+                }
             }
         }
 
