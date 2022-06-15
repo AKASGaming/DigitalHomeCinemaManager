@@ -30,8 +30,8 @@
                 </Button>
             </StackPanel>
             <Separator Height="19"/>
-            <Label x:Name="label" Content="These do nothing&#xD;&#xA;Feel free to implement yourself" HorizontalAlignment="Center" FontSize="36" Height="103" Foreground="#FFAF3030"/>
-            <StackPanel Orientation="Horizontal" Margin="0,34,0,0">
+            <Label x:Name="label" Content="These do nothing&#xD;&#xA;Feel free to implement yourself" HorizontalAlignment="Left" Height="63" Foreground="#FFAF3030" FontSize="20"/>
+            <StackPanel Orientation="Horizontal" Margin="0,1,0,0">
                 <TextBlock Text="Randomize Prerolls" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <CheckBox x:Name="RandPreroll" IsChecked="True" Click="checkBox_SelectionChanged"/>
             </StackPanel>
