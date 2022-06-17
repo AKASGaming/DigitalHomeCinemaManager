@@ -1,6 +1,26 @@
 # DigitalHomeCinemaManager
 A program to help organize and run you Home Theater
 
+# Features
+[Taken directly from the original author](https://www.avsforum.com/threads/new-htpc-backend-management-software.3129060/)
+
+- Show playlist management including separate management of both preroll and trailer playlists. Easily disable trailers or preroll playlists on the fly.
+
+- Auto loading of movie poster and description in UI from themoviedb.org
+
+- Playlist scheduling. Set a time or date/time when playback will automatically start.
+
+- Sophisticated event routing system. Trigger device actions based on events from other devices.
+
+- Removable media storage monitoring.
+
+Currently supported devices:
+- Generic serial port input (I use this to route JVC macros from an HD Fury Diva to automatically control the presets on my Sony projector).
+- Denon / Marantz AVR devices (via TCP/IP).
+- Sony Projectors (via SDCP/PJ Talk TCP/IP protocol).
+- HD Fury devices (via TCP/IP)
+- MPC-HC media player
+
 # Screenshots
 
 ### Main App
