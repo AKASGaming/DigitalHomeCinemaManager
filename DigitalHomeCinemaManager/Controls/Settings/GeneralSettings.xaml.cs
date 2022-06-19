@@ -35,6 +35,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.MediaPath.Text = Properties.Settings.Default.MediaPath;
             this.PrerollPath.Text = Properties.Settings.Default.PrerollPath;
             this.TrailerPath.Text = Properties.Settings.Default.TrailerPath;
+            this.RandTrailers.IsChecked = Properties.Settings.Default.RandTrailers;
         }
 
         #endregion
@@ -46,6 +47,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
              Properties.Settings.Default.MediaPath = this.MediaPath.Text;
              Properties.Settings.Default.PrerollPath = this.PrerollPath.Text;
              Properties.Settings.Default.TrailerPath = this.TrailerPath.Text;
+             Properties.Settings.Default.RandTrailers = (bool)this.RandTrailers.IsChecked;
         }
 
         private void ButtonMediaClick(object sender, RoutedEventArgs e)
@@ -136,6 +138,18 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             OnItemChanged();
         }
-    }
 
+        private void RandTrailers_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.RandTrailers = true;
+            OnItemChanged();
+            Console.Write(Properties.Settings.Default.RandTrailers);
+        }
+        private void RandTrailers_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.RandTrailers = false;
+            OnItemChanged();
+            Console.Write(Properties.Settings.Default.RandTrailers);
+        }
+    }
 }

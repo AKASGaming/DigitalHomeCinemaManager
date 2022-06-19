@@ -21,10 +21,10 @@
                     <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_add_box_black_36dp.png" />
                 </Button>
                 <Button x:Name="btnRemove" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="RemoveClick" Background="#FFA8A8A8" ToolTip="Remove from playlist">
-                    <Image Source="/Windows/baseline_remove_black_48dp.png" Width="20" />
+                    <Image Source="/Resources/Icons/baseline_remove_black_48dp.png" Width="20" />
                 </Button>
                 <Button x:Name="btnClear" Width="25" Click="ClearClick" Background="#FFA8A8A8" ToolTip="Clear playlist">
-                    <Image Source="/Windows/baseline_delete_forever_black_36dp.png" />
+                    <Image Source="/Resources/Icons/baseline_delete_forever_black_36dp.png" />
                 </Button>
                 <Button x:Name="btnUp" Content="▲" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Width="25" Click="UpClick" Background="#FFA8A8A8" ToolTip="Move Up"/>
                 <Button x:Name="btnDown" Content="▼" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Width="25" Click="DownClick" Background="#FFA8A8A8" ToolTip="Move Down"/>

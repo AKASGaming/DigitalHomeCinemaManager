@@ -130,5 +130,19 @@ namespace DigitalHomeCinemaManager.Properties {
                 this["InputSwitchDevice"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RandTrailers { 
+            get
+            {
+                return ((bool)(this["RandTrailers"]));
+            }
+            set
+            {
+                this["RandTrailers"] = value;
+            }
+        }
     }
 }

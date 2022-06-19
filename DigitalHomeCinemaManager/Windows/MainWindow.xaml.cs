@@ -34,6 +34,7 @@ namespace DigitalHomeCinemaManager.Windows
     using DigitalHomeCinemaManager.Components;
     using DigitalHomeCinemaManager.Controls;
     using Microsoft.Win32;
+    using NAudio;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -68,7 +69,7 @@ namespace DigitalHomeCinemaManager.Windows
             this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
 
             this.clockTimer = new System.Timers.Timer {
-                Interval = 1000
+                Interval = 100
             };
             this.clockTimer.Elapsed += OnTimerElapsed;
             this.clockTimer.AutoReset = true;
@@ -115,9 +116,6 @@ namespace DigitalHomeCinemaManager.Windows
                 } else if (device is DisplayDevice) {
                     this.DisplayInfo.Child = device.UIElement;
                     device.Controller.PropertyChanged += DisplayControllerPropertyChanged;
-                } else if (device is ProcessorDevice) {
-                    this.ProcessorInfo.Child = device.UIElement;
-                    device.Controller.PropertyChanged += ProcessorControllerPropertyChanged;
                 } else if (device is SwitchDevice) {
                     this.InputSwitcher.Child = device.UIElement;
                 }
@@ -137,31 +135,6 @@ namespace DigitalHomeCinemaManager.Windows
             }
             if (string.IsNullOrEmpty(Properties.Settings.Default.SerialDevice)) {
                 this.StatusControl.SerialStatus.Content = "Disabled";
-            }
-        }
-
-        private void ProcessorControllerPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if ((sender is IProcessorController processor) &&
-                ((e.PropertyName == nameof(processor.ControllerStatus)) || 
-                 (e.PropertyName == nameof(processor.Delay)) ||
-                 (e.PropertyName == nameof(processor.MasterVolume)))) {
-
-                this.StatusControl.ProcessorStatus.Content = processor.ControllerStatus.ToString();
-                this.StatusControl.Delay.Content = string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DELAY, processor.Delay);
-                this.MasterVolume.Text = (processor.MasterVolume <= -80m)? Properties.Resources.DB_MUTE :
-                    (processor.MasterVolume > 0)? string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB_PLUS, processor.MasterVolume) : 
-                     string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB, processor.MasterVolume);
-
-                if (processor.MasterVolume <= -80) {
-                    this.MasterVolume.Foreground = new SolidColorBrush(Colors.Aqua);
-                } else if (processor.MasterVolume < -10) {
-                    this.MasterVolume.Foreground = new SolidColorBrush(Colors.Gold);
-                } else if (processor.MasterVolume > 0) {
-                    this.MasterVolume.Foreground = new SolidColorBrush(Colors.OrangeRed);
-                } else {
-                    this.MasterVolume.Foreground = new SolidColorBrush(Colors.Chartreuse);
-                }
             }
         }
 
@@ -258,6 +231,36 @@ namespace DigitalHomeCinemaManager.Windows
                 this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
 #pragma warning restore CA1308 // Normalize strings to uppercase
                 this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
+
+                NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+                var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
+                Console.WriteLine(devices[0]);
+                var device = devices[0];
+                var MasterVolume = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 100));
+
+                Console.WriteLine(MasterVolume);
+
+                this.PCVolume.Text = (MasterVolume <= -80m) ? Properties.Resources.DB_MUTE :
+                    (MasterVolume > 0) ? string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB_PLUS, MasterVolume) :
+                    string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB, MasterVolume);
+
+                if (MasterVolume <= 20)
+                {
+                    this.PCVolume.Foreground = new SolidColorBrush(Colors.Aqua);
+                }
+                else if (MasterVolume < 60)
+                {
+                    this.PCVolume.Foreground = new SolidColorBrush(Colors.Gold);
+                }
+                else if (MasterVolume > 61)
+                {
+                    this.PCVolume.Foreground = new SolidColorBrush(Colors.OrangeRed);
+                }
+                else
+                {
+                    this.PCVolume.Foreground = new SolidColorBrush(Colors.Chartreuse);
+                }
+
             }));
         }
 
@@ -297,7 +300,8 @@ namespace DigitalHomeCinemaManager.Windows
         {
             var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
                 Owner = this,
-                Filter = Properties.Resources.FILTER_VIDEOS
+                Filter = Properties.Resources.FILTER_VIDEOS,
+                Multiselect = false
             };
 
             if (Directory.Exists(Properties.Settings.Default.PrerollPath)) {
@@ -316,7 +320,8 @@ namespace DigitalHomeCinemaManager.Windows
         {
             var window = new PlaylistSelectionWindow(this.Playlist.TrailerPlaylist) {
                 Owner = this,
-                Filter = Properties.Resources.FILTER_VIDEOS
+                Filter = Properties.Resources.FILTER_VIDEOS,
+                Multiselect = true
             };
 
             if (Directory.Exists(Properties.Settings.Default.TrailerPath)) {

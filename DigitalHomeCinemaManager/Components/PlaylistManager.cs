@@ -79,24 +79,35 @@ namespace DigitalHomeCinemaManager.Components
                 bool hasTrailer = false;
                 lock (this.playlistLock) {
                     while ((line = reader.ReadLine()) != null) {
-                        if (line.Contains(this.trailerPath)) {
+                        if (line.Contains(this.trailerPath))
+                        {
                             hasTrailer = true;
                             this.TrailerPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
                             this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
                             this.TrailersEnabled = true;
-                        } else if (line.Contains(this.mediaPath)) {
+                        }
+                        else if (line.Contains(this.mediaPath))
+                        {
                             this.Feature = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
-                            if (!File.Exists(this.Feature)) {
+                            if (!File.Exists(this.Feature))
+                            {
                                 this.Feature = string.Empty;
-                            } else {
+                            }
+                            else
+                            {
                                 this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
                             }
-                        } else if (line.Contains(this.prerollPath)) {
-                            if (hasTrailer) {
+                        }
+                        else if (line.Contains(this.prerollPath))
+                        {
+                            if (hasTrailer)
+                            {
                                 this.Commercial = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
                                 this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
                                 this.CommercialEnabled = true;
-                            } else {
+                            }
+                            else
+                            {
                                 this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
                                 this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
                                 this.PrerollEnabled = true;

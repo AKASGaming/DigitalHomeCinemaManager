@@ -15,12 +15,32 @@
 namespace DigitalHomeCinemaManager.Windows
 {
     using Microsoft.Win32;
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows;
+
+    static class MyExtensions
+    {
+        private static Random rng = new Random();
+        public static void Shuffle<T>(this IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Interaction logic for PlaylistSelectionWindow.xaml
     /// </summary>
+    /// 
     public partial class PlaylistSelectionWindow : Window
     {
 
@@ -54,13 +74,28 @@ namespace DigitalHomeCinemaManager.Windows
         private void AddClick(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog() {
-                Multiselect = true,
+                Multiselect = this.Multiselect,
                 InitialDirectory = this.InitialDirectory,
                 Filter = this.Filter
             };
             if (ofd.ShowDialog() == true) {
-                foreach (string s in ofd.FileNames) {
-                    this.lstPlaylist.Items.Add(s);
+                if (Properties.Settings.Default.RandTrailers != false)
+                {
+                    var array = ofd.FileNames;
+                    Random rnd = new Random();
+                    var MyRandomArray = array.OrderBy(x => rnd.Next()).ToArray();
+                    Array.ForEach(MyRandomArray, Console.WriteLine);
+                    foreach (var s in MyRandomArray)
+                    {
+                        this.lstPlaylist.Items.Add(s);
+                    }                    
+                }
+                else
+                {
+                    foreach (string s in ofd.FileNames)
+                    {
+                        this.lstPlaylist.Items.Add(s);
+                    }
                 }
             }
         }
@@ -136,6 +171,8 @@ namespace DigitalHomeCinemaManager.Windows
         public string InitialDirectory { get; set; }
 
         public string Filter { get; set; }
+
+        public bool Multiselect { get; set; }
 
         #endregion
 

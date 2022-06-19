@@ -47,7 +47,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
-                    <TextBlock x:Name="MasterVolume" Text="--dB" HorizontalAlignment="Right" Margin="0,0,60,0" TextWrapping="Wrap" Foreground="Aqua" TextAlignment="Right" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="60" Height="90" Width="250" Grid.Column="2" Grid.ColumnSpan="3" />
+                    <TextBlock x:Name="PCVolume" Text="--dB" TextWrapping="Wrap" Foreground="Aqua" TextAlignment="Right" FontWeight="SemiBold" FontSize="60" Height="90" Width="250" Margin="0,0,44,0" />
                     <StackPanel Orientation="Vertical">
                         <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick">
                             <Button.Resources>
