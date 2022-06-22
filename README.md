@@ -1,4 +1,4 @@
-# DigitalHomeCinemaManager
+# Digital Home Cinema Manager
 A program to help organize and run you Home Theater
 
 # Features
