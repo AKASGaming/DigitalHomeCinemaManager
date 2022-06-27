@@ -42,6 +42,6 @@ Currently supported devices:
 ![image](https://user-images.githubusercontent.com/25405047/174333945-c96ffd7e-add2-4e1e-af39-0ce22fddc848.png)
 
 
+# Discord
 https://discord.gg/26DYpBcdvz
-
 [<img src="https://discordapp.com/api/guilds/991091714330599556/widget.png?style=banner4" alt="">](https://discord.gg/26DYpBcdvz)
