@@ -44,4 +44,5 @@ Currently supported devices:
 
 # Discord
 https://discord.gg/26DYpBcdvz
+
 [<img src="https://discordapp.com/api/guilds/991091714330599556/widget.png?style=banner4" alt="">](https://discord.gg/26DYpBcdvz)
