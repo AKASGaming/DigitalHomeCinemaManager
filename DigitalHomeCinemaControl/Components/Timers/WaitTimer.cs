@@ -39,7 +39,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         private AutoResetEvent waitHandle;
         private HighAccuracyTimer timer;
         private volatile bool signaled;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
         private bool autoReset;
 
         #endregion

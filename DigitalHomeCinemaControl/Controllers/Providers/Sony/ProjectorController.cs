@@ -57,8 +57,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony
         private Timer timer;
         private bool running;
         private SdcpClient client;
-        private volatile bool disposed = false;
-        private volatile int errorCount = 0;
+        private volatile bool disposed;
+        private volatile int errorCount;
 
         #endregion
 

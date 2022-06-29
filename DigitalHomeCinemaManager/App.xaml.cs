@@ -27,7 +27,7 @@ namespace DigitalHomeCinemaManager
         #region Members
 
         private DigitalCinemaManager cinemaManager;
-        private bool disposed = false;
+        private bool disposed;
 
         #endregion
 

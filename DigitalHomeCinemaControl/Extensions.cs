@@ -35,7 +35,7 @@ namespace DigitalHomeCinemaControl
         /// <returns>A byte array of characters in the string.</returns>
         public static byte[] ToByteArray(this string asciiString)
         {
-            if (string.IsNullOrEmpty(asciiString)) { return new byte[0]; }
+            if (string.IsNullOrEmpty(asciiString)) { return Array.Empty<byte>(); }
 
             int len = asciiString.Length;
             byte[] data = new byte[len];
@@ -60,7 +60,7 @@ namespace DigitalHomeCinemaControl
             StringBuilder result = new StringBuilder(bytes.Length);
             for (int i = 0; i < bytes.Length; i++) {
                 if (i > 0) {
-                    result.Append(":");
+                    result.Append(':');
                 }
                 result.Append(bytes[i].ToString("x", CultureInfo.InvariantCulture));
             }

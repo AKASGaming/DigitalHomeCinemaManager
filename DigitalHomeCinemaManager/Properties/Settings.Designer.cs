@@ -12,7 +12,7 @@ namespace DigitalHomeCinemaManager.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -130,18 +130,63 @@ namespace DigitalHomeCinemaManager.Properties {
                 this["InputSwitchDevice"] = value;
             }
         }
-
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::NAudio.CoreAudioApi.MMDevice VUDevice {
+            get {
+                return ((global::NAudio.CoreAudioApi.MMDevice)(this["VUDevice"]));
+            }
+            set {
+                this["VUDevice"] = value;
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool RandTrailers { 
-            get
-            {
+        public bool VUDeviceEnabled {
+            get {
+                return ((bool)(this["VUDeviceEnabled"]));
+            }
+            set {
+                this["VUDeviceEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RandTrailers {
+            get {
                 return ((bool)(this["RandTrailers"]));
             }
-            set
-            {
+            set {
                 this["RandTrailers"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TrailerLimit {
+            get {
+                return ((string)(this["TrailerLimit"]));
+            }
+            set {
+                this["TrailerLimit"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TrailerLimitEnabled {
+            get {
+                return ((bool)(this["TrailerLimitEnabled"]));
+            }
+            set {
+                this["TrailerLimitEnabled"] = value;
             }
         }
     }

@@ -47,7 +47,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.HDFury
         private StreamReader reader;
         private StreamWriter writer;
         private Timer timer;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
 
         #endregion
 

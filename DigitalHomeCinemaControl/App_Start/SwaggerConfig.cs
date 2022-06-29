@@ -7,7 +7,7 @@ using Swashbuckle.Application;
 
 namespace DigitalHomeCinemaControl
 {
-    public class SwaggerConfig
+    public static class SwaggerConfig
     {
         public static void Register()
         {

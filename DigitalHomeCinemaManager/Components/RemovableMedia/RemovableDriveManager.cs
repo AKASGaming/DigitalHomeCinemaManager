@@ -56,14 +56,14 @@ namespace DigitalHomeCinemaManager.Components.RemovableMedia
         private const int DBT_DEVICEREMOVECOMPLETE = 0x8004; // removed 
 
         private IntPtr dirHandle = IntPtr.Zero; // New: 28.10.2007 - handle to root directory of flash drive which is opened for device notification
-        private FileStream fileOnFlash = null; // Class which contains also handle to the file opened on the flash drive
+        private FileStream fileOnFlash; // Class which contains also handle to the file opened on the flash drive
         private string fileToOpen; // Name of the file to try to open on the removable drive for query remove registration
         private IntPtr deviceNotifyHandle; // Handle to file which we keep opened on the drive if query remove message is required by the client
         private IntPtr recipientHandle; // Handle of the window which receives messages from Windows. This will be a form.
         private string currentDrive; // Drive which is currently hooked for query remove
         private DetectorWindow window;
         private HwndSource hwnd;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
 
         #endregion
 

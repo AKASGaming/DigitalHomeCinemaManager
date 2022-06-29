@@ -34,7 +34,8 @@ namespace DigitalHomeCinemaManager.Windows
     using DigitalHomeCinemaManager.Components;
     using DigitalHomeCinemaManager.Controls;
     using Microsoft.Win32;
-    using NAudio;
+    using System.Linq;
+    using NAudio.CoreAudioApi;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -47,13 +48,15 @@ namespace DigitalHomeCinemaManager.Windows
         private static BitmapSource EMPTY_IMAGE = BitmapImage.Create(2, 2, 96, 96, PixelFormats.Indexed1, new BitmapPalette(new List<Color> { Colors.Transparent }), new byte[] { 0, 0, 0, 0 }, 1);
         
         private PlaylistManager playlist;
-        private bool playlistInitialized = false;
+        private bool playlistInitialized;
         private List<string> errorLog = new List<string>();
         private IDispatchedBindingList<IBindingItem> sourceData;
         private System.Timers.Timer clockTimer;
+        private System.Timers.Timer CT;
+        private MMDevice device;
         private double playbackLength;
         private int playbackPosition;
-        private bool disposed = false; 
+        private bool disposed; 
 
         #endregion
 
@@ -63,17 +66,23 @@ namespace DigitalHomeCinemaManager.Windows
         {
             InitializeComponent();
 
-#pragma warning disable CA1308 // Normalize strings to uppercase
             this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
             this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
 
             this.clockTimer = new System.Timers.Timer {
-                Interval = 100
+                Interval = 1000
             };
             this.clockTimer.Elapsed += OnTimerElapsed;
             this.clockTimer.AutoReset = true;
             this.clockTimer.Start();
+
+            this.CT = new System.Timers.Timer
+            {
+                Interval = 200
+            };
+            this.CT.Elapsed += OnTimerElapsed2;
+            this.CT.AutoReset = true;
+            this.CT.Start();
         }
 
         #endregion
@@ -206,10 +215,22 @@ namespace DigitalHomeCinemaManager.Windows
             switch (state) {
                 case PlaybackState.Paused:
                     this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Paused;
+                    UpdateStatus("PAUSED");
                     break;
                 case PlaybackState.Playing:
+                    UpdateStatus("PLAYING");
+                    break;
+                case PlaybackState.PlayingTrailer:
+                    this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+                    UpdateStatus("PLAYING_TRAILER");
+                    break;
+                case PlaybackState.PlayingPreroll:
+                    this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+                    UpdateStatus("PLAYING_PREROLL");
+                    break;
                 case PlaybackState.PlayingFeature:
                     this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.Normal;
+                    UpdateStatus("PLAYING_MOVIE");
                     break;
                 default:
                     this.TaskbarItemInfo.ProgressState = System.Windows.Shell.TaskbarItemProgressState.None;
@@ -224,25 +245,32 @@ namespace DigitalHomeCinemaManager.Windows
             }
         }
 
-        private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void OnTimerElapsed(object sender, System.Timers.ElapsedEventArgs e) => this.Dispatcher.BeginInvoke((Action)(() =>
         {
-            this.Dispatcher.BeginInvoke((Action)(() => {
-#pragma warning disable CA1308 // Normalize strings to uppercase
-                this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
-#pragma warning restore CA1308 // Normalize strings to uppercase
-                this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
+            this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
+            this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
+        }));
 
-                NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
-                var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
-                Console.WriteLine(devices[0]);
-                var device = devices[0];
-                var MasterVolume = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 100));
+        private void OnTimerElapsed2(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            InitializeComponent();
 
-                Console.WriteLine(MasterVolume);
+            this.Dispatcher.Invoke(() =>
+            {
+                //Console.WriteLine(devices.Where(x => x.DeviceFriendlyName.Equals(Properties.Settings.Default.VUDevice)).ToList());
+
+                MMDeviceEnumerator enumerator = new MMDeviceEnumerator();
+                var devices = enumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
+
+                device = devices.FirstOrDefault();
+                //devices.FirstOrDefault(x => x.FriendlyName.Equals(Properties.Settings.Default.VUDevice.ToString()));
+                var MasterVolume = (int)Math.Round(device.AudioMeterInformation.MasterPeakValue * 100);
+
+                //Console.WriteLine(MasterVolume);
 
                 this.PCVolume.Text = (MasterVolume <= -80m) ? Properties.Resources.DB_MUTE :
-                    (MasterVolume > 0) ? string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB_PLUS, MasterVolume) :
-                    string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_DB, MasterVolume);
+                    (MasterVolume > 0) ? ("+" + MasterVolume + "db") :
+                    (MasterVolume + "db");
 
                 if (MasterVolume <= 20)
                 {
@@ -260,8 +288,7 @@ namespace DigitalHomeCinemaManager.Windows
                 {
                     this.PCVolume.Foreground = new SolidColorBrush(Colors.Chartreuse);
                 }
-
-            }));
+            });
         }
 
         private void SourceDataListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
@@ -301,6 +328,7 @@ namespace DigitalHomeCinemaManager.Windows
             var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
                 Owner = this,
                 Filter = Properties.Resources.FILTER_VIDEOS,
+                Title = "Select Preroll",
                 Multiselect = false
             };
 
@@ -321,6 +349,7 @@ namespace DigitalHomeCinemaManager.Windows
             var window = new PlaylistSelectionWindow(this.Playlist.TrailerPlaylist) {
                 Owner = this,
                 Filter = Properties.Resources.FILTER_VIDEOS,
+                Title = "Select Trailers",
                 Multiselect = true
             };
 
@@ -339,7 +368,8 @@ namespace DigitalHomeCinemaManager.Windows
         private void ButtonCommercialClick(object sender, RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog() {
-                Filter = Properties.Resources.FILTER_VIDEOS
+                Filter = Properties.Resources.FILTER_VIDEOS,
+                Title = "Select Commercial"
             };
 
             if (Directory.Exists(Properties.Settings.Default.PrerollPath)) {
@@ -357,7 +387,8 @@ namespace DigitalHomeCinemaManager.Windows
         private void ButtonFeatureClick(object sender, RoutedEventArgs e)
         {
             var ofd = new OpenFileDialog() {
-                Filter = Properties.Resources.FILTER_MOVIES
+                Filter = Properties.Resources.FILTER_MOVIES,
+                Title = "Select Feature"
             };
 
             if (Directory.Exists(Properties.Settings.Default.MediaPath)) {
@@ -403,9 +434,16 @@ namespace DigitalHomeCinemaManager.Windows
                     if (this.clockTimer != null) {
                         this.clockTimer.Dispose();
                     }
+
+                    if (this.CT != null)
+                    {
+                        this.CT.Dispose();
+                    }
+
                 }
 
                 this.clockTimer = null;
+                this.CT = null;
 
                 this.disposed = true;
             }

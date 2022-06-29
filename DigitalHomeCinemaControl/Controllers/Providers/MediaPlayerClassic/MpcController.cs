@@ -54,8 +54,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         private IDictionary<string, Type> actions;
         private static readonly HttpClient client = new HttpClient();
         private string feature = string.Empty;
-        private volatile int errorCount = 0;
-        private volatile bool disposed = false;
+        private volatile int errorCount;
+        private volatile bool disposed;
 
         #endregion
 
@@ -237,7 +237,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void SendCommand(int command)
+        private static void SendCommand(int command)
         {
             string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + COMMANDS;
 

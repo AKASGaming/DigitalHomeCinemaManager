@@ -79,7 +79,28 @@ namespace DigitalHomeCinemaManager.Windows
                 Filter = this.Filter
             };
             if (ofd.ShowDialog() == true) {
-                if (Properties.Settings.Default.RandTrailers != false)
+                if(Properties.Settings.Default.TrailerLimit != "Off" && Properties.Settings.Default.TrailerLimitEnabled)
+                {
+                    if (ofd.FileNames.Length > int.Parse(Properties.Settings.Default.TrailerLimit))
+                    {
+                        MessageBox.Show("The number of trailers (" + ofd.FileNames.Length + ") is greater than the set limit (" + Properties.Settings.Default.TrailerLimit + "). Please only select " + Properties.Settings.Default.TrailerLimit + " or fewer Trailers.", "Error adding Trailers");
+                    }
+                    else if (Properties.Settings.Default.RandTrailers != false)
+                    {
+                        var array = ofd.FileNames;
+                        Random rnd = new Random();
+                        var MyRandomArray = array.OrderBy(x => rnd.Next()).ToArray();
+                        Array.ForEach(MyRandomArray, Console.WriteLine);
+                        foreach (var s in MyRandomArray)
+                        {
+                            this.lstPlaylist.Items.Add(s);
+                        }
+                    } else foreach (string s in ofd.FileNames)
+                        {
+                            this.lstPlaylist.Items.Add(s);
+                        }
+                }
+                else if (Properties.Settings.Default.RandTrailers != false)
                 {
                     var array = ofd.FileNames;
                     Random rnd = new Random();

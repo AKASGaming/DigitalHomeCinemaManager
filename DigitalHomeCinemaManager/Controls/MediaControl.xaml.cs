@@ -28,8 +28,8 @@ namespace DigitalHomeCinemaManager.Controls
 
         #region Members
 
-        private bool subtitlesEnabled = false;
-        private bool muted = false;
+        private bool subtitlesEnabled;
+        private bool muted;
 
         #endregion
 

@@ -33,7 +33,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Scheduler
         private HighAccuracyTimer timer;
         private IDictionary<string, Type> actions;
         private volatile ScheduleState state = ScheduleState.None;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
         private bool enabled;
 
         #endregion

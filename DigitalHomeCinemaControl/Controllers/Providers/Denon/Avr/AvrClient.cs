@@ -39,7 +39,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         private StreamWriter writer;
         private Thread readThread;
         private volatile bool initialized;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
         private System.Timers.Timer timer;
 
         private PowerStatus power = PowerStatus.Unknown;
@@ -57,15 +57,15 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon.Avr
         private int masterVolume = -1;
         private int maxMasterVolume = -1;
         private int delay = -1;
-        private bool? toneControl = null;
-        private bool? cinemaEq = null;
-        private bool? loudnessManagement = null;
-        private bool? dynEq = null;
+        private bool? toneControl;
+        private bool? cinemaEq;
+        private bool? loudnessManagement;
+        private bool? dynEq;
         private int referenceLevelOffset = -1;
         private Dictionary<string, string> inputNames = new Dictionary<string, string>();
         private Dictionary<string, string> quickNames = new Dictionary<string, string>();
-        private bool inputNamesInit = false;
-        private bool quickNamesInit = false;
+        private bool inputNamesInit;
+        private bool quickNamesInit;
         private Dictionary<Channel, bool> channelStatus = new Dictionary<Channel, bool>();
 
         #endregion

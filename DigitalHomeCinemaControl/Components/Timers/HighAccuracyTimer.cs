@@ -33,7 +33,7 @@ namespace DigitalHomeCinemaControl.Components.Timers
         #region Members
 
         private static TimerCapabilities capabilities;
-        private volatile bool disposed = false;
+        private volatile bool disposed;
         private volatile TimerMode mode;
         private volatile int interval;
         private volatile int resolution;

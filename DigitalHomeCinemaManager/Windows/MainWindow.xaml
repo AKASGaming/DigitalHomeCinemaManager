@@ -27,7 +27,7 @@
             <RowDefinition Height="54"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="600"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="610"/>
             <ColumnDefinition Width="701*"/>
         </Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                     <TextBlock x:Name="PCVolume" Text="--dB" TextWrapping="Wrap" Foreground="Aqua" TextAlignment="Right" FontWeight="SemiBold" FontSize="60" Height="90" Width="250" Margin="0,0,44,0" />
                     <StackPanel Orientation="Vertical">
-                        <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick">
+                        <Button x:Name="Settings" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonSettingsClick" ToolTip="Settings">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5" />
@@ -59,7 +59,7 @@
                                 <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_settings_black_36dp.png" Height="20" />
                             </StackPanel>
                         </Button>
-                        <Button x:Name="Schedule" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonScheduleClick">
+                        <Button x:Name="Schedule" Margin="0,5,10,0" VerticalAlignment="Top" Grid.Column="2" Height="25" HorizontalAlignment="Right" Width="35" Click="ButtonScheduleClick" ToolTip="Scheduler">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="5" />
@@ -160,6 +160,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel x:Name="StatusBar" Orientation="Horizontal" HorizontalAlignment="Stretch">
                     <Rectangle Width="1" Height="35" Margin="10,0,0,0" Stroke="#FF818181" StrokeThickness="0.3" />
+                    <TextBlock x:Name="txtLog" Text="" Margin="10,0,0,0" Width="500" Height="40" TextWrapping="NoWrap" Foreground="GhostWhite" TextAlignment="Left"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Column="1">
                     <Image x:Name="imgAudio"  Width="100" Height="30" Margin="0,0,10,0" />
@@ -167,7 +168,6 @@
                 </StackPanel>
             </Grid>
         </Border>
-        <TextBlock x:Name="txtLog" Text="" Margin="104,75,104,114" TextWrapping="NoWrap" Foreground="GhostWhite" TextAlignment="Left" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2"/>
         <!--#endregion-->
     </Grid>
 </Window>

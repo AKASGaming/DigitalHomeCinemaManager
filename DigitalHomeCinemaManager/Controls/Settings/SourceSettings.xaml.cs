@@ -29,7 +29,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #region Members
 
-        private bool initialized = false;
+        private bool initialized;
 
         #endregion
 

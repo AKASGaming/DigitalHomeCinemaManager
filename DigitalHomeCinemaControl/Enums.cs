@@ -72,6 +72,8 @@ namespace DigitalHomeCinemaControl
         Stopped = 0,
         Paused = 1,
         Playing = 10,
+        PlayingTrailer = 12,
+        PlayingPreroll = 13,
         PlayingFeature = 11,
     }
 

@@ -29,7 +29,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Sony.Sdcp
         private TcpClient client;
         private NetworkStream stream;
         private WaitTimer waitHandle; // use high accuracy WaitHandle
-        private bool disposed = false;
+        private bool disposed;
         private string host;
         private int port = 53484;
         private int commandDelay = 1500;

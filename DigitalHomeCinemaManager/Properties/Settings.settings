@@ -29,5 +29,20 @@
     <Setting Name="InputSwitchDevice" Type="System.String" Scope="User">
       <Value Profile="(Default)">HDFury Diva</Value>
     </Setting>
+    <Setting Name="VUDevice" Type="NAudio.CoreAudioApi.MMDeviceEnumerator" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="VUDeviceEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="RandTrailers" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="TrailerLimit" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TrailerLimitEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

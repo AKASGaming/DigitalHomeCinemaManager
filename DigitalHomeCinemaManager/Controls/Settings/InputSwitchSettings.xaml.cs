@@ -34,7 +34,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #region Members
 
-        private bool initialized = false;
+        private bool initialized;
         private Type customInputType;
         private ObservableCollection<KeyValuePair<string, string>> customInputs;
 

@@ -34,7 +34,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #region Members
 
-        private bool initialized = false;
+        private bool initialized;
         private Type customColorSpaceType;
         private Type customGammaType;
 #pragma warning disable IDE0052 // Remove unread private members

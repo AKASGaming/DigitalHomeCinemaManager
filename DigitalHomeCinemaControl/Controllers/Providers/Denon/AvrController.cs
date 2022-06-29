@@ -58,7 +58,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Denon
         private AvrClient avr;
         private ChannelBinding channelBinding;
         private IDictionary<string, Type> actions;
-        private volatile bool disposed = false; 
+        private volatile bool disposed; 
 
         #endregion
 

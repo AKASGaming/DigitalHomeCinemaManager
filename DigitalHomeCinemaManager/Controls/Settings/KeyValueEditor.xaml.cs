@@ -63,7 +63,9 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         #region Methods
 
+#pragma warning disable CA1822 // Mark members as static
         private List<string> GetEnumValues(Type type)
+#pragma warning restore CA1822 // Mark members as static
         {
             var result = new List<string>();
 

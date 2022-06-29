@@ -34,8 +34,8 @@ namespace DigitalHomeCinemaManager.Components
         #region Members
 
         private Dispatcher dispatcher;
-        private volatile bool disposed = false;
-        private volatile bool disposing = false;
+        private volatile bool disposed;
+        private volatile bool disposing;
 
         #endregion
 

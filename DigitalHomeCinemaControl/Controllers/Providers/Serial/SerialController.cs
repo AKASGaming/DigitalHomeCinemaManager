@@ -40,7 +40,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.Serial
 
         private SerialPort serialPort;
         private WaitTimer waitHandle; // use high accuracy WaitHandle
-        private volatile bool disposed = false; 
+        private volatile bool disposed; 
 
         #endregion
 
