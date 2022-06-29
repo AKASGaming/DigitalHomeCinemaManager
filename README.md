@@ -1,5 +1,5 @@
 # Digital Home Cinema Manager
-A program to help organize and run you Home Theater
+A program to help organize and run your Home Theater!
 
 # Features
 [Taken directly from the original author](https://www.avsforum.com/threads/new-htpc-backend-management-software.3129060/)
@@ -21,7 +21,7 @@ Currently supported devices:
 - HD Fury devices (via TCP/IP)
 - MPC-HC media player
 
-# Screenshots
+# Original Screenshots
 
 ### Main App
 ![image](https://user-images.githubusercontent.com/25405047/174333759-da86eecd-c4c7-46b5-aa59-5cfc930be677.png)
@@ -41,8 +41,23 @@ Currently supported devices:
 ### Scheduling
 ![image](https://user-images.githubusercontent.com/25405047/174333945-c96ffd7e-add2-4e1e-af39-0ce22fddc848.png)
 
+# New Screenshots
 
-# Discord
+### Playlist Editing
+![image](https://user-images.githubusercontent.com/25405047/176536668-1175fc79-779e-47ea-81e7-b711aeb98652.png)
+
+### Randomized Trailers in Playlist
+![image](https://user-images.githubusercontent.com/25405047/176536827-0857f7af-3ce9-4c71-b4e5-b74c0f541cfd.png)
+
+### New Options
+![image](https://user-images.githubusercontent.com/25405047/176536885-ad917f71-310f-4251-8ca0-92dc33db076e.png)
+![image](https://user-images.githubusercontent.com/25405047/176536945-2f47406e-221c-4c82-b01e-33a300386ea7.png)
+
+### Date/Time and Audio Monitoring
+![image](https://user-images.githubusercontent.com/25405047/176537045-04637fc0-0708-4975-a5d6-778538843fbf.png)
+
+
+# Have questions? Think I should add something new? Join my Discord server!
 https://discord.gg/26DYpBcdvz
 
 [<img src="https://discordapp.com/api/guilds/991091714330599556/widget.png?style=banner4" alt="">](https://discord.gg/26DYpBcdvz)
