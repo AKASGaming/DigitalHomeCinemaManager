@@ -56,6 +56,9 @@ Currently supported devices:
 ### Date/Time and Audio Monitoring
 ![image](https://user-images.githubusercontent.com/25405047/176537045-04637fc0-0708-4975-a5d6-778538843fbf.png)
 
+### New Resolution Icons
+![image](https://user-images.githubusercontent.com/25405047/176740945-19abaebd-e12a-47bd-b739-5859e2287d89.png)
+
 
 # Have questions? Think I should add something new? Join my Discord server!
 https://discord.gg/26DYpBcdvz
