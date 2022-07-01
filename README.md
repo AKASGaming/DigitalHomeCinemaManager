@@ -58,6 +58,7 @@ Currently supported devices:
 
 ### New Resolution Icons
 ![image](https://user-images.githubusercontent.com/25405047/176740945-19abaebd-e12a-47bd-b739-5859e2287d89.png)
+![image](https://user-images.githubusercontent.com/25405047/176926691-e3490fc2-b400-4f79-a8eb-8825ccc14348.png)
 
 
 # Have questions? Think I should add something new? Join my Discord server!
