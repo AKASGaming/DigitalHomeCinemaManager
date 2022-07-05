@@ -124,13 +124,13 @@
     <value>--dB</value>
   </data>
   <data name="FILTER_MOVIES" xml:space="preserve">
-    <value>Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*</value>
+    <value>Movies (*.mkv;*.mp4;*.mov;*.avi)|*.mkv;*.mp4;*.mov;*.avi|All Files (*.*)|*.*</value>
   </data>
   <data name="FILTER_PROGRAMS" xml:space="preserve">
     <value>Programs (*.exe)|*.exe|All Files (*.*)|*.*</value>
   </data>
   <data name="FILTER_VIDEOS" xml:space="preserve">
-    <value>Videos (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*</value>
+    <value>Videos (*.mkv;*.mp4;*.mov;*.avi)|*.mkv;*.mp4;*.mov;*.avi|All Files (*.*)|*.*</value>
   </data>
   <data name="FMT_DATE" xml:space="preserve">
     <value>dddd | MMM dd yyyy</value>

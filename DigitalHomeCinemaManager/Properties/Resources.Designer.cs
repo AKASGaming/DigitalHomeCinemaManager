@@ -79,7 +79,7 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Movies (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*.
+        ///   Looks up a localized string similar to Movies (*.mkv;*.mp4;*.mov;*.avi)|*.mkv;*.mp4;*.mov;*.avi|All Files (*.*)|*.*.
         /// </summary>
         internal static string FILTER_MOVIES {
             get {
@@ -97,7 +97,7 @@ namespace DigitalHomeCinemaManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Videos (*.mkv;*.mp4;*.mov)|*.mkv;*.mp4;*.mov|All Files (*.*)|*.*.
+        ///   Looks up a localized string similar to Videos (*.mkv;*.mp4;*.mov;*.avi)|*.mkv;*.mp4;*.mov;*.avi|All Files (*.*)|*.*.
         /// </summary>
         internal static string FILTER_VIDEOS {
             get {

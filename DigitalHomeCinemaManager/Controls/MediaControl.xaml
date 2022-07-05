@@ -5,10 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DigitalHomeCinemaManager.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="47" d:DesignWidth="500">
-    <Grid>
-        <Border Grid.Row="3" Background="#282627" Height="47" Width="500" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal" Margin="20,0,0,0" HorizontalAlignment="Left">
+             d:DesignHeight="47" d:DesignWidth="440">
+    <Grid HorizontalAlignment="Left">
+        <Border Background="#282627" Height="47" Width="440" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button x:Name="ButtonPlay" BorderBrush="{x:Null}" BorderThickness="0" Width="47" Height="47" Click="ButtonPlayClick" ToolTip="Play">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">

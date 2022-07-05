@@ -12,18 +12,19 @@
  *
  */
 
+using MediaInfo;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Windows.Data;
+using System.Windows.Threading;
+
 namespace DigitalHomeCinemaManager.Components
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Globalization;
-    using System.IO;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Windows.Data;
-    using System.Windows.Threading;
-
     internal sealed class PlaylistManager
     {
 
@@ -35,11 +36,36 @@ namespace DigitalHomeCinemaManager.Components
         private const string MPCPLAYLIST = "MPCPLAYLIST";
         private const string MPC_FORMAT_TYPE = "{0},type,0";
         private const string MPC_FORMAT_FILE = "{0},filename,{1}";
-        private const string SD = "SD";
+        
+        //Video Formats
         private const string HD = "HD";
+        private const string FHD = "FHD";
+        private const string QHD = "QHD";
         private const string UHD = "UHD";
-        private const string ATMOS = "ATMOS";
+        private const string EightK = "EightK";
+        private const string DVD = "DVD";
+
+        //HDR Formats
+        private const string HDR10 = "HDR10"; 
+        private const string HDR10Plus = "HDR10Plus"; 
+        private const string DolbyVision = "DolbyVision";
+        private const string HLG = "HLG";
+        private const string SLHDR1 = "SLHDR1";
+        private const string SLHDR2 = "SLHDR2";
+        private const string SLHDR3 = "SLHDR3";
+
+        //Audio Formats
+        private const string DolbyAtmos = "DolbyAtmos";
         private const string DTS = "DTS";
+        private const string DolbyDigital = "DolbyDigital";
+        private const string TrueHD = "TrueHD";
+        private const string TrueHDAtmos = "TrueHDAtmos";
+        private const string DTSX = "DTSX";
+        private const string DTSHDMA = "DTSHDMA";
+        private const string DTSHD = "DTSHD";
+        private const string DolbyDigitalPlus = "DolbyDigitalPlus";
+        private const string DolbyDigitalPlusAtmos = "DolbyDigitalPlusAtmos";
+
 
         private string prerollPath = Properties.Settings.Default.PrerollPath;
         private string trailerPath = Properties.Settings.Default.TrailerPath;
@@ -177,7 +203,6 @@ namespace DigitalHomeCinemaManager.Components
                     PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
                 }));
             }
-            
         }
 
         private void ParseFeature()
@@ -245,45 +270,175 @@ namespace DigitalHomeCinemaManager.Components
         {
             this.FeatureVideoFormat = VideoFormat.Unknown;
             this.FeatureAudioFormat = AudioFormat.Unknown;
+            this.FeatureHDRFormat = HDR.Unknown;
+            this.FeatureIs3D = false;
+            this.FeatureChannelFormat = "Mono";
+
+
+            var MIW = new MediaInfoWrapper(this.feature);
+            var resolution = MIW.VideoStreams[0].Width;
+            var SurroundFormat = MIW.AudioCodec;
+            var audioChannels = MIW.AudioChannels;
+            var hdr = MIW.VideoStreams[0].Hdr;
+            var StereoMode = MIW.VideoStreams[0].Stereoscopic;
+            //Console.WriteLine(hdr.ToString());
 
             if (string.IsNullOrEmpty(this.Feature)) { return; }
 
-            int start = this.Feature.LastIndexOf("_", StringComparison.Ordinal) + 1;
-            int len = this.Feature.LastIndexOf(".", StringComparison.Ordinal);
-            bool isAudioFormat = false;
+            var resolutions = new Dictionary<int, string>()
+            {
+                {1280, "HD"},
+                {1920, "FHD"},
+                {2560, "QHD"},
+                {3840, "UHD"},
+                {3996, "UHD"},
+                {4096, "UHD"},
+                {7680, "EightK"},
+            };
 
-            var videoFormat = new StringBuilder(3);
-            var audioFormat = new StringBuilder(5);
+            var aFormats = new Dictionary<string, string>()
+            {
+                {"Ac3Atmos", "DolbyAtmos"},
+                {"Dts", "DTS"},
+                {"DTS", "DTS"},
+                {"Ac3", "DolbyDigital"},
+                {"Truehd", "TrueHD"},
+                {"TruehdAtmos", "TrueHDAtmos"},
+                {"DtsX", "DTSX"},
+                {"DtsHdMa", "DTSHDMA"},
+                {"DtsHd", "DTSHD"},
+                {"Eac3", "DolbyDigitalPlus"},
+                {"E-AC-3", "DolbyDigitalPlus"},
+                {"Eac3Atmos", "DolbyDigitalPlusAtmos"},
+            };
 
-            for (int i = start; i < len; i++) {
-                if (isAudioFormat) {
-                    if (this.Feature[i] == '.') {
-                        isAudioFormat = false;
-                    } else {
-                        audioFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i], CultureInfo.InvariantCulture));
-                    }
-                } else {
-                    switch (this.Feature[i]) {
-                        case '-': isAudioFormat = true; break;
-                        default:
-                            videoFormat.Append((char.IsUpper(this.Feature[i])) ? this.Feature[i] : char.ToUpper(this.Feature[i], CultureInfo.InvariantCulture));
-                            break;
-                    }
-                }
-            }
+            var Channels = new Dictionary<int, string>()
+            {
+                { 1, "Mono" },
+                { 2, "Stereo" },
+                { 3, "2.1" },
+                { 4, "4.0" },
+                { 5, "5.0" },
+                { 6, "5.1" },
+                { 7, "6.1" },
+                { 8, "7.1" },
+                { 9, "7.2" },
+                { 10, "7.2.1" }
+            };
+
+            var StereoModeFormat = new Dictionary<MediaInfo.Model.StereoMode, bool>()
+            {
+                { MediaInfo.Model.StereoMode.Mono, false },
+                { MediaInfo.Model.StereoMode.SideBySideLeft, true },
+                { MediaInfo.Model.StereoMode.TopBottomRight, true },
+                { MediaInfo.Model.StereoMode.TopBottomLeft, true },
+                { MediaInfo.Model.StereoMode.CheckerboardRight, true },
+                { MediaInfo.Model.StereoMode.CheckerboardLeft, true },
+                { MediaInfo.Model.StereoMode.RowInterleavedRight, true },
+                { MediaInfo.Model.StereoMode.RowInterleavedLeft, true },
+                { MediaInfo.Model.StereoMode.ColumnInterleavedRight, true },
+                { MediaInfo.Model.StereoMode.ColumnInterleavedLeft, true },
+                { MediaInfo.Model.StereoMode.AnaglyphCyanRed, true },
+                { MediaInfo.Model.StereoMode.SideBySideRight, true },
+                { MediaInfo.Model.StereoMode.AnaglyphGreenMagenta, true },
+                { MediaInfo.Model.StereoMode.BothEyesLacedLeft, true },
+                { MediaInfo.Model.StereoMode.BothEyesLacedRight, true }
+            };
+
+            var videoFormat = resolutions.ContainsKey(resolution) ? resolutions[resolution] : "DVD";
+            var audioFormat = aFormats.ContainsKey(SurroundFormat) ? aFormats[SurroundFormat] : "DolbyDigital";
+            var channelFormat = Channels[audioChannels];
+            var StereoFormatted = StereoModeFormat[StereoMode];
+            Console.WriteLine(channelFormat);
+            Console.WriteLine(SurroundFormat);
+            Console.WriteLine(audioFormat);
+            Console.WriteLine(StereoMode.ToString(), StereoFormatted);
 
             switch (videoFormat.ToString()) {
-                case SD: this.FeatureVideoFormat = VideoFormat.SD; break;
                 case HD: this.FeatureVideoFormat = VideoFormat.HD; break;
+                case FHD: this.FeatureVideoFormat = VideoFormat.FHD; break;
+                case QHD: this.FeatureVideoFormat = VideoFormat.QHD; break;
                 case UHD: this.FeatureVideoFormat = VideoFormat.UHD; break;
+                case EightK: this.FeatureVideoFormat = VideoFormat.EightK; break;
+                case DVD: this.FeatureVideoFormat = VideoFormat.DVD; break;
                 default: this.FeatureVideoFormat = VideoFormat.Unknown; break;
             }
 
             switch (audioFormat.ToString()) {
-                case ATMOS: this.FeatureAudioFormat = AudioFormat.Atmos; break;
+                case DolbyAtmos: this.FeatureAudioFormat = AudioFormat.DolbyAtmos; break;
                 case DTS: this.FeatureAudioFormat = AudioFormat.DTS; break;
-                default: this.FeatureAudioFormat = AudioFormat.Dolby; break;
+                case DolbyDigital: this.FeatureAudioFormat = AudioFormat.DolbyDigital; break;
+                case TrueHD: this.FeatureAudioFormat = AudioFormat.TrueHD; break;
+                case DTSX: this.FeatureAudioFormat = AudioFormat.DTSX; break;
+                case DTSHDMA: this.FeatureAudioFormat = AudioFormat.DTSHDMA; break;
+                case DTSHD: this.FeatureAudioFormat = AudioFormat.DTSHD; break;
+                case DolbyDigitalPlus: this.FeatureAudioFormat = AudioFormat.DolbyDigitalPlus; break;
+                default: this.FeatureAudioFormat = AudioFormat.Unknown; break;
             }
+
+            switch (hdr.ToString())
+            {
+                case HDR10: this.FeatureHDRFormat = HDR.HDR10; break;
+                case HDR10Plus: this.FeatureHDRFormat = HDR.HDR10Plus; break;
+                case DolbyVision: this.FeatureHDRFormat = HDR.DolbyVision; break;
+                case HLG: this.FeatureHDRFormat = HDR.HLG; break;
+                case SLHDR1: this.FeatureHDRFormat = HDR.SLHDR1; break;
+                case SLHDR2: this.FeatureHDRFormat = HDR.SLHDR2; break;
+                case SLHDR3: this.FeatureHDRFormat = HDR.SLHDR3; break;
+                default: this.FeatureHDRFormat = HDR.Unknown; break;
+            }
+
+            switch (channelFormat.ToString())
+            {
+                case "Mono":
+                    this.FeatureChannelFormat = "Mono";
+                    break;
+                case "Stereo":
+                    this.FeatureChannelFormat = "Stereo";
+                    break;
+                case "2.1":
+                    this.FeatureChannelFormat = "2.1";
+                    break;
+                case "4.0": 
+                    this.FeatureChannelFormat = "4.0";
+                    break;
+                case "5.0":
+                    this.FeatureChannelFormat = "5.0";
+                    break;
+                case "5.1":
+                    this.FeatureChannelFormat = "5.1";
+                    break;
+                case "6.1":
+                    this.FeatureChannelFormat = "6.1";
+                    break;
+                case "7.1":
+                    this.FeatureChannelFormat = "7.1";
+                    break;
+                case "7.2":
+                    this.FeatureChannelFormat = "7.2";
+                    break;
+                case "7.2.1":
+                    this.FeatureChannelFormat = "7.2.1";
+                    break;
+                default:
+                    this.FeatureChannelFormat = "";
+                    break;
+            }
+
+            switch (StereoFormatted)
+            {
+                case true:
+                    this.FeatureIs3D = true;
+                    break;
+                case false:
+                    this.FeatureIs3D = false;
+                    break;
+                default:
+                    this.FeatureIs3D = false;
+                    break;
+            }
+
+            Console.WriteLine(this.FeatureVideoFormat);
         }
 
         #endregion
@@ -327,6 +482,12 @@ namespace DigitalHomeCinemaManager.Components
         public VideoFormat FeatureVideoFormat { get; private set; }
 
         public AudioFormat FeatureAudioFormat { get; private set; }
+
+        public string FeatureChannelFormat { get; private set; }
+
+        public bool FeatureIs3D { get; private set; }
+
+        public HDR FeatureHDRFormat { get; private set; }
 
         public ObservableCollection<PlaylistEntry> Playlist
         {

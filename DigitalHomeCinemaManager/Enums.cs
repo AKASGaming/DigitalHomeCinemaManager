@@ -12,6 +12,8 @@
  *
  */
 
+using System.ComponentModel;
+
 namespace DigitalHomeCinemaManager
 {
 
@@ -26,17 +28,43 @@ namespace DigitalHomeCinemaManager
     public enum VideoFormat
     {
         Unknown,
-        SD,
+        [Description("720")]
         HD,
+        [Description("1080")]
+        FHD,
+        [Description("1440")]
+        QHD,
+        [Description("2160")]
         UHD,
+        [Description("4320")]
+        EightK,
+        DVD
     }
 
     public enum AudioFormat
     {
         Unknown,
-        Atmos,
+        DolbyAtmos,
         DTS,
-        Dolby,
+        DolbyDigital,
+        TrueHD,
+        TrueHDAtmos,
+        DTSX,
+        DTSHDMA,
+        DTSHD,
+        DolbyDigitalPlus,
+        DolbyDigitalPlusAtmos,
     }
 
+    public enum HDR
+    {
+        Unknown,
+        HDR10,
+        HDR10Plus,
+        DolbyVision,
+        HLG,
+        SLHDR1,
+        SLHDR2,
+        SLHDR3
+    }
 }

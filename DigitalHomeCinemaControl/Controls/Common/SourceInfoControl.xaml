@@ -6,17 +6,18 @@
              xmlns:local="clr-namespace:DigitalHomeCinemaControl.Controls.Common"
              xmlns:Controls="clr-namespace:DigitalHomeCinemaControl.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="47" d:DesignWidth="610">
-    <Grid>
+             d:DesignHeight="47" d:DesignWidth="455"
+             HorizontalAlignment="Left">
+    <Grid HorizontalAlignment="Left">
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                 <Label Content="Now playing:" HorizontalAlignment="Right" Margin="0,0,0,0" Foreground="White" Height="26" VerticalAlignment="Center" Width="80" />
-                <TextBlock x:Name="txtNowPlaying" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3,5,0,-5" Foreground="White" Width="425" Height="20" TextAlignment="Left" />
+                <TextBlock x:Name="txtNowPlaying" Text="" VerticalAlignment="Top" Margin="3,5,0,-5" Foreground="White" Width="267" Height="20" TextAlignment="Left" />
                 <TextBlock x:Name="txtFileSize" HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Foreground="White" Width="90" Height="16"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
                 <TextBlock x:Name="txtPostion" HorizontalAlignment="Left" Margin="-5,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Foreground="White" Width="80" Height="16" TextAlignment="Right" />
-                <ProgressBar x:Name="fileProgress" HorizontalAlignment="Left" Height="8" Margin="9,0,0,0" VerticalAlignment="Center" Width="420" />
+                <ProgressBar x:Name="fileProgress" Height="8" Margin="9,0,0,0" VerticalAlignment="Center" Width="261" />
                 <TextBlock x:Name="txtDuration" HorizontalAlignment="Left" Margin="4,0,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" Foreground="White" Width="90" Height="16" />
             </StackPanel>
         </StackPanel>

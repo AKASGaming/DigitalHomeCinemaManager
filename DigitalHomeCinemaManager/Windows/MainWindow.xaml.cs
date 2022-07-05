@@ -197,16 +197,202 @@ namespace DigitalHomeCinemaManager.Windows
         private void PlaylistChanged(object sender, string e)
         {
             switch (this.Playlist.FeatureVideoFormat) {
-                case VideoFormat.SD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/dvd.jpg"); break;
-                case VideoFormat.HD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/hd.jpg"); break;
-                case VideoFormat.UHD: SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/uhd.jpg"); break;
-                case VideoFormat.Unknown: SetImageSource(this.imgResolution, string.Empty); break;
+                case VideoFormat.HD:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/HD-Gold.png");
+                    this.imgResolution.ToolTip = "HD - 720p";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.FHD:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/Full_HD-Gold.png");
+                    this.imgResolution.ToolTip = "Full HD - 1080p";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.QHD:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/QHD-Gold.png");
+                    this.imgResolution.ToolTip = "QHD - 1440p";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.UHD:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/4K-Gold.png");
+                    this.imgResolution.ToolTip = "4K";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.EightK:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/8K-Gold.png");
+                    this.imgResolution.ToolTip = "8K";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.DVD:
+                    SetImageSource(this.imgResolution, "pack://application:,,/Resources/Labels/Video/dvd.png");
+                    this.imgResolution.ToolTip = "DVD Quality";
+                    this.imgResolution.Visibility = Visibility.Visible;
+                    break;
+                case VideoFormat.Unknown:
+                    SetImageSource(this.imgResolution, string.Empty);
+                    this.imgResolution.Visibility = Visibility.Hidden;
+                    this.imgResolution.ToolTip = null;
+                    break;
             }
             switch (this.Playlist.FeatureAudioFormat) {
-                case AudioFormat.Atmos: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/atmos.png"); break;
-                case AudioFormat.DTS: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dts.jpg"); break;
-                case AudioFormat.Dolby: SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/dd.png"); break;
-                case AudioFormat.Unknown: SetImageSource(this.imgAudio, string.Empty); break;
+                case AudioFormat.DolbyAtmos: 
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/atmos.png");
+                    this.imgAudio.ToolTip = "Dolby Atmos";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DTS:
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dts.png");
+                    this.imgAudio.ToolTip = "DTS";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DolbyDigital: 
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dd.png");
+                    this.imgAudio.ToolTip = "Dolby Digital";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.TrueHD: 
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dolby-truehd.png");
+                    this.imgAudio.ToolTip = "Dolby TrueHD";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.TrueHDAtmos:
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dolby-truehd.png");
+                    this.imgAudio.ToolTip = "Dolby TrueHD with Atmos";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DTSX: 
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dts-x.png"); 
+                    this.imgAudio.ToolTip = "DTS X";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DTSHDMA: 
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dts-master-audio.png");
+                    this.imgAudio.ToolTip = "DTS Master Audio";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DTSHD:
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dts-master-audio.png");
+                    this.imgAudio.ToolTip = "DTS HD";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DolbyDigitalPlus:
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dolby-digital-plus.png");
+                    this.imgAudio.ToolTip = "Dolby Digital Plus";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.DolbyDigitalPlusAtmos:
+                    SetImageSource(this.imgAudio, "pack://application:,,/Resources/Labels/Audio/dolby-digital-plus.png.png");
+                    this.imgAudio.ToolTip = "Dolby Digital Plus with Atmos";
+                    this.imgAudio.Visibility = Visibility.Visible;
+                    break;
+                case AudioFormat.Unknown:
+                    SetImageSource(this.imgAudio, string.Empty);
+                    this.imgAudio.Visibility = Visibility.Hidden;
+                    this.imgAudio.ToolTip = null;
+                    break;
+            }
+            switch (this.playlist.FeatureHDRFormat)
+            {
+                case HDR.HDR10:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/hdr10.png");
+                    this.imgHDR.ToolTip = "HDR10";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.HDR10Plus:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/hdr10plus.png");
+                    this.imgHDR.ToolTip = "HDR10+";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.DolbyVision:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/dolby-vision.png");
+                    this.imgHDR.ToolTip = "Dolby Vision";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.HLG:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/HLG.png");
+                    this.imgHDR.ToolTip = "HLG";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.SLHDR1:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/technicolor.png");
+                    this.imgHDR.ToolTip = "Technicolor";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.SLHDR2:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/technicolor.png");
+                    this.imgHDR.ToolTip = "Technicolor";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.SLHDR3:
+                    SetImageSource(this.imgHDR, "pack://application:,,/Resources/Labels/HDR/technicolor.png");
+                    this.imgHDR.ToolTip = "Technicolor";
+                    this.imgHDR.Visibility = Visibility.Visible;
+                    break;
+                case HDR.Unknown:
+                    SetImageSource(this.imgHDR, string.Empty);
+                    this.imgHDR.Visibility = Visibility.Hidden;
+                    this.imgHDR.ToolTip = null;
+                    break;
+            }
+
+            switch (this.playlist.FeatureChannelFormat)
+            {
+                case "Mono":
+                    this.txtAudioChannels.ToolTip = "Mono";
+                    this.txtAudioChannels.Text = "Mono";
+                    break;
+                case "Stereo":
+                    this.txtAudioChannels.ToolTip = "Stereo";
+                    this.txtAudioChannels.Text = "Stereo";
+                    break;
+                case "2.1":
+                    this.txtAudioChannels.ToolTip = "2.1";
+                    this.txtAudioChannels.Text = "2.1";
+                    break;
+                case "4.0":
+                    this.txtAudioChannels.ToolTip = "4.0";
+                    this.txtAudioChannels.Text = "4.0";
+                    break;
+                case "5.0":
+                    this.txtAudioChannels.ToolTip = "5.0";
+                    this.txtAudioChannels.Text = "5.0";
+                    break;
+                case "5.1":
+                    this.txtAudioChannels.ToolTip = "5.1";
+                    this.txtAudioChannels.Text = "5.1";
+                    break;
+                case "6.1":
+                    this.txtAudioChannels.ToolTip = "6.1";
+                    this.txtAudioChannels.Text = "6.1";
+                    break;
+                case "7.1":
+                    this.txtAudioChannels.ToolTip = "7.1";
+                    this.txtAudioChannels.Text = "7.1";
+                    break;
+                case "7.2":
+                    this.txtAudioChannels.ToolTip = "7.2";
+                    this.txtAudioChannels.Text = "7.2";
+                    break;
+                case "7.2.1":
+                    this.txtAudioChannels.ToolTip = "7.2.1";
+                    this.txtAudioChannels.Text = "7.2.1";
+                    break;
+                case "":
+                    this.txtAudioChannels.Text = "";
+                    this.txtAudioChannels.ToolTip = null;
+                    break;
+            }
+
+            switch (this.playlist.FeatureIs3D)
+            {
+                case true:
+                    SetImageSource(this.img3D, "pack://application:,,/Resources/Labels/Video/3D.png");
+                    this.img3D.Visibility = Visibility.Visible;
+                    break;
+                case false:
+                    SetImageSource(this.img3D, string.Empty);
+                    this.img3D.Visibility = Visibility.Hidden;
+                    break;
+
             }
         }
 
