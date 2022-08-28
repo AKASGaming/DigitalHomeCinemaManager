@@ -29,9 +29,19 @@ namespace DigitalHomeCinemaControl.Devices
                 typeof(Controllers.Providers.MediaPlayerClassic.MpcController),
                 typeof(Controls.Common.SourceInfoControl));
 
+        public static SourceDevice MpcHcKC { get; } = new SourceDevice("MPC-HC K-Lite Codec",
+        typeof(Controllers.Providers.MediaPlayerClassic.MpcController),
+        typeof(Controls.Common.SourceInfoControl));
+
+        public static SourceDevice VLC { get; } = new SourceDevice("VLC",
+        typeof(Controllers.Providers.VLC.VLCController),
+        typeof(Controls.Common.SourceInfoControl));
+
         static SourceDevice()
         {
             Items.Add(MpcHc.Name, MpcHc);
+            Items.Add(MpcHcKC.Name, MpcHcKC);
+            Items.Add(VLC.Name, VLC);
         }
 
         #endregion

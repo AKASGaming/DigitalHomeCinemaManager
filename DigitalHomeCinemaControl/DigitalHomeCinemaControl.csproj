@@ -94,6 +94,7 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0-preview.7.22375.6\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -260,6 +261,7 @@
     <Compile Include="Controllers\Providers\Sony\Sdcp\SdcpClient.cs" />
     <Compile Include="Controllers\Providers\Sony\Sdcp\SdcpRequest.cs" />
     <Compile Include="Controllers\Providers\Sony\Sdcp\SdcpResponse.cs" />
+    <Compile Include="Controllers\Providers\VLC\VLCController.cs" />
     <Compile Include="Controllers\Routing\IRoutingDestination.cs" />
     <Compile Include="Controllers\Routing\IRoutingSource.cs" />
     <Compile Include="Controllers\Routing\MatchAction.cs" />

@@ -133,9 +133,9 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::NAudio.CoreAudioApi.MMDevice VUDevice {
+        public global::NAudio.CoreAudioApi.MMDeviceEnumerator VUDevice {
             get {
-                return ((global::NAudio.CoreAudioApi.MMDevice)(this["VUDevice"]));
+                return ((global::NAudio.CoreAudioApi.MMDeviceEnumerator)(this["VUDevice"]));
             }
             set {
                 this["VUDevice"] = value;
@@ -187,6 +187,18 @@ namespace DigitalHomeCinemaManager.Properties {
             }
             set {
                 this["TrailerLimitEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SourceDevicePath {
+            get {
+                return ((string)(this["SourceDevicePath"]));
+            }
+            set {
+                this["SourceDevicePath"] = value;
             }
         }
     }

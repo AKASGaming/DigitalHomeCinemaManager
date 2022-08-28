@@ -151,6 +151,24 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to VLC: {0}.
+        /// </summary>
+        internal static string FMT_VLC_CONNECT_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_VLC_CONNECT_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VLC ERROR: {0}.
+        /// </summary>
+        internal static string FMT_VLC_ERROR {
+            get {
+                return ResourceManager.GetString("FMT_VLC_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection Closed.
         /// </summary>
         internal static string MSG_CONNECTION_CLOSED {
@@ -345,6 +363,24 @@ namespace DigitalHomeCinemaControl.Properties {
         internal static string MSG_TMDB_API_KEY_ERROR {
             get {
                 return ResourceManager.GetString("MSG_TMDB_API_KEY_ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to VLC: Max errors exceeded, Exiting..
+        /// </summary>
+        internal static string MSG_VLC_MAX_ERRORS {
+            get {
+                return ResourceManager.GetString("MSG_VLC_MAX_ERRORS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to start VLC process!.
+        /// </summary>
+        internal static string MSG_VLC_START_ERROR {
+            get {
+                return ResourceManager.GetString("MSG_VLC_START_ERROR", resourceCulture);
             }
         }
     }

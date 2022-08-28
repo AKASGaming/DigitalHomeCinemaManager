@@ -147,6 +147,12 @@
   <data name="FMT_TMDB_NO_RESULT" xml:space="preserve">
     <value>TMDB failed to find result for {0}</value>
   </data>
+  <data name="FMT_VLC_CONNECT_ERROR" xml:space="preserve">
+    <value>Failed to connect to VLC: {0}</value>
+  </data>
+  <data name="FMT_VLC_ERROR" xml:space="preserve">
+    <value>VLC ERROR: {0}</value>
+  </data>
   <data name="MSG_CONNECTION_CLOSED" xml:space="preserve">
     <value>Connection Closed</value>
   </data>
@@ -212,5 +218,11 @@
   </data>
   <data name="MSG_TMDB_API_KEY_ERROR" xml:space="preserve">
     <value>Api Key not set.</value>
+  </data>
+  <data name="MSG_VLC_MAX_ERRORS" xml:space="preserve">
+    <value>VLC: Max errors exceeded, Exiting.</value>
+  </data>
+  <data name="MSG_VLC_START_ERROR" xml:space="preserve">
+    <value>Failed to start VLC process!</value>
   </data>
 </root>

@@ -10,7 +10,11 @@
         <StackPanel Orientation="Vertical" Margin="10">
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock Text="Provider:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <ComboBox Name="Provider" Width="150" SelectionChanged="ProviderSelectionChanged"/>
+                <ComboBox Name="Provider" Width="150" SelectionChanged="ProviderSelectionChanged">
+                    <ComboBoxItem Content="MPC Home Cinema"/>
+                    <ComboBoxItem Content="MPC-HC K-Lite Codec"/>
+                    <ComboBoxItem Content="VLC"/>
+                </ComboBox>
                 <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="EnabledChecked"  Unchecked="EnabledChecked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
