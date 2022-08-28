@@ -40,22 +40,28 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             InitializeComponent();
 
-            var pair = new Dictionary<string, string>()
+             var pair = new Dictionary<string, string>()
                     {
                         {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
                         {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
                         {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
                     };
 
-            this.Provider.ItemsSource = DeviceManager.GetProviders(DeviceType.Source);
+            var sources = DeviceManager.GetProviders(DeviceType.Source);
+
+            foreach (var devcie in sources)
+            {
+                this.Provider.Items.Add(devcie.ToString());
+            }
+
             if (Properties.Settings.Default.SourceDevice != null) {
                 this.Enabled.IsChecked = false;
             } else {
                 this.Enabled.IsChecked = true;
-                this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice;
+                this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
             }
 
-            this.Path.Text = Properties.DeviceSettings.Default.Source_Path;
+            this.Path.Text = pair[Properties.DeviceSettings.Default.Source_Path];
             this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
 
             this.initialized = true;
@@ -73,7 +79,14 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 Properties.Settings.Default.SourceDevice = null;
             }
 
-            Properties.DeviceSettings.Default.Source_Path = this.Path.Text;
+            var pair = new Dictionary<string, string>()
+                    {
+                        {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
+                        {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
+                        {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
+                    };
+
+            Properties.DeviceSettings.Default.Source_Path = pair[Provider.SelectedValue.ToString()];
             if (int.TryParse(this.Display.Text, out int i)) {
                 Properties.DeviceSettings.Default.Source_FullscreenDisplay = i;
             }

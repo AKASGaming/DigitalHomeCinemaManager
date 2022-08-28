@@ -43,8 +43,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         private const int    HTTP_PASSWORD   = 13312;
         private const int    STATUS_INTERVAL = 1000;
         private const string VARIABLES = "/requests/status.xml";
-        private const string PLAYER_PARAMS   = "--http-host http://localhost --http-port 8080 --intf dummy --dummy-quiet --fullscreen --no-crashdump";
-        private const string DISPLAY_PARAM   = " /monitor ";
+        private const string PLAYER_PARAMS   = "--http-host http://localhost --http-port 8080 --http-password 13312 --intf dummy --dummy-quiet --fullscreen --no-crashdump";
+        private const string DISPLAY_PARAM   = " --directx-device=";
         private const int    MAX_ERROR_COUNT = 10;
 
         private string Volume;
@@ -180,7 +180,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
             this.feature = feature;
             if (!File.Exists(this.Path)) { return; }
 
-            ProcessStartInfo mpcStart = new ProcessStartInfo {
+            ProcessStartInfo vlcStart = new ProcessStartInfo {
                 Arguments = playlist + PLAYER_PARAMS +
                     ((this.FullscreenDisplay >= 0) ?
                         DISPLAY_PARAM + this.FullscreenDisplay.ToString(CultureInfo.InvariantCulture) : string.Empty),
@@ -188,8 +188,8 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
             };
 
             try {
-                using (var mpc = new Process() { StartInfo = mpcStart }) {
-                    mpc.Start();
+                using (var vlc = new Process() { StartInfo = vlcStart }) {
+                    vlc.Start();
                 } 
             } catch {
                 OnError(Properties.Resources.MSG_VLC_START_ERROR);
@@ -245,7 +245,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
             if (onOff == false)
             {
-                SendCommand("?command=volume&val=" + Volume);
+                SendCommand("?command=volume&val=" + oldVol);
             }
             else if (onOff == true)
             {
