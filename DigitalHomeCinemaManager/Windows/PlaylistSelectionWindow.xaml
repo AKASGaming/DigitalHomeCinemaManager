@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DigitalHomeCinemaManager.Windows"
         mc:Ignorable="d"
-        Title="Playlist Editor" Height="280" Width="600" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="Playlist Editor" Height="280" Width="600" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="False">
     <Window.Background>
         <SolidColorBrush Color="#FF2B2B30" />
     </Window.Background>

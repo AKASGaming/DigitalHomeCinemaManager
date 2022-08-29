@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DigitalHomeCinemaManager.Windows"
         mc:Ignorable="d"
-        Title="Settings" Height="405.623" Width="611.426" Icon="/DigitalHomeCinemaManager;component/Resources/Images/favicon.ico" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterOwner" HorizontalAlignment="Center" VerticalAlignment="Center">
+        Title="Settings" Height="405.623" Width="611.426" Icon="/DigitalHomeCinemaManager;component/Resources/Images/favicon.ico" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="False" WindowStartupLocation="CenterOwner" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Window.Background>
         <SolidColorBrush Color="#FF2B2B30" />
     </Window.Background>

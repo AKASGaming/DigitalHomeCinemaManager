@@ -22,6 +22,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Threading;
+using PlaylistsNET;
+using PlaylistsNET.Models;
 
 namespace DigitalHomeCinemaManager.Components
 {
@@ -30,12 +32,12 @@ namespace DigitalHomeCinemaManager.Components
 
         #region Members
 
-        private static string PLAYLIST = "\\Show_Playlist.mpcpl";
+        private static string PLAYLIST = "\\Show_Playlist.m3u";
         private static string VIDEO_PATH = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
-        private const string MPCPLAYLIST = "MPCPLAYLIST";
-        private const string MPC_FORMAT_TYPE = "{0},type,0";
-        private const string MPC_FORMAT_FILE = "{0},filename,{1}";
+        private const string MPCPLAYLIST = "#EXTM3U";
+        //private const string MPC_FORMAT_TYPE = "{0},type,0";
+        private const string MPC_FORMAT_FILE = "{1}";
         
         //Video Formats
         private const string HD = "HD";
@@ -158,7 +160,7 @@ namespace DigitalHomeCinemaManager.Components
                     if (this.PrerollEnabled == true) {
                         foreach (string s in this.PrerollPlaylist) {
                             this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
-                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                            //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
                             writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
                             i++;
                         }
@@ -166,20 +168,20 @@ namespace DigitalHomeCinemaManager.Components
                     if (this.TrailersEnabled == true) {
                         foreach (string s in this.TrailerPlaylist) {
                             this.playlist.Add(new PlaylistEntry(PlaylistType.Trailer, s));
-                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                            //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
                             writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
                             i++;
                         }
                     }
                     if (this.CommercialEnabled == true && !string.IsNullOrEmpty(this.Commercial)) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Commercial, this.Commercial));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                        //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
                         writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Commercial));
                         i++;
                     }
                     if (!string.IsNullOrEmpty(this.Feature)) {
                         this.playlist.Add(new PlaylistEntry(PlaylistType.Feature, this.Feature));
-                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                        //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
                         writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Feature));
                     }
                     writer.Flush();

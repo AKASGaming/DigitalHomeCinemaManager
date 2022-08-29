@@ -40,12 +40,12 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         private const string PROCESS_NAME    = "vlc";
         private const string DEFAULT_HOST    = "http://localhost";
         private const int    DEFAULT_PORT    = 8080;
-        private const int    HTTP_PASSWORD   = 13312;
-        private const int    STATUS_INTERVAL = 1000;
+        private const int    STATUS_INTERVAL = 2000;
+        private const string HTTP_PASSWORD   = "31121";
         private const string VARIABLES = "/requests/status.xml";
-        private const string PLAYER_PARAMS   = "--http-host http://localhost --http-port 8080 --http-password 13312 --intf dummy --dummy-quiet --fullscreen --no-crashdump";
+        private const string PLAYER_PARAMS   = " --http-host localhost --http-port 8080 --http-password 31121 --fullscreen --no-crashdump -q --no-repeat --no-random --no-loop --playlist-cork --one-instance --no-osd";
         private const string DISPLAY_PARAM   = " --directx-device=";
-        private const int    MAX_ERROR_COUNT = 10;
+        private const int    MAX_ERROR_COUNT = 20;
 
         private string Volume;
 
@@ -114,12 +114,19 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         private void StatsTimerElapsed(object sender, ElapsedEventArgs e)
         {
             string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
+            //Console.WriteLine(url);
+
+            string username = "";
+            string password = HTTP_PASSWORD;
+            string svcCredentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password));
 
             WebRequest request = WebRequest.Create(new Uri(url));
+            request.Headers.Add("Authorization", "Basic " + svcCredentials);
             HttpWebResponse response;
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
+                //Console.WriteLine(response);
             } catch (WebException ex) {
                 OnError(string.Format(CultureInfo.InvariantCulture, Properties.Resources.FMT_VLC_CONNECT_ERROR, ex.Status));
                 this.errorCount++;
@@ -147,11 +154,15 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
             var doc = new XmlDocument();
             doc.LoadXml(responseString);
 
-            string currentFile = doc.GetElementById("root").InnerText;
+            Console.WriteLine(doc.DocumentElement.SelectSingleNode("volume").InnerText);
 
-            Volume = doc.GetElementById("volume").InnerText;
+            string currentFile = doc.DocumentElement.SelectSingleNode("root").InnerText;
 
-            if (Enum.TryParse<PlaybackState>(doc.GetElementById("state").InnerText, out PlaybackState s)) {
+            Volume = doc.DocumentElement.SelectSingleNode("volume").InnerText;
+
+            Console.WriteLine(Volume);
+
+            if (Enum.TryParse<PlaybackState>(doc.DocumentElement.SelectSingleNode("state").InnerText, out PlaybackState s)) {
                 if ((s >= PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(currentFile)) {
                     s = PlaybackState.PlayingFeature;
                 }
@@ -163,14 +174,14 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
             }
 
             UpdateDataSource<string>(CURRENTFILE, currentFile);
-            UpdateDataSource<string>(FILESIZE, doc.GetElementById("size").InnerText);
-            UpdateDataSource<string>(POSITION, doc.GetElementById("time").InnerText);
-            UpdateDataSource<string>(DURATION, doc.GetElementById("length").InnerText);
+            UpdateDataSource<string>(FILESIZE, doc.DocumentElement.SelectSingleNode("size").InnerText);
+            UpdateDataSource<string>(POSITION, doc.DocumentElement.SelectSingleNode("time").InnerText);
+            UpdateDataSource<string>(DURATION, doc.DocumentElement.SelectSingleNode("length").InnerText);
 
-            if (int.TryParse(doc.GetElementById("time").InnerText, out int p)) {
+            if (int.TryParse(doc.DocumentElement.SelectSingleNode("time").InnerText, out int p)) {
                 UpdateDataSource<int>(CURRENTPOSITION, p);
             }
-            if (int.TryParse(doc.GetElementById("length").InnerText, out int l)) {
+            if (int.TryParse(doc.DocumentElement.SelectSingleNode("length").InnerText, out int l)) {
                 UpdateDataSource<int>(LENGTH, l);
             }
         }
@@ -191,8 +202,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
                 using (var vlc = new Process() { StartInfo = vlcStart }) {
                     vlc.Start();
                 } 
-            } catch {
+            } catch (Exception e) {
                 OnError(Properties.Resources.MSG_VLC_START_ERROR);
+                Console.WriteLine(e);
             }
         }
 
@@ -258,7 +270,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void SendCommand(string command)
         {
-            string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT;
+            string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
 
             var values = new Dictionary<string, string> {
                 { "vlc_command", command.ToString(CultureInfo.InvariantCulture) }
@@ -266,15 +278,21 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
             
             try {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                var content = new FormUrlEncodedContent(values);
+                string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES + command;
+                //Console.WriteLine(url);
 
-                _ = client.PostAsync(new Uri(playerUrl), content).ContinueWith((requestTask) => {
-                    content.Dispose();
-                }, TaskScheduler.Current);
+                string username = "";
+                string password = HTTP_PASSWORD;
+                string svcCredentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password));
 
-#pragma warning restore CA2000 // Dispose objects before losing scope
-            } catch { }
+                WebRequest request = WebRequest.Create(new Uri(url));
+                request.Headers.Add("Authorization", "Basic " + svcCredentials);
+                HttpWebResponse response;
+
+
+                response = (HttpWebResponse)request.GetResponse();
+
+                } catch { }
         }
 
         private void OnDataReceived(PlaybackState data)

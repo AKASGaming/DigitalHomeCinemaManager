@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DigitalHomeCinemaManager.Windows"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Edit Schedule" Height="210" Width="300" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize">
+        Title="Edit Schedule" Height="210" Width="300" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" ResizeMode="NoResize" Topmost="False">
     <Window.Background>
         <SolidColorBrush Color="#FF2B2B30" />
     </Window.Background>

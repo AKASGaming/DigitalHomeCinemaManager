@@ -52,16 +52,23 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             foreach (var devcie in sources)
             {
                 this.Provider.Items.Add(devcie.ToString());
+                Console.WriteLine(devcie);
             }
 
-            if (Properties.Settings.Default.SourceDevice != null) {
+            if (Properties.Settings.Default.SourceDevice != null) {                
                 this.Enabled.IsChecked = false;
             } else {
+
+                if (!pair.ContainsKey(Properties.Settings.Default.SourceDevice))
+                {
+                    Properties.Settings.Default.SourceDevice = "MPC Home Cinema";
+                }
+
                 this.Enabled.IsChecked = true;
                 this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
             }
 
-            this.Path.Text = pair[Properties.DeviceSettings.Default.Source_Path];
+            this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
             this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
 
             this.initialized = true;
@@ -94,7 +101,23 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void ProviderSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            OnItemChanged();
+            var pair = new Dictionary<string, string>()
+                {
+                    {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
+                    {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
+                    {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
+                };
+
+            Console.WriteLine(Provider.SelectedValue.ToString());
+
+            Properties.Settings.Default.SourceDevice = Provider.SelectedValue.ToString();
+            Path.Text = pair[Provider.SelectedValue.ToString()];
+            Properties.DeviceSettings.Default.Source_Path = pair[Provider.SelectedValue.ToString()];
+
+            if (this.initialized)
+            {
+                OnItemChanged();
+            }
         }
 
         private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
