@@ -4,7 +4,7 @@ A program to help organize and run your Home Theater with a practically easy-to-
 
 # Features
 
-[Taken directly from the original author's post on AVSForum.com](https://www.avsforum.com/threads/new-htpc-backend-management-software.3129060/) - [**\[Their Github\]**](https://github.com/wmandra/DigitalHomeCinemaManager)
+[Taken directly from the original author's post on AVSForum.com](https://www.avsforum.com/threads/new-htpc-backend-management-software.3129060/) - [**\[Their Github\]**](https://github.com/wmandra/DigitalHomeCinemaManager) - [Their statements on my updates 🙄](https://github.com/wmandra/DigitalHomeCinemaManager/pull/8)
 
 > Show playlist management including separate management of both preroll and trailer playlists. Easily disable trailers or preroll playlists on the fly.
 > 
