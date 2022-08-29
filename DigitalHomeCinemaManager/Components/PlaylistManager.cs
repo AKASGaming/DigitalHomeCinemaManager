@@ -22,8 +22,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
 using System.Windows.Threading;
-using PlaylistsNET;
-using PlaylistsNET.Models;
 
 namespace DigitalHomeCinemaManager.Components
 {
@@ -283,7 +281,7 @@ namespace DigitalHomeCinemaManager.Components
             var audioChannels = MIW.AudioChannels;
             var hdr = MIW.VideoStreams[0].Hdr;
             var StereoMode = MIW.VideoStreams[0].Stereoscopic;
-            //Console.WriteLine(hdr.ToString());
+            //Output.WriteLine(hdr.ToString());
 
             if (string.IsNullOrEmpty(this.Feature)) { return; }
 
@@ -351,10 +349,10 @@ namespace DigitalHomeCinemaManager.Components
             var audioFormat = aFormats.ContainsKey(SurroundFormat) ? aFormats[SurroundFormat] : "DolbyDigital";
             var channelFormat = Channels[audioChannels];
             var StereoFormatted = StereoModeFormat[StereoMode];
-            Console.WriteLine(channelFormat);
-            Console.WriteLine(SurroundFormat);
-            Console.WriteLine(audioFormat);
-            Console.WriteLine(StereoMode.ToString(), StereoFormatted);
+            Output.WriteLine(channelFormat);
+            Output.WriteLine(SurroundFormat);
+            Output.WriteLine(audioFormat);
+            Output.WriteLine(StereoMode.ToString() + " - " + StereoFormatted.ToString());
 
             switch (videoFormat.ToString()) {
                 case HD: this.FeatureVideoFormat = VideoFormat.HD; break;
@@ -440,7 +438,7 @@ namespace DigitalHomeCinemaManager.Components
                     break;
             }
 
-            Console.WriteLine(this.FeatureVideoFormat);
+            Output.WriteLine(this.FeatureVideoFormat.ToString());
         }
 
         #endregion

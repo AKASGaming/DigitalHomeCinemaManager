@@ -12,23 +12,22 @@
  *
  */
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Timers;
+using System.Xml;
+using DigitalHomeCinemaControl.Controllers.Base;
+using DigitalHomeCinemaControl.Controllers.Routing;
+
 namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Net;
-    using System.Net.Http;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Timers;
-    using System.Xml;
-    using DigitalHomeCinemaControl.Controllers.Base;
-    using DigitalHomeCinemaControl.Controllers.Routing;
-
     /// <summary>
     /// VLC controller.
     /// </summary>
@@ -204,7 +203,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
                 } 
             } catch (Exception e) {
                 OnError(Properties.Resources.MSG_VLC_START_ERROR);
-                Console.WriteLine(e);
+                Console.WriteLine(e.ToString());
             }
         }
 

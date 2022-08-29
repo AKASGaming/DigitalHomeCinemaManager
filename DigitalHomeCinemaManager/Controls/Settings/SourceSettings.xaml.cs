@@ -52,17 +52,17 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             foreach (var devcie in sources)
             {
                 this.Provider.Items.Add(devcie.ToString());
-                Console.WriteLine(devcie);
+                Output.WriteLine(devcie);
             }
 
-            if (Properties.Settings.Default.SourceDevice != null) {                
+            if (Properties.Settings.Default.SourceDevice != null && !pair.ContainsKey(Properties.Settings.Default.SourceDevice))
+            {
+                Properties.Settings.Default.SourceDevice = "MPC Home Cinema";
+            } else if (Properties.Settings.Default.SourceDevice != null) {                
                 this.Enabled.IsChecked = false;
             } else {
 
-                if (!pair.ContainsKey(Properties.Settings.Default.SourceDevice))
-                {
-                    Properties.Settings.Default.SourceDevice = "MPC Home Cinema";
-                }
+                
 
                 this.Enabled.IsChecked = true;
                 this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
@@ -108,7 +108,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                     {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
                 };
 
-            Console.WriteLine(Provider.SelectedValue.ToString());
+            Output.WriteLine(Provider.SelectedValue.ToString());
 
             Properties.Settings.Default.SourceDevice = Provider.SelectedValue.ToString();
             Path.Text = pair[Provider.SelectedValue.ToString()];

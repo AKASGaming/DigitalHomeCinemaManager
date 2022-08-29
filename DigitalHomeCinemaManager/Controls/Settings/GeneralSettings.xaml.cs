@@ -171,7 +171,19 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             InitializeComponent();
             OnItemChanged();
         }
-        
+
+        private void EnableLogs_Checked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.EnableLogs = true;
+            OnItemChanged();
+        }
+
+        private void EnableLogs_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.EnableLogs = false;
+            OnItemChanged();
+        }
+
         #endregion
     }
 }

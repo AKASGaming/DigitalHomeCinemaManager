@@ -30,15 +30,15 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="Randomize Trailers" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBlock Text="Randomize Trailers:" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <CheckBox x:Name="RandTrailers" Checked="RandTrailers_Checked" Unchecked="RandTrailers_Unchecked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="Limit Trailers" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBlock Text="Limit Trailers:" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <CheckBox x:Name="TrailerLimitCheck" Checked="TrailerLimitCheck_Checked" Unchecked="TrailerLimitCheck_Unchecked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <TextBlock Text="Trailer Count" Margin="0,0,0,0" Width="108" VerticalAlignment="Center" Foreground="#FF7E7E7E" HorizontalAlignment="Left"/>
+                <TextBlock Text="Trailer Count:" Margin="0,0,0,0" Width="108" VerticalAlignment="Center" Foreground="#FF7E7E7E" HorizontalAlignment="Left"/>
                 <ComboBox x:Name="TrailerLimit" Width="120" SelectionChanged="comboBox_SelectionChanged">
                     <ComboBoxItem Content="1"/>
                     <ComboBoxItem Content="2"/>
@@ -46,6 +46,10 @@
                     <ComboBoxItem Content="4"/>
                     <ComboBoxItem Content="5"/>
                 </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,48,0,0">
+                <TextBlock Text="Enable Logs:" Margin="0,0,0,0" Width="110" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <CheckBox x:Name="EnableLogs" Checked="EnableLogs_Checked" Unchecked="EnableLogs_Unchecked"/>
             </StackPanel>
         </StackPanel>
     </Grid>

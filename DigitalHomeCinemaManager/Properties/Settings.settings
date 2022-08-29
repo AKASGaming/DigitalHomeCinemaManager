@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SourceDevice" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MPC Home Cinema</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="SerialDevice" Type="System.String" Scope="User">
       <Value Profile="(Default)">Generic</Value>
@@ -44,8 +44,8 @@
     <Setting Name="TrailerLimitEnabled" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="SourceDevicePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="EnableLogs" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

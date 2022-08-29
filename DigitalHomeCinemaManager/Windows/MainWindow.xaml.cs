@@ -95,6 +95,7 @@ namespace DigitalHomeCinemaManager.Windows
                 this.errorLog.RemoveAt(0);
             }
             this.errorLog.Add(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", DateTime.Now, message));
+            Output.WriteLine(message);
             StringBuilder result = new StringBuilder();
             foreach (string s in this.errorLog) {
                 result.Append(string.Format(CultureInfo.InvariantCulture, "{0} \r\n", s));
@@ -449,6 +450,7 @@ namespace DigitalHomeCinemaManager.Windows
                 var devices = enumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
 
                 device = devices.FirstOrDefault();
+                Output.WriteLine(device.FriendlyName + " is being used");
                 //devices.FirstOrDefault(x => x.FriendlyName.Equals(Properties.Settings.Default.VUDevice.ToString()));
                 var MasterVolume = (int)Math.Round(device.AudioMeterInformation.MasterPeakValue * 100);
 

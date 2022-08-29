@@ -153,9 +153,6 @@
     <Reference Include="NAudio.WinMM, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.WinMM.2.1.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
     </Reference>
-    <Reference Include="PlaylistsNET, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PlaylistsNET.1.2.1\lib\net48\PlaylistsNET.dll</HintPath>
-    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -240,6 +237,7 @@
     </ApplicationDefinition>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="ConsoleOutputLog.cs" />
     <Compile Include="Components\RemovableMedia\DetectorWindow.cs" />
     <Compile Include="Components\RemovableMedia\NativeMethods.cs" />
     <Compile Include="Components\RemovableMedia\RemovableMediaEventArgs.cs" />
