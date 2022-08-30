@@ -11,12 +11,12 @@
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock Text="Provider:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <ComboBox Name="Provider" Width="150" SelectionChanged="ProviderSelectionChanged"/>
-                <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="EnabledChecked"  Unchecked="EnabledChecked"/>
+                <CheckBox x:Name="Enabled" Content="Enabled" Margin="10,3,0,0" Foreground="#FF7E7E7E" Checked="EnabledChecked"  Unchecked="EnabledUnchecked"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Path:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
                 <TextBox x:Name="Path" Width="220" Height="22" TextChanged="PathTextChanged"/>
-                <Button HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="24" Height="22" Click="ButtonPathClick" >
+                <Button x:Name="PathButton" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" Width="24" Height="22" Click="ButtonPathClick" >
                     <Image Source="/DigitalHomeCinemaManager;component/Resources/Icons/baseline_more_horiz_black_36dp.png" />
                 </Button>
             </StackPanel>

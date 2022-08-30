@@ -17,6 +17,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Web.UI;
     using System.Windows.Controls;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
@@ -55,21 +56,35 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                 Output.WriteLine(devcie);
             }
 
-            if (Properties.Settings.Default.SourceDevice != null && !pair.ContainsKey(Properties.Settings.Default.SourceDevice))
+            if(Properties.Settings.Default.SourceDeviceEnabled == true)
             {
-                Properties.Settings.Default.SourceDevice = "MPC Home Cinema";
-            } else if (Properties.Settings.Default.SourceDevice != null) {                
-                this.Enabled.IsChecked = false;
-            } else {
-
-                
-
                 this.Enabled.IsChecked = true;
-                this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
-            }
 
-            this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
-            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+                this.Provider.IsEnabled = true;
+                this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
+
+                this.Path.IsEnabled = true;
+                this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
+
+                this.Display.IsEnabled = true;
+                this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+
+                this.PathButton.IsEnabled = true;
+            } else if(this.Enabled.IsChecked == false)
+            {
+                Properties.Settings.Default.SourceDeviceEnabled = false;
+                this.Enabled.IsChecked = false;
+
+                this.Provider.IsEnabled = false;
+
+                this.Path.IsEnabled = false;
+                this.Path.Text = string.Empty;
+
+                this.Display.IsEnabled = false;
+                this.Display.Text = string.Empty;
+
+                this.PathButton.IsEnabled = false;
+            }
 
             this.initialized = true;
         }
@@ -82,6 +97,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             if (this.Enabled.IsChecked == true) {
                 Properties.Settings.Default.SourceDevice = Provider.SelectedValue.ToString();
+                Properties.Settings.Default.SourceDeviceEnabled = true;
             } else {
                 Properties.Settings.Default.SourceDevice = null;
             }
@@ -118,23 +134,52 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             {
                 OnItemChanged();
             }
+            InitializeComponent();
         }
 
         private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (this.Enabled.IsChecked == true) {
-                this.Provider.IsEnabled = true;
-                this.Path.IsEnabled = true;
-                this.Display.IsEnabled = true;
-            } else {
-                this.Provider.IsEnabled = false;
-                this.Path.IsEnabled = false;
-                this.Display.IsEnabled = false;
-            }
+            var pair = new Dictionary<string, string>()
+                {
+                    {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
+                    {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
+                    {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
+                };
+
+            this.Provider.IsEnabled = true;
+            this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
+
+            this.Path.IsEnabled = true;
+            this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
+
+            this.Display.IsEnabled = true;
+            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+
+            this.PathButton.IsEnabled = true;
 
             if (this.initialized) {
                 OnItemChanged();
             }
+            InitializeComponent();
+        }
+
+        private void EnabledUnchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            this.Provider.IsEnabled = false;
+
+            this.Path.IsEnabled = false;
+            this.Path.Text = string.Empty;
+
+            this.Display.IsEnabled = false;
+            this.Display.Text = string.Empty;
+
+            this.PathButton.IsEnabled = false;
+
+            if (this.initialized)
+            {
+                OnItemChanged();
+            }
+            InitializeComponent();
         }
 
         private void PathTextChanged(object sender, TextChangedEventArgs e)

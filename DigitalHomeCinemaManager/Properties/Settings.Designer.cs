@@ -25,18 +25,6 @@ namespace DigitalHomeCinemaManager.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string SourceDevice {
-            get {
-                return ((string)(this["SourceDevice"]));
-            }
-            set {
-                this["SourceDevice"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Generic")]
         public string SerialDevice {
             get {
@@ -199,6 +187,30 @@ namespace DigitalHomeCinemaManager.Properties {
             }
             set {
                 this["EnableLogs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MPC Home Cinema")]
+        public string SourceDevice {
+            get {
+                return ((string)(this["SourceDevice"]));
+            }
+            set {
+                this["SourceDevice"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SourceDeviceEnabled {
+            get {
+                return ((bool)(this["SourceDeviceEnabled"]));
+            }
+            set {
+                this["SourceDeviceEnabled"] = value;
             }
         }
     }

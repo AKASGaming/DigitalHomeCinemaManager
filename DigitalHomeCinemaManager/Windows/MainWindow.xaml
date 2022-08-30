@@ -8,7 +8,7 @@
         xmlns:Controls="clr-namespace:DigitalHomeCinemaManager.Controls"
         mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="Digital Home Cinema Manager" Height="1080" Width="1920" MinHeight="757" MinWidth="1229" MaxHeight="1100" MaxWidth="1940" WindowStartupLocation="CenterOwner" Icon="/DigitalHomeCinemaManager;component/Resources/Images/favicon.ico" Topmost="False" WindowState="Maximized">
+        Height="1080" Width="1920" MinHeight="757" MinWidth="1229" MaxHeight="1100" MaxWidth="1940" WindowStartupLocation="CenterOwner" Icon="/DigitalHomeCinemaManager;component/Resources/Images/favicon.ico" Topmost="False" WindowState="Maximized">
     <Window.Background>
         <ImageBrush ImageSource="/DigitalHomeCinemaManager;component/Resources/Images/gradient.jpg"/>
     </Window.Background>

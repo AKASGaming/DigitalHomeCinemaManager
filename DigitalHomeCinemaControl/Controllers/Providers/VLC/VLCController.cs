@@ -42,7 +42,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         private const int    STATUS_INTERVAL = 2000;
         private const string HTTP_PASSWORD   = "31121";
         private const string VARIABLES = "/requests/status.xml";
-        private const string PLAYER_PARAMS   = " --http-host localhost --http-port 8080 --http-password 31121 --fullscreen --no-crashdump -q --no-repeat --no-random --no-loop --playlist-cork --one-instance --no-osd";
+        private const string PLAYER_PARAMS   = " --http-host localhost --http-port 8080 --http-password 31121 --fullscreen --no-crashdump -q --no-repeat --no-random --no-loop --no-playlist-autostart --one-instance --no-osd";
         private const string DISPLAY_PARAM   = " --directx-device=";
         private const int    MAX_ERROR_COUNT = 20;
 

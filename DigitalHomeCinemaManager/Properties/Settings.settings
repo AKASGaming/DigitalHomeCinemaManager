@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DigitalHomeCinemaManager.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SourceDevice" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="SerialDevice" Type="System.String" Scope="User">
       <Value Profile="(Default)">Generic</Value>
     </Setting>
@@ -46,6 +43,12 @@
     </Setting>
     <Setting Name="EnableLogs" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SourceDevice" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MPC Home Cinema</Value>
+    </Setting>
+    <Setting Name="SourceDeviceEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -36,6 +36,7 @@ namespace DigitalHomeCinemaManager.Windows
     using Microsoft.Win32;
     using System.Linq;
     using NAudio.CoreAudioApi;
+    using System.Reflection;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -65,6 +66,8 @@ namespace DigitalHomeCinemaManager.Windows
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Title = "Digital Home Cinema Manager - v" + Assembly.GetExecutingAssembly().GetName().Version;
 
             this.txtDate.Text = DateTime.Now.Date.ToString(Properties.Resources.FMT_DATE, CultureInfo.InvariantCulture).ToUpperInvariant();
             this.lblTime.Content = DateTime.Now.ToString("hh:mm:ss tt", CultureInfo.InvariantCulture).ToUpperInvariant();
@@ -450,7 +453,7 @@ namespace DigitalHomeCinemaManager.Windows
                 var devices = enumerator.EnumerateAudioEndPoints(DataFlow.All, DeviceState.Active);
 
                 device = devices.FirstOrDefault();
-                Output.WriteLine(device.FriendlyName + " is being used");
+                //Output.WriteLine(device.FriendlyName + " is being used");
                 //devices.FirstOrDefault(x => x.FriendlyName.Equals(Properties.Settings.Default.VUDevice.ToString()));
                 var MasterVolume = (int)Math.Round(device.AudioMeterInformation.MasterPeakValue * 100);
 
