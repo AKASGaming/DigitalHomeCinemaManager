@@ -64,9 +64,6 @@ A program to help organize and run your Home Theater with a practically easy-to-
 
 ![image](https://user-images.githubusercontent.com/25405047/176536885-ad917f71-310f-4251-8ca0-92dc33db076e.png)
 
-  
- 
-
 ![image](https://user-images.githubusercontent.com/25405047/176536945-2f47406e-221c-4c82-b01e-33a300386ea7.png)
 
 ### Date/Time and Audio Monitoring
@@ -78,6 +75,16 @@ A program to help organize and run your Home Theater with a practically easy-to-
 ![image](https://user-images.githubusercontent.com/25405047/176740945-19abaebd-e12a-47bd-b739-5859e2287d89.png)
 
 ![image](https://user-images.githubusercontent.com/25405047/176926691-e3490fc2-b400-4f79-a8eb-8825ccc14348.png)
+
+# To-Do:
+
+*   [ ] Fix VU Meter Audio Device Assignment
+*   [ ] CPU / RAM Monitor
+*   [ ] Trailer Embeds or Trailer Imports (Still deciding)
+*   [ ] Toast Alerts
+*   [ ] Web API 
+*   [ ] Tab groups for more displayed info 
+*   [ ] Get the HDR status of monitors 
 
 # Have questions? Think I should add something new? Join my Discord server!
 
