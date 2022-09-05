@@ -15,3 +15,5 @@ Tab groups for more displayed info - https://help.syncfusion.com/windowsforms/ta
 Get HDR status of monitors - https://stackoverflow.com/questions/66155083/windows-api-to-get-whether-hdrhigh-dynamic-range-is-active
 
 Thumbnail Buttons - https://visualstudiomagazine.com/articles/2010/08/04/windows-7-thumbnails.aspx
+
+Screen DPI Settings - https://www.telerik.com/blogs/winforms-scaling-at-large-dpi-settings-is-it-even-possible-
