@@ -84,7 +84,11 @@ A program to help organize and run your Home Theater with a practically easy-to-
 *   [ ] Toast Alerts
 *   [ ] Web API 
 *   [ ] Tab groups for more displayed info 
-*   [ ] Get the HDR status of monitors 
+*   [ ] Get the HDR status of monitors
+*   [ ] More TMDB info
+*   [ ] Pull trailers from online source
+*   [ ] Audio output device selector 
+*   [ ] Audio track selector 
 
 # Have questions? Think I should add something new? Join my Discord server!
 
