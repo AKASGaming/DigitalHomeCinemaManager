@@ -76,6 +76,13 @@ A program to help organize and run your Home Theater with a practically easy-to-
 
 ![image](https://user-images.githubusercontent.com/25405047/176926691-e3490fc2-b400-4f79-a8eb-8825ccc14348.png)
 
+# How to prepare MPC
+1. Open MPC
+2. Go to View > Options...
+3. Go to Player > Web Interface
+4. Make sure "Listen on Port:" is checked and the Port number that is to the right of it is the same number in DHCM settings
+![image](https://github.com/AKASGaming/DigitalHomeCinemaManager/assets/25405047/d11d5d35-cdd6-4b66-88b7-032f7d8e2b81)
+
 # To-Do:
 
 *   [ ] Fix VU Meter Audio Device Assignment
