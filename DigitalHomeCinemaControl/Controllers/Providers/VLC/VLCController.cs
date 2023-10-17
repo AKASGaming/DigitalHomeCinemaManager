@@ -20,8 +20,10 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Timers;
+using System.Windows.Forms;
 using System.Xml;
 using DigitalHomeCinemaControl.Controllers.Base;
 using DigitalHomeCinemaControl.Controllers.Routing;
@@ -38,13 +40,13 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
         private const string PROCESS_NAME    = "vlc";
         private const string DEFAULT_HOST    = "http://localhost";
-        private const int    DEFAULT_PORT    = 8080;
-        private const int    STATUS_INTERVAL = 2000;
-        private const string HTTP_PASSWORD   = "31121";
-        private const string VARIABLES = "/requests/status.xml";
-        private const string PLAYER_PARAMS   = " --http-host localhost --http-port 8080 --http-password 31121 --fullscreen --no-crashdump -q --no-repeat --no-random --no-loop --no-playlist-autostart --one-instance --no-osd";
+        private const int    STATUS_INTERVAL = 1000;
+        private const string VARIABLES       = "/requests/status.xml";
+        private const string PLAYER_PARAMS   = " --http-host=localhost --fullscreen --no-crashdump -q --no-repeat --no-random --no-loop --one-instance --no-osd --qt-minimal-view --no-qt-name-in-title";
+        private const string PORT_PARAM      = " --http-port=";
+        private const string PASSWORD_PARAM  = " --http-password=";
         private const string DISPLAY_PARAM   = " --directx-device=";
-        private const int    MAX_ERROR_COUNT = 20;
+        private const int    MAX_ERROR_COUNT = 10;
 
         private string Volume;
 
@@ -52,7 +54,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         private const string PAUSE = "Pause";
         private const string STOP = "Stop";
 
-        private Timer statsTimer;
+        private System.Timers.Timer statsTimer;
         private IDictionary<string, Type> actions;
         private static readonly HttpClient client = new HttpClient();
         private string feature = string.Empty;
@@ -112,11 +114,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
         private void StatsTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
+            string url = DEFAULT_HOST + ":" + Port + VARIABLES;
             //Console.WriteLine(url);
 
             string username = "";
-            string password = HTTP_PASSWORD;
+            string password = VLCPassword;
             string svcCredentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password));
 
             WebRequest request = WebRequest.Create(new Uri(url));
@@ -150,37 +152,55 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         {
             if (string.IsNullOrEmpty(responseString)) { return; }
 
-            var doc = new XmlDocument();
+            XmlDocument doc = new XmlDocument();
             doc.LoadXml(responseString);
 
-            Console.WriteLine(doc.DocumentElement.SelectSingleNode("volume").InnerText);
 
-            string currentFile = doc.DocumentElement.SelectSingleNode("root").InnerText;
+            var fileName = doc.SelectSingleNode("/root/information/category/info[2]"); // information > category "meta" > filename
+            var fileName2 = (fileName != null) ? fileName.InnerText : string.Empty;
+            var volume = doc.GetElementsByTagName("volume")[0].InnerText;
+            var size = doc.GetElementsByTagName("size");
+            var size2 = (size[0] != null) ? size[0].InnerText : string.Empty;
 
-            Volume = doc.DocumentElement.SelectSingleNode("volume").InnerText;
+            var time = doc.GetElementsByTagName("time")[0].InnerText;
+            TimeSpan timeFormatted = TimeSpan.FromSeconds(int.Parse(time));
+            var time2 = timeFormatted.ToString("hh\\:mm\\:ss");
+            var length = doc.GetElementsByTagName("length")[0].InnerText;
+            TimeSpan lengthFormatted = TimeSpan.FromSeconds(int.Parse(length));
+            var length2 = lengthFormatted.ToString("hh\\:mm\\:ss");
+            var state = doc.GetElementsByTagName("state")[0].InnerText;
 
-            Console.WriteLine(Volume);
+            Volume = volume.ToString();
 
-            if (Enum.TryParse<PlaybackState>(doc.DocumentElement.SelectSingleNode("state").InnerText, out PlaybackState s)) {
-                if ((s >= PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(currentFile)) {
+            if (Enum.TryParse<PlaybackState>(state, true, out PlaybackState s))
+            {
+                if ((s == PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(fileName2.ToString()))
+                {
+                    s = PlaybackState.PlayingFeature;
+                }
+                if ((s == PlaybackState.Playing) && (!string.IsNullOrEmpty(this.feature)) && this.feature.Contains(fileName2.ToString()))
+                {
                     s = PlaybackState.PlayingFeature;
                 }
 
-                if (s != this.State) {
+                if (s != this.State)
+                {
                     this.State = s;
                     OnDataReceived(s);
                 }
             }
 
-            UpdateDataSource<string>(CURRENTFILE, currentFile);
-            UpdateDataSource<string>(FILESIZE, doc.DocumentElement.SelectSingleNode("size").InnerText);
-            UpdateDataSource<string>(POSITION, doc.DocumentElement.SelectSingleNode("time").InnerText);
-            UpdateDataSource<string>(DURATION, doc.DocumentElement.SelectSingleNode("length").InnerText);
+            UpdateDataSource<string>(CURRENTFILE, fileName2.ToString());
+            UpdateDataSource<string>(FILESIZE, size2);
+            UpdateDataSource<string>(POSITION, time2);
+            UpdateDataSource<string>(DURATION, length2);
 
-            if (int.TryParse(doc.DocumentElement.SelectSingleNode("time").InnerText, out int p)) {
+            if (int.TryParse(time, out int p))
+            {
                 UpdateDataSource<int>(CURRENTPOSITION, p);
             }
-            if (int.TryParse(doc.DocumentElement.SelectSingleNode("length").InnerText, out int l)) {
+            if (int.TryParse(length, out int l))
+            {
                 UpdateDataSource<int>(LENGTH, l);
             }
         }
@@ -192,15 +212,22 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
             ProcessStartInfo vlcStart = new ProcessStartInfo {
                 Arguments = playlist + PLAYER_PARAMS +
-                    ((this.FullscreenDisplay >= 0) ?
-                        DISPLAY_PARAM + this.FullscreenDisplay.ToString(CultureInfo.InvariantCulture) : string.Empty),
+                    ((this.FullscreenDisplay >= 0) ? DISPLAY_PARAM + '"' + this.FullscreenDisplayID.Remove(0, 4) + '"' : string.Empty) + 
+                    PORT_PARAM + Port + " " + PASSWORD_PARAM + '"' + this.VLCPassword + '"',
                 FileName = this.Path
             };
 
             try {
                 using (var vlc = new Process() { StartInfo = vlcStart }) {
                     vlc.Start();
-                } 
+                }
+                Console.WriteLine("VLC Launched using command: " + vlcStart.Arguments.ToString());
+                Connect();
+                Stop();
+                System.Threading.Thread.Sleep(500);
+                Play();
+                System.Threading.Thread.Sleep(500);
+                Pause();
             } catch (Exception e) {
                 OnError(Properties.Resources.MSG_VLC_START_ERROR);
                 Console.WriteLine(e.ToString());
@@ -214,11 +241,24 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
         public override void Pause()
         {
+            if(this.State == PlaybackState.Paused)
+            {
+                return;
+            }
+            if (this.State == PlaybackState.Stopped)
+            {
+                return;
+            }
+            if (this.State == PlaybackState.Unknown)
+            {
+                return;
+            }
             SendCommand("?command=pl_pause");
         }
 
         public override void Stop()
         {
+            this.State = PlaybackState.Stopped;
             SendCommand("?command=pl_stop");
         }
 
@@ -267,9 +307,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void SendCommand(string command)
+        private void SendCommand(string command)
         {
-            string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
+            string playerUrl = DEFAULT_HOST + ":" + Port + VARIABLES;
 
             var values = new Dictionary<string, string> {
                 { "vlc_command", command.ToString(CultureInfo.InvariantCulture) }
@@ -277,11 +317,11 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.VLC
 
             
             try {
-                string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES + command;
+                string url = DEFAULT_HOST + ":" + Port + VARIABLES + command;
                 //Console.WriteLine(url);
 
                 string username = "";
-                string password = HTTP_PASSWORD;
+                string password = VLCPassword;
                 string svcCredentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(username + ":" + password));
 
                 WebRequest request = WebRequest.Create(new Uri(url));

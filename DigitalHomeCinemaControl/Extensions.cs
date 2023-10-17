@@ -25,7 +25,7 @@ namespace DigitalHomeCinemaControl
     /// <summary>
     /// Provides various helper methods in the form of extensions.
     /// </summary>
-    public static  class Extensions
+    public static class Extensions
     {
 
         /// <summary>

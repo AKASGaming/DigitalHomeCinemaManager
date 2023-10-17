@@ -19,6 +19,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
     using System.Globalization;
     using System.Web.UI;
     using System.Windows.Controls;
+    using System.Windows.Forms;
     using DigitalHomeCinemaControl;
     using DigitalHomeCinemaManager.Components;
     using Microsoft.Win32;
@@ -32,6 +33,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         #region Members
 
         private bool initialized;
+        public List<string> DisplayIDs = new List<string>();
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
              var pair = new Dictionary<string, string>()
                     {
+                        {"Default", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
                         {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
                         {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
                         {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
@@ -59,31 +62,44 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             if(Properties.Settings.Default.SourceDeviceEnabled == true)
             {
                 this.Enabled.IsChecked = true;
-
                 this.Provider.IsEnabled = true;
                 this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
-
                 this.Path.IsEnabled = true;
-                this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
+                this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : pair["Default"];
+                this.Displays.IsEnabled = true;
+                foreach (var screen in Screen.AllScreens)
+                {
+                    this.Displays.Items.Add(screen.DeviceFriendlyName());
+                    DisplayIDs.Add(screen.DeviceName);
+                }
+                //DisplayIDs.ForEach(i => Console.Write("{0}\t", i));
+                this.Displays.SelectedIndex = Properties.DeviceSettings.Default.Source_FullscreenDisplay;
 
-                this.Display.IsEnabled = true;
-                this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+                var item = (this.Displays.SelectedIndex == -1 ? null : DisplayIDs[Properties.DeviceSettings.Default.Source_FullscreenDisplay]);
+                Console.WriteLine(item);
+                Properties.DeviceSettings.Default.Source_FullscreenDisplayID = item;
+                this.DisplayIDText.IsEnabled = true;
+                this.DisplayIDText.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplayID;
 
+                this.Port.IsEnabled = true;
                 this.PathButton.IsEnabled = true;
-            } else if(this.Enabled.IsChecked == false)
+
+                this.PasswordText.IsEnabled = true;
+                this.PasswordText.Text = Properties.DeviceSettings.Default.Source_VLCPassword;
+                this.PasswordLabel.IsEnabled = true;
+            }
+            if(Properties.Settings.Default.SourceDeviceEnabled == false)
             {
-                Properties.Settings.Default.SourceDeviceEnabled = false;
                 this.Enabled.IsChecked = false;
-
                 this.Provider.IsEnabled = false;
-
                 this.Path.IsEnabled = false;
                 this.Path.Text = string.Empty;
-
-                this.Display.IsEnabled = false;
-                this.Display.Text = string.Empty;
-
+                this.Displays.IsEnabled = false;
                 this.PathButton.IsEnabled = false;
+                this.Port.IsEnabled = false;
+                this.DisplayIDText.IsEnabled = false;
+                this.PasswordText.IsEnabled = false;
+                this.PasswordLabel.IsEnabled = false;
             }
 
             this.initialized = true;
@@ -95,13 +111,6 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         public override void SaveChanges()
         {
-            if (this.Enabled.IsChecked == true) {
-                Properties.Settings.Default.SourceDevice = Provider.SelectedValue.ToString();
-                Properties.Settings.Default.SourceDeviceEnabled = true;
-            } else {
-                Properties.Settings.Default.SourceDevice = null;
-            }
-
             var pair = new Dictionary<string, string>()
                     {
                         {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
@@ -109,9 +118,21 @@ namespace DigitalHomeCinemaManager.Controls.Settings
                         {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
                     };
 
-            Properties.DeviceSettings.Default.Source_Path = pair[Provider.SelectedValue.ToString()];
-            if (int.TryParse(this.Display.Text, out int i)) {
-                Properties.DeviceSettings.Default.Source_FullscreenDisplay = i;
+            if (this.Enabled.IsChecked == true)
+            {
+                Properties.Settings.Default.SourceDevice = Provider.SelectedValue.ToString();
+                Properties.Settings.Default.SourceDeviceEnabled = true;
+                Properties.DeviceSettings.Default.Source_Path = pair[Provider.SelectedValue.ToString()];
+                Properties.DeviceSettings.Default.Source_FullscreenDisplay = this.Displays.SelectedIndex;
+                Properties.DeviceSettings.Default.Source_Port = int.Parse(this.Port.Text);
+                if(Provider.SelectedValue.ToString() == "VLC")
+                {
+                    Properties.DeviceSettings.Default.Source_VLCPassword = this.PasswordText.Text;
+                }
+            }
+            else
+            {
+                Properties.Settings.Default.SourceDevice = null;
             }
         }
 
@@ -139,8 +160,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         private void EnabledChecked(object sender, System.Windows.RoutedEventArgs e)
         {
+            Properties.Settings.Default.SourceDeviceEnabled = true;
             var pair = new Dictionary<string, string>()
                 {
+                    {"Default", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
                     {"MPC Home Cinema", "C:\\Program Files\\MPC-HC\\mpc-hc64.exe"},
                     {"MPC-HC K-Lite Codec", "C:\\Program Files (x86)\\K-Lite Codec Pack\\MPC-HC64\\mpc-hc64.exe"},
                     {"VLC", "C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe"}
@@ -149,36 +172,47 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.Provider.IsEnabled = true;
             this.Provider.SelectedValue = Properties.Settings.Default.SourceDevice.ToString();
 
-            this.Path.IsEnabled = true;
-            this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : "C:\\Program Files\\MPC-HC\\mpc-hc64.exe";
+            if(Properties.Settings.Default.SourceDevice == "VLC")
+            {
+                this.PasswordLabel.IsEnabled = true;
+                this.PasswordText.IsEnabled = true;
+            } else
+            {
+                this.PasswordLabel.IsEnabled = false;
+                this.PasswordText.IsEnabled = false;
+            }
 
-            this.Display.IsEnabled = true;
-            this.Display.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplay.ToString(CultureInfo.InvariantCulture);
+            this.Path.IsEnabled = true;
+            this.Path.Text = pair.TryGetValue(Properties.Settings.Default.SourceDevice, out string value) ? value : pair["Default"];
+
+            this.Displays.IsEnabled = true;
+            this.Displays.SelectedIndex = Properties.DeviceSettings.Default.Source_FullscreenDisplay;
+
+            this.Port.IsEnabled = true;
+            this.Port.Text = Properties.DeviceSettings.Default.Source_Port.ToString();
 
             this.PathButton.IsEnabled = true;
 
-            if (this.initialized) {
-                OnItemChanged();
-            }
+            OnItemChanged();
             InitializeComponent();
         }
 
         private void EnabledUnchecked(object sender, System.Windows.RoutedEventArgs e)
         {
+            Properties.Settings.Default.SourceDeviceEnabled = false;
             this.Provider.IsEnabled = false;
 
             this.Path.IsEnabled = false;
             this.Path.Text = string.Empty;
 
-            this.Display.IsEnabled = false;
-            this.Display.Text = string.Empty;
+            this.Displays.IsEnabled = false;
+
+            this.Port.IsEnabled = false;
+            this.Port.Text = string.Empty;
 
             this.PathButton.IsEnabled = false;
 
-            if (this.initialized)
-            {
-                OnItemChanged();
-            }
+            OnItemChanged();
             InitializeComponent();
         }
 
@@ -186,10 +220,14 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             OnItemChanged();
         }
+        private void PortTextChanged(object sender, TextChangedEventArgs e)
+        {
+            OnItemChanged();
+        }
 
         private void ButtonPathClick(object sender, System.Windows.RoutedEventArgs e)
         {
-            var ofd = new OpenFileDialog() {
+            var ofd = new Microsoft.Win32.OpenFileDialog() {
                 Filter = Properties.Resources.FILTER_PROGRAMS,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
             };
@@ -200,18 +238,31 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             }
         }
 
-        private void DisplayTextChanged(object sender, TextChangedEventArgs e)
-        {
-            OnItemChanged();
-        }
-
-        private void DisplayPreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            e.Handled = !(e.Key.IsInteger() || e.Key == System.Windows.Input.Key.Subtract || e.Key == System.Windows.Input.Key.OemMinus);
-        }
-
         #endregion
 
-    }
+        private void Displays_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Properties.DeviceSettings.Default.Source_FullscreenDisplay = this.Displays.SelectedIndex;
 
+            if (this.initialized == true)
+            {
+                var item = DisplayIDs[Properties.DeviceSettings.Default.Source_FullscreenDisplay];
+                Properties.DeviceSettings.Default.Source_FullscreenDisplayID = item;
+            }
+
+            this.DisplayIDText.Text = Properties.DeviceSettings.Default.Source_FullscreenDisplayID;
+            OnItemChanged();
+            InitializeComponent();
+        }
+
+        private void PasswordText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (this.initialized == true)
+            {
+                Properties.DeviceSettings.Default.Source_VLCPassword = this.PasswordText.Text;
+            }
+            OnItemChanged();
+            InitializeComponent();
+        }
+    }
 }

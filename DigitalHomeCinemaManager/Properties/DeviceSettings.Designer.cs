@@ -12,7 +12,7 @@ namespace DigitalHomeCinemaManager.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
     internal sealed partial class DeviceSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static DeviceSettings defaultInstance = ((DeviceSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DeviceSettings())));
@@ -276,6 +276,42 @@ namespace DigitalHomeCinemaManager.Properties {
             }
             set {
                 this["InputSwitch_CustomInputs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("13579")]
+        public int Source_Port {
+            get {
+                return ((int)(this["Source_Port"]));
+            }
+            set {
+                this["Source_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Source_FullscreenDisplayID {
+            get {
+                return ((string)(this["Source_FullscreenDisplayID"]));
+            }
+            set {
+                this["Source_FullscreenDisplayID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("31121")]
+        public string Source_VLCPassword {
+            get {
+                return ((string)(this["Source_VLCPassword"]));
+            }
+            set {
+                this["Source_VLCPassword"] = value;
             }
         }
     }

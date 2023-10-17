@@ -79,13 +79,14 @@ namespace DigitalHomeCinemaManager.Windows
                 Filter = this.Filter
             };
             if (ofd.ShowDialog() == true) {
-                if(Properties.Settings.Default.TrailerLimit != "Off" && Properties.Settings.Default.TrailerLimitEnabled)
+                if(Properties.Settings.Default.TrailerLimitEnabled)
                 {
-                    if (ofd.FileNames.Length > int.Parse(Properties.Settings.Default.TrailerLimit))
+                    if (ofd.FileNames.Length > (Properties.Settings.Default.TrailerLimitSelectionIndex + 1))
                     {
-                        MessageBox.Show("The number of trailers (" + ofd.FileNames.Length + ") is greater than the set limit (" + Properties.Settings.Default.TrailerLimit + "). Please only select " + Properties.Settings.Default.TrailerLimit + " or fewer Trailers.", "Error adding Trailers");
+                        MessageBox.Show("The number of trailers (" + ofd.FileNames.Length + ") is greater than the set limit (" + (Properties.Settings.Default.TrailerLimitSelectionIndex + 1) + "). Please only select " + (Properties.Settings.Default.TrailerLimitSelectionIndex + 1) + " or fewer Trailers.", "Error adding Trailers");
+                        return;
                     }
-                    else if (Properties.Settings.Default.RandTrailers != false)
+                    else if (Properties.Settings.Default.RandTrailers)
                     {
                         var array = ofd.FileNames;
                         Random rnd = new Random();
@@ -100,7 +101,7 @@ namespace DigitalHomeCinemaManager.Windows
                             this.lstPlaylist.Items.Add(s);
                         }
                 }
-                else if (Properties.Settings.Default.RandTrailers != false)
+                else if (Properties.Settings.Default.RandTrailers)
                 {
                     var array = ofd.FileNames;
                     Random rnd = new Random();
@@ -170,10 +171,17 @@ namespace DigitalHomeCinemaManager.Windows
         private void OkClick(object sender, RoutedEventArgs e)
         {
             this.Playlist.Clear();
-            foreach (string item in this.lstPlaylist.Items) {
-                this.Playlist.Add(item);
+            if(this.lstPlaylist.Items.Count != 0)
+            {
+                foreach (string item in this.lstPlaylist.Items) {
+                            this.Playlist.Add(item);
+                        }
+                this.DialogResult = true;
+            } else {
+                this.Playlist.Clear();
+                this.DialogResult = false; 
             }
-            this.DialogResult = true;
+            
             Close();
         }
 

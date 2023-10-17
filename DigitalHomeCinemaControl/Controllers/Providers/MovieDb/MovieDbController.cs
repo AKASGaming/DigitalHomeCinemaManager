@@ -31,7 +31,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MovieDb
         private const string POSTERPATH = "PosterPath";
         private const string DESCRIPTION = "Description";
 
-        private const string POSTER_URL = "https://image.tmdb.org/t/p/w600_and_h900_bestv2";
+        private const string POSTER_URL = "https://rezerwacja.opera.szczecin.pl/msi/Themes/msidemo2/images/placeholder-kino.png";
         private TMDbClient movieApi;
         private volatile bool disposed;
 

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Data;
@@ -86,7 +87,6 @@ namespace DigitalHomeCinemaManager.Components
 
             BindingOperations.EnableCollectionSynchronization(this.Playlist, this.playlistLock);
 
-            this.PrerollPlaylist = new List<string>(10);
             this.TrailerPlaylist = new List<string>(5);
         }
 
@@ -99,6 +99,7 @@ namespace DigitalHomeCinemaManager.Components
             string path = VIDEO_PATH + PLAYLIST;
 
             if (!File.Exists(path)) { return; }
+            if(playlist.Count() == 0) { return; }
 
             using (var reader = new StreamReader(path)) {
                 string line;
@@ -134,7 +135,7 @@ namespace DigitalHomeCinemaManager.Components
                             }
                             else
                             {
-                                this.PrerollPlaylist.Add(line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1));
+                                this.Preroll = line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1);
                                 this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, line.Substring(line.LastIndexOf(",", StringComparison.Ordinal) + 1)));
                                 this.PrerollEnabled = true;
                             }
@@ -155,13 +156,12 @@ namespace DigitalHomeCinemaManager.Components
                     this.playlist.Clear();
                     writer.WriteLine(MPCPLAYLIST);
                     int i = 1;
-                    if (this.PrerollEnabled == true) {
-                        foreach (string s in this.PrerollPlaylist) {
-                            this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, s));
-                            //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
-                            writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, s));
-                            i++;
-                        }
+                    if (this.PrerollEnabled == true && !string.IsNullOrEmpty(this.Preroll))
+                    {
+                        this.playlist.Add(new PlaylistEntry(PlaylistType.Preroll, this.Preroll));
+                        //writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_TYPE, i));
+                        writer.WriteLine(string.Format(CultureInfo.InvariantCulture, MPC_FORMAT_FILE, i, this.Preroll));
+                        i++;
                     }
                     if (this.TrailersEnabled == true) {
                         foreach (string s in this.TrailerPlaylist) {
@@ -196,12 +196,19 @@ namespace DigitalHomeCinemaManager.Components
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnPlaylistChanged()
         {
-            if (this.dispatcher.CheckAccess()) {
-                PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
-            } else {
-                this.dispatcher.BeginInvoke((Action)(() => {
+            if (this.playlist != null)
+            {
+                if (this.dispatcher.CheckAccess())
+                {
                     PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
-                }));
+                }
+                else
+                {
+                    this.dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        PlaylistChanged?.Invoke(this, VIDEO_PATH + PLAYLIST);
+                    }));
+                }
             }
         }
 
@@ -390,52 +397,24 @@ namespace DigitalHomeCinemaManager.Components
 
             switch (channelFormat.ToString())
             {
-                case "Mono":
-                    this.FeatureChannelFormat = "Mono";
-                    break;
-                case "Stereo":
-                    this.FeatureChannelFormat = "Stereo";
-                    break;
-                case "2.1":
-                    this.FeatureChannelFormat = "2.1";
-                    break;
-                case "4.0": 
-                    this.FeatureChannelFormat = "4.0";
-                    break;
-                case "5.0":
-                    this.FeatureChannelFormat = "5.0";
-                    break;
-                case "5.1":
-                    this.FeatureChannelFormat = "5.1";
-                    break;
-                case "6.1":
-                    this.FeatureChannelFormat = "6.1";
-                    break;
-                case "7.1":
-                    this.FeatureChannelFormat = "7.1";
-                    break;
-                case "7.2":
-                    this.FeatureChannelFormat = "7.2";
-                    break;
-                case "7.2.1":
-                    this.FeatureChannelFormat = "7.2.1";
-                    break;
-                default:
-                    this.FeatureChannelFormat = "";
-                    break;
+                case "Mono": this.FeatureChannelFormat = "Mono"; break;
+                case "Stereo": this.FeatureChannelFormat = "Stereo"; break;
+                case "2.1": this.FeatureChannelFormat = "2.1"; break;
+                case "4.0": this.FeatureChannelFormat = "4.0"; break;
+                case "5.0": this.FeatureChannelFormat = "5.0"; break;
+                case "5.1": this.FeatureChannelFormat = "5.1"; break;
+                case "6.1": this.FeatureChannelFormat = "6.1"; break;
+                case "7.1": this.FeatureChannelFormat = "7.1"; break;
+                case "7.2": this.FeatureChannelFormat = "7.2"; break;
+                case "7.2.1": this.FeatureChannelFormat = "7.2.1"; break;
+                default: this.FeatureChannelFormat = ""; break;
             }
 
             switch (StereoFormatted)
             {
-                case true:
-                    this.FeatureIs3D = true;
-                    break;
-                case false:
-                    this.FeatureIs3D = false;
-                    break;
-                default:
-                    this.FeatureIs3D = false;
-                    break;
+                case true: this.FeatureIs3D = true; break;
+                case false: this.FeatureIs3D = false; break;
+                default: this.FeatureIs3D = false; break;
             }
 
             Output.WriteLine(this.FeatureVideoFormat.ToString());
@@ -457,7 +436,7 @@ namespace DigitalHomeCinemaManager.Components
 
         public bool CommercialEnabled { get; set; }
 
-        public List<string> PrerollPlaylist { get; set; }
+        public string Preroll { get; set; }
 
         public List<string> TrailerPlaylist { get; set; }
 

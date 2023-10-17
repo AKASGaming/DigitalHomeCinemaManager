@@ -72,7 +72,10 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             } else {
                 Properties.Settings.Default.SerialDevice = string.Empty;
             }
-            Properties.DeviceSettings.Default.Serial_Port = this.Port.SelectedValue.ToString();
+            if(this.Port.SelectedValue == null)
+            {
+                Properties.DeviceSettings.Default.Serial_Port = this.Port.Items[0].ToString();
+            } else Properties.DeviceSettings.Default.Serial_Port = this.Port.SelectedValue.ToString();
             if (int.TryParse(this.ReadDelay.Text, out int rd)) {
                 Properties.DeviceSettings.Default.Serial_ReadDelay = rd;
             }

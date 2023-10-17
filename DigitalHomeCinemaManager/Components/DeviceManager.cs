@@ -74,11 +74,12 @@ namespace DigitalHomeCinemaManager.Components
                 InitializeDevice<DisplayDevice>(DisplayDevice.Items[Properties.Settings.Default.DisplayDevice]);
             }
 
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.MediaInfoDevice)) {
-                this.MediaInfoDevice = InitializeDevice<MediaInfoDevice>(MediaInfoDevice.Items[Properties.Settings.Default.MediaInfoDevice]);
-                // we have to call connect here to ensure that the controller is initialized
-                // for the initial playlist load
-                this.MediaInfoDevice.Controller.Connect();
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.MediaInfoDevice))
+            {
+                    this.MediaInfoDevice = InitializeDevice<MediaInfoDevice>(MediaInfoDevice.Items[Properties.Settings.Default.MediaInfoDevice]);
+                    // we have to call connect here to ensure that the controller is initialized
+                    // for the initial playlist load
+                    this.MediaInfoDevice.Controller.Connect();
             }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.ProcessorDevice)) {

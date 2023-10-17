@@ -127,7 +127,7 @@
     <value>HDFURY ERROR: {0}</value>
   </data>
   <data name="FMT_MPC_CONNECT_ERROR" xml:space="preserve">
-    <value>Failed to connect to MPC: {0}</value>
+    <value>Failed to connect to MPC (Web Interface on and Port matching?): {0}</value>
   </data>
   <data name="FMT_MPC_ERROR" xml:space="preserve">
     <value>MPC ERROR: {0}</value>

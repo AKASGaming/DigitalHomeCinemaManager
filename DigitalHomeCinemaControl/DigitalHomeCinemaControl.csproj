@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <SkipValidatePackageReferences>true</SkipValidatePackageReferences>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{FE75C5F3-1416-439E-BFDC-0CC8D07A7260}</ProjectGuid>
@@ -78,6 +79,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
@@ -87,6 +91,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -195,6 +200,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ScreensInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">
@@ -257,77 +263,14 @@
     <Resource Include="Resources\Icons\tmdb-logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FFMpegCore">
-      <Version>4.8.0</Version>
-    </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.45</Version>
+      <Version>1.11.54</Version>
     </PackageReference>
-    <PackageReference Include="IdentityModel">
-      <Version>6.1.0-preview.1</Version>
-    </PackageReference>
-    <PackageReference Include="MedallionRandom">
-      <Version>1.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="MediaInfo.Wrapper">
-      <Version>21.9.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.SelfHost">
-      <Version>5.2.9</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebApi.WebHost">
-      <Version>5.2.9</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Bcl.Build">
-      <Version>1.0.21</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.Http">
-      <Version>2.2.29</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualBasic">
-      <Version>10.4.0-preview.18571.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Web.Infrastructure">
-      <Version>2.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Win32.Registry">
-      <Version>6.0.0-preview.5.21301.5</Version>
-    </PackageReference>
-    <PackageReference Include="NAudio.WinMM">
-      <Version>2.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.2-beta2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Drawing.Common">
-      <Version>7.0.0-preview.7.22375.6</Version>
-    </PackageReference>
-    <PackageReference Include="System.Memory">
-      <Version>4.5.5</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe">
-      <Version>7.0.0-preview.2.22152.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.AccessControl">
-      <Version>6.0.2-mauipre.1.22102.15</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.Algorithms">
-      <Version>4.3.1</Version>
-    </PackageReference>
-    <PackageReference Include="System.Security.Cryptography.X509Certificates">
-      <Version>4.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="System.Text.Json">
-      <Version>7.0.0-preview.7.22375.6</Version>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.4</Version>
     </PackageReference>
     <PackageReference Include="TMDbLib">
-      <Version>1.9.2</Version>
-    </PackageReference>
-    <PackageReference Include="WebActivatorEx">
-      <Version>2.2.0</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

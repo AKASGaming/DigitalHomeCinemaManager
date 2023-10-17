@@ -88,7 +88,7 @@ namespace DigitalHomeCinemaControl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to connect to MPC: {0}.
+        ///   Looks up a localized string similar to Failed to connect to MPC (Web Interface on and Port matching?): {0}.
         /// </summary>
         internal static string FMT_MPC_CONNECT_ERROR {
             get {

@@ -36,8 +36,8 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             this.PrerollPath.Text = Properties.Settings.Default.PrerollPath;
             this.TrailerPath.Text = Properties.Settings.Default.TrailerPath;
             this.RandTrailers.IsChecked = Properties.Settings.Default.RandTrailers;
-            this.TrailerLimit.Text = Properties.Settings.Default.TrailerLimit;
             this.TrailerLimitCheck.IsChecked = Properties.Settings.Default.TrailerLimitEnabled;
+            this.TrailerLimit.SelectedIndex = Properties.Settings.Default.TrailerLimitSelectionIndex;
 
             if (!Properties.Settings.Default.TrailerLimitEnabled)
             {
@@ -53,11 +53,13 @@ namespace DigitalHomeCinemaManager.Controls.Settings
 
         public override void SaveChanges()
         {
+            InitializeComponent();
+
             Properties.Settings.Default.MediaPath = this.MediaPath.Text;
             Properties.Settings.Default.PrerollPath = this.PrerollPath.Text;
             Properties.Settings.Default.TrailerPath = this.TrailerPath.Text;
             Properties.Settings.Default.RandTrailers = (bool)this.RandTrailers.IsChecked;
-            Properties.Settings.Default.TrailerLimit = this.TrailerLimit.Text;
+            Properties.Settings.Default.TrailerLimitSelectionIndex = TrailerLimit.SelectedIndex;
             Properties.Settings.Default.TrailerLimitEnabled = (bool)this.TrailerLimitCheck.IsChecked;
         }
 
@@ -138,20 +140,26 @@ namespace DigitalHomeCinemaManager.Controls.Settings
             OnItemChanged();
         }
 
-        private void comboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void TrailerLimit_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            Properties.Settings.Default.TrailerLimit = this.TrailerLimit.Text;
+            Properties.Settings.Default.TrailerLimitSelectionIndex = TrailerLimit.SelectedIndex;
+            Console.WriteLine(this.TrailerLimit.SelectedItem);
+            Console.WriteLine(this.TrailerLimit.SelectedIndex);
+            Console.WriteLine("SAVED: ", Properties.Settings.Default.TrailerLimitSelectionIndex.ToString());
+            InitializeComponent();
             OnItemChanged();
         }
 
         private void RandTrailers_Checked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.RandTrailers = true;
+            InitializeComponent();
             OnItemChanged();
         }
         private void RandTrailers_Unchecked(object sender, RoutedEventArgs e)
         {
             Properties.Settings.Default.RandTrailers = false;
+            InitializeComponent();
             OnItemChanged();
         }
 
@@ -167,7 +175,6 @@ namespace DigitalHomeCinemaManager.Controls.Settings
         {
             Properties.Settings.Default.TrailerLimitEnabled = false;
             this.TrailerLimit.IsEnabled = false;
-            this.TrailerLimit.SelectedValue = "Disabled";
             InitializeComponent();
             OnItemChanged();
         }

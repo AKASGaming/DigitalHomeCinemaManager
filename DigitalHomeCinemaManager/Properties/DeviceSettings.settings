@@ -69,5 +69,14 @@
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" /&gt;</Value>
     </Setting>
+    <Setting Name="Source_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">13579</Value>
+    </Setting>
+    <Setting Name="Source_FullscreenDisplayID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Source_VLCPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">31121</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

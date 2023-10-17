@@ -21,8 +21,27 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Text="Port:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBox x:Name="Port" Width="65" Height="22" TextChanged="PortTextChanged"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                 <TextBlock Text="Display:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
-                <TextBox x:Name="Display" Width="150" Height="22" TextChanged="DisplayTextChanged" PreviewKeyDown="DisplayPreviewKeyDown"/>
+                <ComboBox x:Name="Displays" Width="150" SelectionChanged="Displays_SelectionChanged"/>
+                <TextBox x:Name="DisplayIDText" TextWrapping="Wrap" Text="DisplayID" Width="120" RenderTransformOrigin="0.5,0.5" ToolTip="This is the DisplayID for VLC" IsReadOnly="True">
+                    <TextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform X="13"/>
+                        </TransformGroup>
+                    </TextBox.RenderTransform>
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock x:Name="PasswordLabel" Text="Password:" HorizontalAlignment="Left" Margin="0,3,0,0" Width="70" VerticalAlignment="Top" Foreground="#FF7E7E7E"/>
+                <TextBox x:Name="PasswordText" TextWrapping="Wrap" Text="" Width="120" RenderTransformOrigin="0.5,0.5" ToolTip="This is the Password for VLC" TextChanged="PasswordText_TextChanged">
+                </TextBox>
             </StackPanel>
         </StackPanel>
     </Grid>

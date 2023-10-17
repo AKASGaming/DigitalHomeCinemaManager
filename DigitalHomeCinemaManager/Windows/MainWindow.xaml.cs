@@ -86,6 +86,20 @@ namespace DigitalHomeCinemaManager.Windows
             this.CT.Elapsed += OnTimerElapsed2;
             this.CT.AutoReset = true;
             this.CT.Start();
+
+            if (this.playlist == null)
+            {
+                this.PrerollEnabled.IsEnabled = false;
+                this.PrerollEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+
+                this.CommercialEnabled.IsEnabled = false;
+                this.CommercialEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+
+                this.TrailersEnabled.IsEnabled = false;
+                this.TrailersEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+            }
+
+
         }
 
         #endregion
@@ -516,11 +530,10 @@ namespace DigitalHomeCinemaManager.Windows
 
         private void ButtonPrerollClick(object sender, RoutedEventArgs e)
         {
-            var window = new PlaylistSelectionWindow(this.Playlist.PrerollPlaylist) {
-                Owner = this,
+            var window = new OpenFileDialog()
+            {
                 Filter = Properties.Resources.FILTER_VIDEOS,
-                Title = "Select Preroll",
-                Multiselect = false
+                Title = "Select Preroll"
             };
 
             if (Directory.Exists(Properties.Settings.Default.PrerollPath)) {
@@ -530,8 +543,9 @@ namespace DigitalHomeCinemaManager.Windows
             }
 
             if (window.ShowDialog() == true) {
-                this.Playlist.PrerollPlaylist = new List<string>(window.Playlist);
-                this.Playlist.CreatePlaylist();
+                this.Playlist.Preroll = window.FileName;
+                this.PrerollEnabled.IsEnabled = true;
+                InitializeComponent();
             }
         }
 
@@ -552,7 +566,8 @@ namespace DigitalHomeCinemaManager.Windows
 
             if (window.ShowDialog() == true) {
                 this.Playlist.TrailerPlaylist = new List<string>(window.Playlist);
-                this.Playlist.CreatePlaylist();
+                this.TrailersEnabled.IsEnabled = true;
+                InitializeComponent();
             }
         }
 
@@ -571,7 +586,8 @@ namespace DigitalHomeCinemaManager.Windows
 
             if (ofd.ShowDialog() == true) {
                 this.Playlist.Commercial = ofd.FileName;
-                this.Playlist.CreatePlaylist();
+                this.CommercialEnabled.IsEnabled = true;
+                InitializeComponent();
             }
         }
 
@@ -597,25 +613,57 @@ namespace DigitalHomeCinemaManager.Windows
         private void PrerollEnabledChecked(object sender, RoutedEventArgs e)
         {
             if (!this.PlaylistInitialized) { return; }
-
-            this.Playlist.PrerollEnabled = (this.PrerollEnabled.IsChecked == true) ? true : false;
+            if (this.PrerollEnabled.IsChecked == true)
+            {
+                this.Playlist.PrerollEnabled = true;
+                this.PrerollEnabled.Content = "Enabled";
+                this.PrerollEnabled.Foreground = new SolidColorBrush(Colors.Chartreuse);
+            } else if (this.PrerollEnabled.IsChecked == false)
+            {
+                this.Playlist.PrerollEnabled = false;
+                this.PrerollEnabled.Content = "Disabled";
+                this.PrerollEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+            }
             this.Playlist.CreatePlaylist();
+            InitializeComponent();
         }
 
         private void TrailersEnabledChecked(object sender, RoutedEventArgs e)
         {
             if (!this.PlaylistInitialized) { return; }
-
-            this.Playlist.TrailersEnabled = (this.TrailersEnabled.IsChecked == true) ? true : false;
+            if (this.TrailersEnabled.IsChecked == true)
+            {
+                this.Playlist.TrailersEnabled = true;
+                this.TrailersEnabled.Content = "Enabled";
+                this.TrailersEnabled.Foreground = new SolidColorBrush(Colors.Chartreuse);
+            }
+            else if (this.TrailersEnabled.IsChecked == false)
+            {
+                this.Playlist.TrailersEnabled = false;
+                this.TrailersEnabled.Content = "Disabled";
+                this.TrailersEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+            }
             this.Playlist.CreatePlaylist();
+            InitializeComponent();
         }
 
         private void CommercialEnabledChecked(object sender, RoutedEventArgs e)
         {
             if (!this.PlaylistInitialized) { return; }
-
-            this.Playlist.CommercialEnabled = (this.CommercialEnabled.IsChecked == true) ? true : false;
+            if (this.CommercialEnabled.IsChecked == true)
+            {
+                this.Playlist.CommercialEnabled = true;
+                this.CommercialEnabled.Content = "Enabled";
+                this.CommercialEnabled.Foreground = new SolidColorBrush(Colors.Chartreuse);
+            }
+            else if (this.CommercialEnabled.IsChecked == false)
+            {
+                this.Playlist.CommercialEnabled = false;
+                this.CommercialEnabled.Content = "Disabled";
+                this.CommercialEnabled.Foreground = new SolidColorBrush(Colors.Gray);
+            }
             this.Playlist.CreatePlaylist();
+            InitializeComponent();
         }
 
         protected virtual void Dispose(bool disposing)

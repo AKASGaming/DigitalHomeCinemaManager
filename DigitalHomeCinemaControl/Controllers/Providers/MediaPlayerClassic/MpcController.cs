@@ -12,22 +12,22 @@
  *
  */
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Timers;
+using DigitalHomeCinemaControl.Controllers.Base;
+using DigitalHomeCinemaControl.Controllers.Routing;
+
 namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Net;
-    using System.Net.Http;
-    using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Timers;
-    using DigitalHomeCinemaControl.Controllers.Base;
-    using DigitalHomeCinemaControl.Controllers.Routing;
-
     /// <summary>
     /// Media Player Classic - Home Cinema controller.
     /// </summary>
@@ -38,7 +38,6 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         private const string PROCESS_NAME    = "mpc-hc64";
         private const string DEFAULT_HOST    = "http://localhost";
-        private const int    DEFAULT_PORT    = 13579;
         private const string VARIABLES       = "/variables.html";
         private const string COMMANDS        = "/command.html";
         private const int    STATUS_INTERVAL = 1000;
@@ -110,7 +109,7 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
         private void StatsTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            string url = DEFAULT_HOST + ":" + DEFAULT_PORT + VARIABLES;
+            string url = DEFAULT_HOST + ":" + Port + VARIABLES;
 
             WebRequest request = WebRequest.Create(new Uri(url));
             HttpWebResponse response;
@@ -177,15 +176,16 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
 
             ProcessStartInfo mpcStart = new ProcessStartInfo {
                 Arguments = playlist + PLAYER_PARAMS +
-                    ((this.FullscreenDisplay >= 0) ?
-                        DISPLAY_PARAM + this.FullscreenDisplay.ToString(CultureInfo.InvariantCulture) : string.Empty),
+                    ((this.FullscreenDisplay >= 0) ? DISPLAY_PARAM + (this.FullscreenDisplay + 1): string.Empty),
                 FileName = this.Path
             };
 
             try {
                 using (var mpc = new Process() { StartInfo = mpcStart }) {
                     mpc.Start();
-                } 
+                }
+                Console.WriteLine("MPC Launched using command: " + mpcStart.Arguments.ToString());
+                Connect();
             } catch {
                 OnError(Properties.Resources.MSG_MPC_START_ERROR);
             }
@@ -237,9 +237,9 @@ namespace DigitalHomeCinemaControl.Controllers.Providers.MediaPlayerClassic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void SendCommand(int command)
+        private void SendCommand(int command)
         {
-            string playerUrl = DEFAULT_HOST + ":" + DEFAULT_PORT + COMMANDS;
+            string playerUrl = DEFAULT_HOST + ":" + Port + COMMANDS;
 
             var values = new Dictionary<string, string> {
                 { "wm_command", command.ToString(CultureInfo.InvariantCulture) }

@@ -45,6 +45,9 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         {
             this.Path = string.Empty;
             this.FullscreenDisplay = -1;
+            this.FullscreenDisplayID = string.Empty;
+            this.Port = 13579;
+            this.VLCPassword = string.Empty;
 
             this.DataSource.Add(new BindingItem<string>(CURRENTFILE));
             this.DataSource.Add(new BindingItem<string>(FILESIZE));
@@ -146,6 +149,33 @@ namespace DigitalHomeCinemaControl.Controllers.Base
         public int FullscreenDisplay
         {
             get { return GetSetting<int>(); }
+            set { Setting(value); }
+        }
+
+        /// <summary>
+        /// Gets or Sets the display ID for VLC in fullscreen mode. 
+        /// </summary>
+        public string FullscreenDisplayID
+        {
+            get { return GetSetting<string>(); }
+            set { Setting(value); }
+        }
+
+        /// <summary>
+        /// Gets or Sets the port for your player. 
+        /// </summary>
+        public int Port
+        {
+            get { return GetSetting<int>(); }
+            set { Setting(value); }
+        }
+
+        /// <summary>
+        /// Gets or Sets the password for VLC. 
+        /// </summary>
+        public string VLCPassword
+        {
+            get { return GetSetting<string>(); }
             set { Setting(value); }
         }
 
